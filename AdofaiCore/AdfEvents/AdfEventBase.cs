@@ -52,6 +52,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 			option.Converters.Add(new AdfPosition.AdfPositionConverter());
 			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());
 			option.Converters.Add(new AdfColor.AdfColorConverter());
+			option.Converters.Add(new AdfScale.AdfScaleConverter());
 
 			JsonObject jObject = JsonSerializer.SerializeToNode(this,
 				this.GetType(), option)!.AsObject();

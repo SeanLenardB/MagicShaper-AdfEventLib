@@ -115,6 +115,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			option.Converters.Add(new AdfPosition.AdfPositionConverter());
 			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());
 			option.Converters.Add(new AdfColor.AdfColorConverter());
+			option.Converters.Add(new AdfScale.AdfScaleConverter());
 
             List<IAdfEvent> events = new()
             {
