@@ -20,7 +20,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public double Duration { get; set; } = 1d;
 
-		public AdfFlashPlaneType FlashPlane { get; set; } = AdfFlashPlaneType.Background;
+		public AdfFlashPlaneType Plane { get; set; } = AdfFlashPlaneType.Background;
 
 		public AdfColor StartColor { get; set; } = new("ffffff");
 

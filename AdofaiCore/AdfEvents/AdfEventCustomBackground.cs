@@ -18,13 +18,13 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public AdfColor Color { get; set; } = new("000000");
 
-		public string Image { get; set; } = "";
+		public string BgImage { get; set; } = "";
 
 		public AdfColor ImageColor { get; set; } = new("ffffff");
 
 		public AdfPosition Parallax { get; set; } = new(100, 100);
 
-		public AdfBackgroundDisplayMode BackgroundDisplayMode { get; set; } = AdfBackgroundDisplayMode.FitToScreen;
+		public AdfBackgroundDisplayMode BgDisplayMode { get; set; } = AdfBackgroundDisplayMode.FitToScreen;
 
 		public bool ImageSmoothing { get; set; } = true;
 

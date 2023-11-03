@@ -24,7 +24,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public AdfPosition? PositionOffset { get; set; } = new(null, null);
 		public AdfPosition? ParallaxOffset { get; set; } = null;
-		public AdfPosition? Parallax { get; set; } = new(null, null);
+		public AdfPosition? Parallax { get; set; } = null;
 		public AdfPosition? PivotOffset { get; set; } = null;
 		public AdfScale? Scale { get; set; } = null;
 
