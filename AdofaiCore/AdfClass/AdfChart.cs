@@ -113,6 +113,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			option.Converters.Add(new AdfConverter<AdfEventSpeedType>());
 			option.Converters.Add(new AdfConverter<AdfBackgroundDisplayMode>());
 			option.Converters.Add(new AdfConverter<AdfFlashPlaneType>());
+            option.Converters.Add(new AdfNullableConverter<AdfCameraRelativeToType>());
 
 			option.Converters.Add(new AdfPosition.AdfPositionConverter());
 			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());

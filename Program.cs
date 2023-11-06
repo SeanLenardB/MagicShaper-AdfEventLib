@@ -9,7 +9,7 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		AdfVfxProj_IGotNoTime.ProjMain();
+		AdfVfxProj_QR2.ProjMain();
 		
 		
 		

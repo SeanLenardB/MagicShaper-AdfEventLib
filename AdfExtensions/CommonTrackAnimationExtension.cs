@@ -147,7 +147,7 @@ namespace MagicShaper.AdfExtensions
 					PositionOffset = new(random.NextDouble() * 10d - 5d, random.NextDouble() * 10d + 10d),
 					RotationOffset = random.NextDouble() * 90d - 45d,
 					Scale = new(random.NextDouble() * 75d + 150d),
-					Opacity = 100d,
+					Opacity = 0d,
 					Ease = AdfEaseType.InExpo,
 					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
 					AngleOffset = 360d + 360d * random.NextDouble() * randomPercentage / 100d
@@ -155,7 +155,6 @@ namespace MagicShaper.AdfExtensions
 
 			}
 		}
-
 
 		public static void TrackAppearScatter(
 			this AdfChart chart,
@@ -230,5 +229,69 @@ namespace MagicShaper.AdfExtensions
 			}
 		}
 
+		public static void TrackDisappearDownlift(
+			this AdfChart chart,
+			int tileStart,
+			int tileEnd,
+			double duration,
+			double randomPercentage = 30d)
+		{
+			double standardBpm = chart.GetTileBpmAt(0);
+
+			Random random = new();
+			for (int i = tileStart; i < tileEnd; i++)
+			{
+				chart.ChartTiles[i].TileEvents.Add(
+				new AdfEventMoveTrack()
+				{
+					StartTile = new(i, AdfTileReferenceType.Start),
+					EndTile = new(i, AdfTileReferenceType.Start),
+					PositionOffset = new(random.NextDouble() * 10d - 5d, random.NextDouble() * 10d - 20d),
+					RotationOffset = random.NextDouble() * 90d - 45d,
+					Scale = new(random.NextDouble() * 75d + 150d),
+					Opacity = 0d,
+					Ease = AdfEaseType.InExpo,
+					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
+					AngleOffset = 360d + 360d * random.NextDouble() * randomPercentage / 100d
+				});
+
+			}
+		}
+
+		public static void TrackDisappearComingOutOfTheScreen(
+			this AdfChart chart,
+			int tileStart,
+			int tileEnd,
+			double duration,
+			double randomPercentage = 30d,
+			double beatsOffset = 2d)
+		{
+			double standardBpm = chart.GetTileBpmAt(0);
+
+			Random random = new();
+			for (int i = tileStart; i < tileEnd; i++)
+			{
+				chart.ChartTiles[i].TileEvents.Add(
+				new AdfEventMoveTrack()
+				{
+					StartTile = new(i, AdfTileReferenceType.Start),
+					EndTile = new(i, AdfTileReferenceType.Start),
+					PositionOffset = new(random.NextDouble() * 10d - 5d, random.NextDouble() * 10d - 13d),
+					RotationOffset = random.NextDouble() * 90d - 45d,
+					Scale = new(random.NextDouble() * 400d + 800d),
+					Ease = AdfEaseType.InCubic,
+					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
+					AngleOffset = 360d + 360d * random.NextDouble() * randomPercentage / 100d
+				});
+				chart.ChartTiles[i].TileEvents.Add(
+				new AdfEventMoveTrack()
+				{
+					Opacity = 0d,
+					Ease = AdfEaseType.InCubic,
+					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
+					AngleOffset = 360d + 180d * beatsOffset + 360d * random.NextDouble() * randomPercentage / 100d
+				});
+			}
+		}
 	}
 }
