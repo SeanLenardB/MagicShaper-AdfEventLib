@@ -20,10 +20,10 @@ namespace MagicShaper.AdfExtensions
 			double rmax,
 			double zmin,
 			double zmax,
-			int beatsMin,
-			int beatsMax,
-			int holdbeatMin,
-			int holdbeatMax,
+			double beatsMin,
+			double beatsMax,
+			double holdbeatMin,
+			double holdbeatMax,
 			double duration,
 			int targetTile = 21)
 		{

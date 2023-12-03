@@ -89,7 +89,8 @@ namespace MagicShaper.AdfExtensions
 			int tileEnd,
 			double duration,
 			double previewBeats,
-			double randomPercentage = 30d)
+			double randomPercentage = 30d,
+			double endOpacity = 100d)
 		{
 			double standardBpm = chart.GetTileBpmAt(0);
 
@@ -116,7 +117,7 @@ namespace MagicShaper.AdfExtensions
 					PositionOffset = new(0d, 0d),
 					RotationOffset = 0d,
 					Scale = new(100d),
-					Opacity = 100d,
+					Opacity = endOpacity,
 					Ease = AdfEaseType.OutExpo,
 					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
 					AngleOffset = 
@@ -162,7 +163,8 @@ namespace MagicShaper.AdfExtensions
 			int tileEnd,
 			double duration,
 			double previewBeats,
-			double randomPercentage = 30d)
+			double randomPercentage = 30d,
+			double endOpacity = 100d)
 		{
 			double standardBpm = chart.GetTileBpmAt(0);
 
@@ -189,7 +191,7 @@ namespace MagicShaper.AdfExtensions
 					PositionOffset = new(0d, 0d),
 					RotationOffset = 0d,
 					Scale = new(100d),
-					Opacity = 100d,
+					Opacity = endOpacity,
 					Ease = AdfEaseType.OutCubic,
 					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
 					AngleOffset =
@@ -287,7 +289,7 @@ namespace MagicShaper.AdfExtensions
 				new AdfEventMoveTrack()
 				{
 					Opacity = 0d,
-					Ease = AdfEaseType.InCubic,
+					Ease = AdfEaseType.OutCubic,
 					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
 					AngleOffset = 360d + 180d * beatsOffset + 360d * random.NextDouble() * randomPercentage / 100d
 				});
