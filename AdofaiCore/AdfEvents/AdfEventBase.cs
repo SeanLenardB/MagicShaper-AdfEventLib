@@ -31,32 +31,8 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public string JsonString(int tileIndex)
 		{
-			JsonSerializerOptions option = new()
-			{
-				PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-
-			};
-			option.Converters.Add(new AdfNullableConverter<AdfTrackAnimationType>());
-			option.Converters.Add(new AdfNullableConverter<AdfTrackDisappearAnimationType>());
-			option.Converters.Add(new AdfConverter<AdfGameSoundType>());
-			option.Converters.Add(new AdfConverter<AdfHitsoundType>());
-			option.Converters.Add(new AdfConverter<AdfFilter>());
-			option.Converters.Add(new AdfConverter<AdfEaseType>());
-			option.Converters.Add(new AdfConverter<AdfEasePartBehaviorType>());
-			option.Converters.Add(new AdfConverter<AdfRepeatEventType>());
-			option.Converters.Add(new AdfConverter<AdfTrackColorType>());
-			option.Converters.Add(new AdfConverter<AdfTrackColorPulseType>());
-			option.Converters.Add(new AdfConverter<AdfTrackStyle>());
-			option.Converters.Add(new AdfConverter<AdfTargetPlanetType>());
-			option.Converters.Add(new AdfConverter<AdfBackgroundDisplayMode>());
-			option.Converters.Add(new AdfConverter<AdfFlashPlaneType>());
-			option.Converters.Add(new AdfNullableConverter<AdfCameraRelativeToType>());
-
-
-			option.Converters.Add(new AdfPosition.AdfPositionConverter());
-			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());
-			option.Converters.Add(new AdfColor.AdfColorConverter());
-			option.Converters.Add(new AdfScale.AdfScaleConverter());
+			var option = AdfChart.GetJsonOptions();
+			option.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 
 			JsonObject jObject = JsonSerializer.SerializeToNode(this,
 				this.GetType(), option)!.AsObject();
@@ -73,7 +49,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 				jObject.Remove(key);
 			}
 
-			return jObject.ToJsonString().Insert(1, $"\"floor\": {tileIndex}, \"eventType\": \"{EventType}\",");
+			return jObject.ToJsonString().Insert(1, this is AdfEventAddDecoration ? "" : $"\"floor\": {tileIndex},");
 		}
 	}
 }

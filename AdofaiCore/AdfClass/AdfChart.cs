@@ -6,18 +6,22 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace MagicShaper.AdofaiCore.AdfClass
 {
     internal class AdfChart
     {
-        public AdfChart(List<AdfTile> chartTiles, JsonObject chartJson)
+        public AdfChart(List<AdfTile> chartTiles, JsonObject chartJson, List<AdfEventAddDecoration> decorations)
         {
             ChartTiles = chartTiles;
 			_chartJson = chartJson;
+            Decorations = decorations;
         }
 
         public List<AdfTile> ChartTiles { get; set; }
+
+        public List<AdfEventAddDecoration> Decorations { get; set; }
 
         private JsonObject _chartJson;
 
@@ -26,7 +30,11 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			get
 			{
 				_chartJson["actions"]!.AsArray().Clear();
+				_chartJson["decorations"]!.AsArray().Clear();
                 _chartJson["actions"] = JsonNode.Parse('[' + GetEvents() + ']',
+										  null,
+										  new System.Text.Json.JsonDocumentOptions() { AllowTrailingCommas = true })!.AsArray();
+                _chartJson["decorations"] = JsonNode.Parse('[' + GetDecos() + ']',
 										  null,
 										  new System.Text.Json.JsonDocumentOptions() { AllowTrailingCommas = true })!.AsArray();
 				return _chartJson;
@@ -65,7 +73,21 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 }
             }
 
-            return new AdfChart(tiles, JsonNode.Parse(chartJson.RootElement.ToString(), null, new() { AllowTrailingCommas = true })!.AsObject());
+			List<AdfEventAddDecoration> decorations = new();
+			foreach (var action in chartJson.RootElement.GetProperty("decorations").EnumerateArray())
+			{
+
+				var decoAction = ParseAction(action);
+				if (decoAction is not null)
+				{
+					decorations.Add((AdfEventAddDecoration)decoAction);
+				}
+			}
+
+			return new AdfChart(
+                tiles, 
+                JsonNode.Parse(chartJson.RootElement.ToString(), null, new() { AllowTrailingCommas = true })!.AsObject(),
+                decorations);
 
         }
 
@@ -88,16 +110,25 @@ namespace MagicShaper.AdofaiCore.AdfClass
             }
             return sb.ToString().Replace("True", "true").Replace("False", "false");
         }
+        
+        internal string GetDecos()
+        {
+            StringBuilder sb = new();
+			foreach (var deco in Decorations)
+            {
+				sb.AppendLine(deco.JsonString(deco.Floor) + ',');
+			}
+            return sb.ToString().Replace("True", "true").Replace("False", "false");
+        }
 
-
-        public static IAdfEvent? ParseAction(JsonElement action)
+        public static JsonSerializerOptions GetJsonOptions()
         {
 			JsonSerializerOptions option = new()
-            {
-                AllowTrailingCommas = true,
-                PropertyNameCaseInsensitive = true,
+			{
+				AllowTrailingCommas = true,
+				PropertyNameCaseInsensitive = true,
 
-            };
+			};
 			option.Converters.Add(new AdfNullableConverter<AdfTrackAnimationType>());
 			option.Converters.Add(new AdfNullableConverter<AdfTrackDisappearAnimationType>());
 			option.Converters.Add(new AdfConverter<AdfGameSoundType>());
@@ -113,15 +144,25 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			option.Converters.Add(new AdfConverter<AdfEventSpeedType>());
 			option.Converters.Add(new AdfConverter<AdfBackgroundDisplayMode>());
 			option.Converters.Add(new AdfConverter<AdfFlashPlaneType>());
-            option.Converters.Add(new AdfNullableConverter<AdfCameraRelativeToType>());
+			option.Converters.Add(new AdfConverter<AdfMaskingType>());
+			option.Converters.Add(new AdfNullableConverter<AdfCameraRelativeToType>());
+			option.Converters.Add(new AdfConverter<AdfMoveDecorationRelativeToType>());
 
 			option.Converters.Add(new AdfPosition.AdfPositionConverter());
 			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());
 			option.Converters.Add(new AdfColor.AdfColorConverter());
 			option.Converters.Add(new AdfScale.AdfScaleConverter());
 
+            return option;
+		}
+
+        public static IAdfEvent? ParseAction(JsonElement action)
+        {
+            var option = GetJsonOptions();
+
             List<IAdfEvent> events = new()
             {
+                new AdfEventAddDecoration(),
                 new AdfEventAnimateTrack(),
                 new AdfEventAutoPlayTiles(),
                 new AdfEventBloom(),
@@ -162,83 +203,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
             return null;
 
 
-			/* "SetSpeed" => new AdfEventSetSpeed(
-				action["angleOffset"]!.GetValue<double>(),
-				Enum.Parse<AdfEventSpeedType>(action["speedType"]!.GetValue<string>()),
-				action["beatsPerMinute"]!.GetValue<double>(),
-				action["bpmMultiplier"]!.GetValue<double>()),
-			"Twirl" => new AdfEventTwirl(),
-			"SetHitsound" => new AdfEventSetHitsound(
-                Enum.Parse<AdfGameSoundType>(action["gameSound"]!.GetValue<string>()),
-                new(
-					Enum.Parse<AdfHitsoundType>(action["hitsound"]!.GetValue<string>()),
-					action["hitsoundVolume"]!.GetValue<int>())),
-            "AutoPlayTiles" => new AdfEventAutoPlayTiles(
-				action["enabled"]!.GetValue<bool>(),
-				action["showStatusText"]!.GetValue<bool>()),
-			"ColorTrack" => new AdfEventColorTrack(
-                new(
-					Enum.Parse<AdfTrackColorType>(action["trackColorType"]!.GetValue<string>()),
-					new(action["trackColor"]!.GetValue<string>()),
-					new(action["secondaryTrackColor"]!.GetValue<string>()),
-					action["trackColorAnimDuration"]!.GetValue<double>(),
-					Enum.Parse<AdfTrackColorPulseType>(action["trackColorPulse"]!.GetValue<string>()),
-					action["trackPulseLength"]!.GetValue<int>(),
-					Enum.Parse<AdfTrackStyle>(action["trackStyle"]!.GetValue<string>()),
-					action["trackTexture"]!.GetValue<string>(),
-					action["trackTextureScale"]!.GetValue<double>(),
-					action["trackGlowIntensity"]!.GetValue<double>())),
-			"RecolorTrack" => new AdfEventRecolorTrack(
-                action["eventTag"]!.GetValue<string>(), 
-                action["angleOffset"]!.GetValue<double>(),
-				new(Enum.Parse<AdfEaseType>(action["ease"]!.GetValue<string>()), action["duration"]!.GetValue<double>()),
-				new(action["startTile"]!.AsArray()[0]!.GetValue<int>(), Enum.Parse<AdfTileReferenceType>(action["startTile"]!.AsArray()[1]!.GetValue<string>())), 
-                new(action["endTile"]!.AsArray()[0]!.GetValue<int>(), Enum.Parse<AdfTileReferenceType>(action["endTile"]!.AsArray()[1]!.GetValue<string>())), 
-                action["gapLength"]!.GetValue<int>(), 
-                new(
-				    Enum.Parse<AdfTrackColorType>(action["trackColorType"]!.GetValue<string>()),
-				    new(action["trackColor"]!.GetValue<string>()),
-				    new(action["secondaryTrackColor"]!.GetValue<string>()),
-				    action["trackColorAnimDuration"]!.GetValue<double>(),
-				    Enum.Parse<AdfTrackColorPulseType>(action["trackColorPulse"]!.GetValue<string>()),
-				    action["trackPulseLength"]!.GetValue<int>(),
-				    Enum.Parse<AdfTrackStyle>(action["trackStyle"]!.GetValue<string>()),
-                    "",
-                    1d,
-				    action["trackGlowIntensity"]!.GetValue<double>())),
-            "PositionTrack" => new AdfEventPositionTrack(
-                new(action["positionOffset"]!.AsArray()[0]!.GetValue<double>(), action["positionOffset"]!.AsArray()[1]!.GetValue<double>()),
-				new(action["relativeTo"]!.AsArray()[0]!.GetValue<int>(), Enum.Parse<AdfTileReferenceType>(action["relativeTo"]!.AsArray()[1]!.GetValue<string>())),
-                action["rotation"]!.GetValue<double>(),
-                action["scale"]!.GetValue<double>(),
-                action["opacity"]!.GetValue<double>(),
-                action["justThisTile"]!.GetValue<bool>(),
-                action["editorOnly"]!.GetValue<bool>()),
-            "Flash" => new AdfEventFlash(
-				action["angleOffset"]!.GetValue<double>(),
-				action["eventTag"]!.GetValue<string>(),
-                new(Enum.Parse<AdfEaseType>(action["ease"]!.GetValue<string>()), action["duration"]!.GetValue<double>()),
-                Enum.Parse<AdfFlashPlaneType>(action["plane"]!.GetValue<string>()),
-                new(action["startColor"]!.GetValue<string>()),
-                new(action["endColor"]!.GetValue<string>()),
-                action["startOpacity"]!.GetValue<double>(),
-                action["endOpacity"]!.GetValue<double>()),
-            "SetFilter" => new AdfEventSetFilter(
-				action["eventTag"]!.GetValue<string>(),
-				action["angleOffset"]!.GetValue<double>(),
-				new(Enum.Parse<AdfEaseType>(action["ease"]!.GetValue<string>()), action["duration"]!.GetValue<double>()),
-				action["enabled"]!.GetValue<bool>(),
-				action["intensity"]!.GetValue<double>(),
-				action["disableOthers"]!.GetValue<bool>(),
-                Enum.Parse<AdfFilter>(action["filter"]!.GetValue<string>())),
-            "Bloom" => new AdfEventBloom(
-                action["eventTag"]!.GetValue<string>(),
-				action["angleOffset"]!.GetValue<double>(),
-				new(Enum.Parse<AdfEaseType>(action["ease"]!.GetValue<string>()), action["duration"]!.GetValue<double>()),
-				action["enabled"]!.GetValue<bool>(),
-				action["threshold"]!.GetValue<double>(),
-				action["intensity"]!.GetValue<double>(),
-                new(action["color"]!.GetValue<string>())), */
+			
         }
     }
 }
