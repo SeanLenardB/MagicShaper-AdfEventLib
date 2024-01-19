@@ -48,16 +48,21 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
         public int MaskingBackDepth { get; set; } = -1;
 
+        public AdfBlendMode BlendMode { get; set; } = AdfBlendMode.None;
 
-        // TODO: wait for adofai fix judgement for > 2.6.0, and add these
-        //"blendMode": "None",
-        //"hitbox": "None",
-        //"hitboxEventTag": "",
-        //"failHitboxType": "Box",
-        //"failHitboxScale": [100, 100],
-        //"failHitboxOffset": [0, 0],
-        //"failHitboxRotation": 0,
-        //"components": "",  }
+        public AdfHitbox Hitbox { get; set; } = AdfHitbox.None;
+
+        public string HitboxEventTag { get; set; } = "";
+
+        public AdfHitboxType FailHitboxType { get; set; } = AdfHitboxType.Box;
+
+        public AdfScale FailHitboxScale { get; set; } = new(100d);
+
+        public AdfPosition FailHitboxOffset { get; set; } = new(0d, 0d);
+
+        public double FailHitboxRotation { get; set; } = 0d;
+
+        public string Components { get; set; } = "";
 
 
     }

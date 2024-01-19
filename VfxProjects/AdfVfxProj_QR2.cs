@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MagicShaper.VfxProjects
 {
+	[Obsolete]
 	internal class AdfVfxProj_QR2
 	{
 		public static void ProjMain()

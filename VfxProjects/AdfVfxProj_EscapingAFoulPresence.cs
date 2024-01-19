@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MagicShaper.VfxProjects
 {
+	[Obsolete]
 	internal class AdfVfxProj_EscapingAFoulPresence
 	{
 		public static void ProjMain()

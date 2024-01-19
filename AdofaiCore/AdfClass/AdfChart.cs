@@ -12,16 +12,19 @@ namespace MagicShaper.AdofaiCore.AdfClass
 {
     internal class AdfChart
     {
-        public AdfChart(List<AdfTile> chartTiles, JsonObject chartJson, List<AdfEventAddDecoration> decorations)
+        public AdfChart(List<AdfTile> chartTiles, JsonObject chartJson, List<AdfEventAddDecoration> decorations, List<AdfEventAddObject> objects)
         {
             ChartTiles = chartTiles;
 			_chartJson = chartJson;
             Decorations = decorations;
+            Objects = objects;
+            FileLocation = new("C:\\");
         }
 
         public List<AdfTile> ChartTiles { get; set; }
 
         public List<AdfEventAddDecoration> Decorations { get; set; }
+        public List<AdfEventAddObject> Objects { get; set; }
 
         private JsonObject _chartJson;
 
@@ -34,7 +37,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 _chartJson["actions"] = JsonNode.Parse('[' + GetEvents() + ']',
 										  null,
 										  new System.Text.Json.JsonDocumentOptions() { AllowTrailingCommas = true })!.AsArray();
-                _chartJson["decorations"] = JsonNode.Parse('[' + GetDecos() + ']',
+                _chartJson["decorations"] = JsonNode.Parse('[' + GetDecos() + GetObjects() + ']',
 										  null,
 										  new System.Text.Json.JsonDocumentOptions() { AllowTrailingCommas = true })!.AsArray();
 				return _chartJson;
@@ -74,26 +77,42 @@ namespace MagicShaper.AdofaiCore.AdfClass
             }
 
 			List<AdfEventAddDecoration> decorations = new();
+			List<AdfEventAddObject> objects = new();
 			foreach (var action in chartJson.RootElement.GetProperty("decorations").EnumerateArray())
 			{
 
 				var decoAction = ParseAction(action);
-				if (decoAction is not null)
+				if (decoAction is not null && decoAction is AdfEventAddDecoration ed)
 				{
-					decorations.Add((AdfEventAddDecoration)decoAction);
+					decorations.Add(ed);
 				}
+                else if (decoAction is not null && decoAction is AdfEventAddObject eo)
+                {
+                    objects.Add(eo);
+                }
 			}
 
 			return new AdfChart(
                 tiles, 
                 JsonNode.Parse(chartJson.RootElement.ToString(), null, new() { AllowTrailingCommas = true })!.AsObject(),
-                decorations);
+                decorations, objects);
 
         }
 
+        /// <summary>
+        /// DEPRECATED. Use <see cref="Parse(string)"/>.
+        /// </summary>
+        /// <param name="chartText"></param>
+        /// <returns></returns>
+        [Obsolete]
         internal static AdfChart ParseChart(string chartText) => ParseJsonToChart(JsonDocument.Parse(chartText, new() { AllowTrailingCommas = true }));
 
-        
+        internal static AdfChart Parse(string fileLocation)
+        {
+            var c = ParseJsonToChart(JsonDocument.Parse(File.ReadAllText(fileLocation), new() { AllowTrailingCommas = true }));
+            c.FileLocation = new(fileLocation);
+            return c;
+        }
         
         
         internal string GetEvents()
@@ -121,7 +140,17 @@ namespace MagicShaper.AdofaiCore.AdfClass
             return sb.ToString().Replace("True", "true").Replace("False", "false");
         }
 
-        public static JsonSerializerOptions GetJsonOptions()
+		internal string GetObjects()
+		{
+			StringBuilder sb = new();
+			foreach (var obj in Objects)
+			{
+				sb.AppendLine(obj.JsonString(obj.Floor) + ',');
+			}
+			return sb.ToString().Replace("True", "true").Replace("False", "false");
+		}
+
+		public static JsonSerializerOptions GetJsonOptions()
         {
 			JsonSerializerOptions option = new()
 			{
@@ -147,6 +176,13 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			option.Converters.Add(new AdfConverter<AdfMaskingType>());
 			option.Converters.Add(new AdfNullableConverter<AdfCameraRelativeToType>());
 			option.Converters.Add(new AdfConverter<AdfMoveDecorationRelativeToType>());
+			option.Converters.Add(new AdfConverter<AdfBlendMode>());
+			option.Converters.Add(new AdfConverter<AdfHitbox>());
+			option.Converters.Add(new AdfConverter<AdfHitboxType>());
+			option.Converters.Add(new AdfConverter<AdfObjectType>());
+			option.Converters.Add(new AdfConverter<AdfTrackType>());
+			option.Converters.Add(new AdfConverter<AdfPlanetColorType>());
+			option.Converters.Add(new AdfConverter<AdfTrackIcon>());
 
 			option.Converters.Add(new AdfPosition.AdfPositionConverter());
 			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());
@@ -163,6 +199,8 @@ namespace MagicShaper.AdofaiCore.AdfClass
             List<IAdfEvent> events = new()
             {
                 new AdfEventAddDecoration(),
+                new AdfEventAddObject(),
+
                 new AdfEventAnimateTrack(),
                 new AdfEventAutoPlayTiles(),
                 new AdfEventBloom(),
@@ -205,5 +243,10 @@ namespace MagicShaper.AdofaiCore.AdfClass
 
 			
         }
+
+        /// <summary>
+        /// This Property is used for OpenCV to location images.
+        /// </summary>
+        public DirectoryInfo FileLocation;
     }
 }
