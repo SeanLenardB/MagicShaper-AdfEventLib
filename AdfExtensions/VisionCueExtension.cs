@@ -3,6 +3,7 @@ using MagicShaper.AdofaiCore.AdfEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -152,6 +153,53 @@ namespace MagicShaper.AdfExtensions
 			});
 		}
 
+		/// <summary>
+		/// This method creates Difference Mask decorations. Use this in cases such as the background is pure white, or there is an image in the background.
+		/// </summary>
+		public static void RandomBackgroundSplash(this AdfChart chart,
+			string imageName,
+			int targetTileStart, int targetTileEnd, double eachBeats, double rotation = 60d, 
+			double sizeMin = 200d, double sizeMax = 500d,
+			double xRelativeToTileMin = -10d, double xRelativeToTileMax = 10d, 
+			double yRelativeToTileMin = -6d, double yRelativeToTileMax = 6d)
+		{
+			Random random = new();
+			string gid = random.Next(1000000).ToString().PadLeft(6, '0');
 
+			for (int i = targetTileStart; i < targetTileEnd; i++)
+			{
+				chart.AddDecorationToChart(new()
+				{
+					DecorationImage = imageName,
+					Opacity = 0d,
+					Tag = $"{ExtensionSharedConstants.RandomBackgroundSplashTagPrefix}_{gid}_{i}",
+					RelativeTo = AdfMoveDecorationRelativeToType.Tile,
+					Position = new(
+						random.NextDouble() * (xRelativeToTileMax - xRelativeToTileMin) + xRelativeToTileMin,
+						random.NextDouble() * (yRelativeToTileMax - yRelativeToTileMin) + yRelativeToTileMin),
+					Floor = i,
+					Depth = ExtensionSharedConstants.RandomBackgroundSplashDepth,
+					BlendMode = AdfBlendMode.Difference,
+					Scale = new(0)
+				});
+
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Duration = 0d,
+					Opacity = 100d,
+					Tag = $"{ExtensionSharedConstants.RandomBackgroundSplashTagPrefix}_{gid}_{i}"
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Ease = AdfEaseType.OutCubic,
+					RotationOffset = rotation,
+					Scale = new(random.NextDouble() * (sizeMax - sizeMin) + sizeMin),
+					Duration = eachBeats,
+					Opacity = 0d,
+					Tag = $"{ExtensionSharedConstants.RandomBackgroundSplashTagPrefix}_{gid}_{i}"
+				});
+
+			}
+		}
 	}
 }

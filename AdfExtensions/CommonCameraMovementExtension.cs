@@ -88,7 +88,8 @@ namespace MagicShaper.AdfExtensions
 			double holdbeatMin,
 			double holdbeatMax,
 			double duration,
-			int targetTile)
+			int targetTile,
+			AdfEaseType ease = AdfEaseType.InOutSine)
 		{
 			double currentBeat = 0d;
 			Random random = new();
@@ -104,7 +105,7 @@ namespace MagicShaper.AdfExtensions
 							random.NextDouble() * (ymax - ymin) + ymin),
 						Duration = currentDurationMove,
 						AngleOffset = currentBeat * 180d,
-						Ease = AdfEaseType.InOutSine,
+						Ease = ease,
 						Rotation = random.NextDouble() * (rmax - rmin) + rmin,
 						Zoom = random.NextDouble() * (zmax - zmin) + zmin,
 					});
@@ -123,7 +124,7 @@ namespace MagicShaper.AdfExtensions
 			double xmin, double xmax, double ymin, double ymax,
 			double rmin, double rmax, double zmin, double zmax,
 			double beatPerMoveMin, double beatPerMoveMax,
-			bool togetherWithBlur = true)
+			bool togetherWithBlur = true, double blurIntensity = 200d)
 		{
 			Random random = new();
 			for (int i = 0; i < targetTiles.Count; i++)
@@ -147,7 +148,7 @@ namespace MagicShaper.AdfExtensions
 				}
 				if (togetherWithBlur)
 				{
-					chart.BlurByBeatOutEase(targetTiles[i], 1, 114514, thisMove, 200);
+					chart.BlurByBeatOutEase(targetTiles[i], 1, 114514, thisMove, blurIntensity);
 				}
 			}
 		}
@@ -158,7 +159,7 @@ namespace MagicShaper.AdfExtensions
 			double xmin, double xmax, double ymin, double ymax,
 			double rmin, double rmax, double zmin, double zmax,
 			double beatPerMoveMin, double beatPerMoveMax,
-			bool togetherWithBlur = true)
+			bool togetherWithBlur = true, double blurIntensity = 200d)
 		{
 			Random random = new();
 			for (int i = 0; i < targetTiles.Count; i++)
@@ -182,7 +183,7 @@ namespace MagicShaper.AdfExtensions
 				}
 				if (togetherWithBlur)
 				{
-					chart.BlurByBeatInEase(targetTiles[i], 1, 114514, thisMove, 200);
+					chart.BlurByBeatInEase(targetTiles[i], 1, 114514, thisMove, blurIntensity);
 				}
 			}
 		}
@@ -236,20 +237,20 @@ namespace MagicShaper.AdfExtensions
 
 		public static void CameraTiltAndDiveTransition(this AdfChart chart,
 			int transitionTile, double tiltMaxAngle, double finalZoom,
-			double tiltBeats, double scaleBeats)
+			double tiltBeats, double scaleBeats, AdfEaseType inEase = AdfEaseType.InQuad, AdfEaseType outEase = AdfEaseType.OutExpo)
 		{
 			chart.ChartTiles[transitionTile].TileEvents.Add(new AdfEventMoveCamera()
 			{
 				AngleOffset = -180d * tiltBeats,
 				Duration = tiltBeats,
-				Ease = AdfEaseType.InQuad,
+				Ease = inEase,
 				Rotation = tiltMaxAngle,
 				Zoom = 5d
 			});
 			chart.ChartTiles[transitionTile].TileEvents.Add(new AdfEventMoveCamera()
 			{
 				Duration = scaleBeats,
-				Ease = AdfEaseType.OutExpo,
+				Ease = outEase,
 				Zoom = finalZoom,
 				Rotation = 0d
 			});
@@ -262,7 +263,7 @@ namespace MagicShaper.AdfExtensions
 				EndOpacity = 100d,
 				AngleOffset = -180d * tiltBeats,
 				Duration = tiltBeats,
-				Ease = AdfEaseType.InQuad,
+				Ease = inEase,
 				Plane = AdfFlashPlaneType.Foreground
 			});
 			chart.ChartTiles[transitionTile].TileEvents.Add(new AdfEventFlash()
@@ -279,22 +280,23 @@ namespace MagicShaper.AdfExtensions
 
 		public static void CameraHoverAndTiltToTileTransition(this AdfChart chart,
 			int transitionTile, double tiltMaxAngle, double finalZoom, double minZoom,
-			double tiltBeats, double scaleBeats)
+			double tiltBeats, double scaleBeats, double finalx = 0d, double finaly = 0d,
+			AdfEaseType inEase = AdfEaseType.InQuad, AdfEaseType outEase = AdfEaseType.OutExpo)
 		{
 			chart.ChartTiles[transitionTile].TileEvents.Add(new AdfEventMoveCamera()
 			{
 				AngleOffset = -180d * tiltBeats,
 				Duration = tiltBeats,
-				Ease = AdfEaseType.InQuad,
+				Ease = inEase,
 				Rotation = tiltMaxAngle,
 				RelativeTo = AdfCameraRelativeToType.Tile,
-				Position = new(0, 0),
+				Position = new(finalx, finaly),
 				Zoom = minZoom
 			});
 			chart.ChartTiles[transitionTile].TileEvents.Add(new AdfEventMoveCamera()
 			{
 				Duration = scaleBeats,
-				Ease = AdfEaseType.OutExpo,
+				Ease = outEase,
 				Zoom = finalZoom,
 				Rotation = 0d
 			});
@@ -303,24 +305,34 @@ namespace MagicShaper.AdfExtensions
 		}
 
 		public static void CameraMoveRelativeToPlayer(this AdfChart chart, int targetTile, double duration,
-			double x = 0, double y = 0)
+			double x = 0, double y = 0, AdfEaseType ease = AdfEaseType.OutCubic)
 		{
 			chart.ChartTiles[targetTile].TileEvents.Add(new AdfEventMoveCamera()
 			{
 				Duration = duration,
-				Ease = AdfEaseType.OutCubic,
+				Ease = ease,
 				RelativeTo = AdfCameraRelativeToType.Player,
 				Position = new(x, y)
 			});
 		}
 
-		public static void CameraMoveRelativeToTile(this AdfChart chart, int targetTile, double duration, 
-			double x = 0, double y = 0)
+		public static void CameraMoveRelativeToPlayerOnly(this AdfChart chart, int targetTile, double duration, AdfEaseType ease = AdfEaseType.OutCubic)
 		{
 			chart.ChartTiles[targetTile].TileEvents.Add(new AdfEventMoveCamera()
 			{
 				Duration = duration,
-				Ease = AdfEaseType.OutCubic,
+				Ease = ease,
+				RelativeTo = AdfCameraRelativeToType.Player
+			});
+		}
+
+		public static void CameraMoveRelativeToTile(this AdfChart chart, int targetTile, double duration, 
+			double x = 0, double y = 0, AdfEaseType ease = AdfEaseType.OutCubic)
+		{
+			chart.ChartTiles[targetTile].TileEvents.Add(new AdfEventMoveCamera()
+			{
+				Duration = duration,
+				Ease = ease,
 				RelativeTo = AdfCameraRelativeToType.Tile,
 				Position = new(x, y)
 			});

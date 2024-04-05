@@ -84,12 +84,38 @@ namespace MagicShaper.AdfExtensions
 		/// Consider calling this only if you have called <see cref="SetupDecoBgImage(AdfChart)"/>.<br></br>
 		/// Otherwise, edit background flash manually.
 		/// </summary>
+		public static void BackgroundOpacity(this AdfChart chart, double opacityPercentage, int targetTile, double duration = 0d)
+		{
+			chart.ChartTiles[targetTile].TileEvents.Add(new AdfEventMoveDecorations()
+			{
+				Tag = ExtensionSharedConstants.DecoBgImageTagPrefix,
+				Duration = duration,
+				Opacity = opacityPercentage,
+			});
+		}
+
+		/// <summary>
+		/// Consider calling this only if you have called <see cref="SetupDecoBgImage(AdfChart)"/>.<br></br>
+		/// Otherwise, edit background flash manually.
+		/// </summary>
 		public static void BackgroundDimPulse(this AdfChart chart,
 			double startBlackPercentage, double endBlackPercentage, int targetTile,
 			double duration = 0d)
 		{
 			chart.BackgroundDim(startBlackPercentage, targetTile, 0);
 			chart.BackgroundDim(endBlackPercentage, targetTile, duration);
+		}
+
+		/// <summary>
+		/// Consider calling this only if you have called <see cref="SetupDecoBgImage(AdfChart)"/>.<br></br>
+		/// Otherwise, edit background flash manually.
+		/// </summary>
+		public static void BackgroundOpacityPulse(this AdfChart chart,
+			double startOpacityPercentage, double endOpacityPercentage, int targetTile,
+			double duration = 0d)
+		{
+			chart.BackgroundOpacity(startOpacityPercentage, targetTile, 0);
+			chart.BackgroundOpacity(endOpacityPercentage, targetTile, duration);
 		}
 
 		/// <summary>

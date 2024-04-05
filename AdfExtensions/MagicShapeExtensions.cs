@@ -11,7 +11,7 @@ namespace MagicShaper.AdfExtensions
 {
     internal static class MagicShapeExtensions
     {
-        public static void MagicShape(this AdfChart chart, double bpm, bool innerCircle = true)
+        public static void MagicShape(this AdfChart chart, double bpm, bool innerCircle = true, int start = 0, int end = 114514)
         {
             bool isLHS = true;
 
@@ -40,35 +40,56 @@ namespace MagicShaper.AdfExtensions
                     realAngle = 360d - realAngle;
                 }
 
-                if (innerCircle)
+                if (i >= start - 1 && i < end) 
                 {
-                    if (realAngle > 180d)
-                    {
-                        realAngle = 360d - realAngle;
-                        isLHS = !isLHS;
-                        tiles[i + 1].TileEvents.Add(new AdfEventTwirl());
-                    }
-                }
-                else
-                {
-                    if (realAngle < 180d)
-                    {
-                        realAngle = 360d - realAngle;
-                        isLHS = !isLHS;
-                        tiles[i + 1].TileEvents.Add(new AdfEventTwirl());
-                    }
-                }
+					if (innerCircle)
+					{
+						if (realAngle > 180d)
+						{
+							realAngle = 360d - realAngle;
+							isLHS = !isLHS;
+							tiles[i + 1].TileEvents.Add(new AdfEventTwirl());
+						}
+					}
+					else
+					{
+						if (realAngle < 180d)
+						{
+							realAngle = 360d - realAngle;
+							isLHS = !isLHS;
+							tiles[i + 1].TileEvents.Add(new AdfEventTwirl());
+						}
+					}
 
-                tiles[i + 1].TileEvents.Add(new AdfEventSetSpeed()
-                {
-                    SpeedType = AdfEventSpeedType.Bpm,
-                    BeatsPerMinute = realAngle / 180d * bpm
-                });
+					tiles[i + 1].TileEvents.Add(new AdfEventSetSpeed()
+					{
+						SpeedType = AdfEventSpeedType.Bpm,
+						BeatsPerMinute = realAngle / 180d * bpm
+					});
+				}
 
             }
 
 
         }
+
+        public static double GetInnerAngleAtTile(this AdfChart chart, int tile)
+        {
+			double alpha = chart.ChartTiles[tile - 1].TargetAngle;
+			double beta = chart.ChartTiles[tile].TargetAngle;
+
+			double realAngle = 180d - alpha + beta;
+			if (realAngle > 360d)
+			{
+				realAngle -= 360d;
+			}
+			if (realAngle < 0d)
+			{
+				realAngle += 360d;
+			}
+
+            return realAngle >= 180d ? 360d - realAngle : realAngle;
+		}
 
     }
 }

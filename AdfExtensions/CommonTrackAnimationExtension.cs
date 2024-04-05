@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace MagicShaper.AdfExtensions
 {
+	/// <summary>
+	/// You should consider using <see cref="ModernTrackAnimationExtension"/> if applicable.
+	/// </summary>
 	internal static class CommonTrackAnimationExtension
 	{
 		public static void TrackDisappearExplosion(
@@ -15,7 +18,7 @@ namespace MagicShaper.AdfExtensions
 			List<int> tiles,
 			double duration,
 			double opacityShrinkTime = 0.5d,
-			double xBias = 0d, double yBias = 0d, int failProof = 100)
+			double xBias = 0d, double yBias = 0d, int failProof = 100, double m = 1)
 		{
 			double standardBpm = chart.GetTileBpmAt(0);
 			
@@ -29,7 +32,7 @@ namespace MagicShaper.AdfExtensions
 					{
 						StartTile = new(j, AdfTileReferenceType.Start),
 						EndTile = new(j, AdfTileReferenceType.Start),
-						PositionOffset = new(random.NextDouble() * 20d - 10d + xBias, random.NextDouble() * 20d - 10d + yBias),
+						PositionOffset = new(random.NextDouble() * 20d * m - 10d * m + xBias, random.NextDouble() * 20d * m - 10d * m + yBias),
 						RotationOffset = random.NextDouble() * 90d - 45d,
 						Scale = new(random.NextDouble() * 75d + 150d),
 						Ease = AdfEaseType.OutExpo,
@@ -54,7 +57,9 @@ namespace MagicShaper.AdfExtensions
 			List<int> tiles,
 			double duration,
 			double previewBeats,
-			double endOpacity = 100d)
+			double endOpacity = 100d,
+			double endScale = 100d,
+			double m = 1)
 		{
 			double standardBpm = chart.GetTileBpmAt(0);
 
@@ -68,7 +73,7 @@ namespace MagicShaper.AdfExtensions
 					{
 						StartTile = new(j, AdfTileReferenceType.Start),
 						EndTile = new(j, AdfTileReferenceType.Start),
-						PositionOffset = new(random.NextDouble() * 20d - 10d, random.NextDouble() * 20d - 10d),
+						PositionOffset = new(random.NextDouble() * 20d  * m- 10d * m, random.NextDouble() * 20d * m - 10d * m),
 						RotationOffset = random.NextDouble() * 90d - 45d,
 						Scale = new(random.NextDouble() * 100d + 250d),
 						Opacity = 0d,
@@ -83,7 +88,7 @@ namespace MagicShaper.AdfExtensions
 						EndTile = new(j, AdfTileReferenceType.Start),
 						PositionOffset = new(0d, 0d),
 						RotationOffset = 0d,
-						Scale = new(100d),
+						Scale = new(endScale),
 						Opacity = endOpacity,
 						Ease = AdfEaseType.OutExpo,
 						Duration = chart.GetTileBpmAt(tiles[i]) / standardBpm * duration,
@@ -101,7 +106,8 @@ namespace MagicShaper.AdfExtensions
 			double duration,
 			double previewBeats,
 			double randomPercentage = 30d,
-			double endOpacity = 100d)
+			double endOpacity = 100d, 
+			double endScale = 100d)
 		{
 			double standardBpm = chart.GetTileBpmAt(0);
 
@@ -127,7 +133,7 @@ namespace MagicShaper.AdfExtensions
 					EndTile = new(i, AdfTileReferenceType.Start),
 					PositionOffset = new(0d, 0d),
 					RotationOffset = 0d,
-					Scale = new(100d),
+					Scale = new(endScale),
 					Opacity = endOpacity,
 					Ease = AdfEaseType.OutExpo,
 					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
@@ -138,6 +144,53 @@ namespace MagicShaper.AdfExtensions
 
 			}
 		}
+
+		public static void TrackAppearDownlift(
+			this AdfChart chart,
+			int tileStart,
+			int tileEnd,
+			double duration,
+			double previewBeats,
+			double randomPercentage = 30d,
+			double endOpacity = 100d,
+			double endScale = 100d)
+		{
+			double standardBpm = chart.GetTileBpmAt(0);
+
+			Random random = new();
+			for (int i = tileStart; i < tileEnd; i++)
+			{
+				chart.ChartTiles[i].TileEvents.Add(
+					new AdfEventMoveTrack()
+					{
+						StartTile = new(i, AdfTileReferenceType.Start),
+						EndTile = new(i, AdfTileReferenceType.Start),
+						PositionOffset = new(random.NextDouble() * 10d - 5d, random.NextDouble() * 10d + 10d),
+						RotationOffset = random.NextDouble() * 90d - 45d,
+						Scale = new(random.NextDouble() * 75d + 150d),
+						Opacity = 0d,
+						Duration = 0d,
+						AngleOffset = -114514d
+					});
+				chart.ChartTiles[i].TileEvents.Add(
+				new AdfEventMoveTrack()
+				{
+					StartTile = new(i, AdfTileReferenceType.Start),
+					EndTile = new(i, AdfTileReferenceType.Start),
+					PositionOffset = new(0d, 0d),
+					RotationOffset = 0d,
+					Scale = new(endScale),
+					Opacity = endOpacity,
+					Ease = AdfEaseType.OutExpo,
+					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,
+					AngleOffset =
+						(-chart.GetTileBpmAt(i) / standardBpm * (previewBeats + duration) * 180)
+						* (1 - random.NextDouble() * randomPercentage / 100d)
+				});
+
+			}
+		}
+
 
 		public static void TrackDisappearUplift(
 			this AdfChart chart,
@@ -175,7 +228,7 @@ namespace MagicShaper.AdfExtensions
 			double duration,
 			double previewBeats,
 			double randomPercentage = 30d,
-			double endOpacity = 100d)
+			double endOpacity = 100d, double endScale = 100d)
 		{
 			double standardBpm = chart.GetTileBpmAt(0);
 
@@ -201,7 +254,7 @@ namespace MagicShaper.AdfExtensions
 					EndTile = new(i, AdfTileReferenceType.Start),
 					PositionOffset = new(0d, 0d),
 					RotationOffset = 0d,
-					Scale = new(100d),
+					Scale = new(endScale),
 					Opacity = endOpacity,
 					Ease = AdfEaseType.OutCubic,
 					Duration = chart.GetTileBpmAt(i) / standardBpm * duration,

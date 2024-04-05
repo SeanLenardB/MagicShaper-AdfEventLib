@@ -74,6 +74,10 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 {
                     tiles[action.GetProperty("floor").GetInt32()].TileEvents.Add(tileAction);
                 }
+                else
+                {
+                    Console.WriteLine($"Potential Error! Cannot parse action: {action}");
+                }
             }
 
 			List<AdfEventAddDecoration> decorations = new();
@@ -227,6 +231,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 new AdfEventSetText(),
                 new AdfEventShakeScreen(),
                 new AdfEventTwirl(),
+                new AdfEventEditorComment(),
 
             };
 

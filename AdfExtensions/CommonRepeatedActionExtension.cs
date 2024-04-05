@@ -127,6 +127,33 @@ namespace MagicShaper.AdfExtensions
 			}
 		}
 
+		public static void AberrationByTile(
+			this AdfChart chart,
+			List<int> tiles,
+			double eachDuration,
+			double minParam = 47d)
+		{
+			foreach (var tile in tiles)
+			{
+				chart.ChartTiles[tile].TileEvents.Add(
+					new AdfEventSetFilter()
+					{
+						Filter = AdfFilter.Aberration,
+						Duration = 0d,
+						Intensity = minParam,
+						AngleOffset = -0.01d
+					});
+				chart.ChartTiles[tile].TileEvents.Add(
+					new AdfEventSetFilter()
+					{
+						Filter = AdfFilter.Aberration,
+						Intensity = 50d,
+						Duration = eachDuration,
+						Ease = AdfEaseType.OutCubic
+					});
+			}
+		}
+
 		public static void BlurByBeatOutEase(
 			this AdfChart chart,
 			int startTile,

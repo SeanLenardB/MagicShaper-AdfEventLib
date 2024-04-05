@@ -4,11 +4,13 @@ using MagicShaper.AdofaiCore.AdfEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MagicShaper.VfxProjects.CDF2024
 {
+	[SupportedOSPlatform("windows")]
 	internal class AdfVfxProj_CDF4Qualification
 	{
 		internal static void ProjMain()

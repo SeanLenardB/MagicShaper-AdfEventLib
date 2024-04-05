@@ -261,8 +261,8 @@ namespace MagicShaper.AdfExtensions
 				{
 					Tag = $"{ExtensionSharedConstants.FloatingPlanetBackgroundTagPrefix}_{gid}_{i}",
 					Duration = durationBeats,
-					PositionOffset = new(thisSpeed * Math.Cos(thisAngle / 180d * Math.PI) * durationBeats,
-						thisSpeed * Math.Sin(thisAngle / 180d * Math.PI) * durationBeats),
+					PositionOffset = new(-xhideOffset + thisSpeed * Math.Cos(thisAngle / 180d * Math.PI) * durationBeats,
+						-yhideOffset + thisSpeed * Math.Sin(thisAngle / 180d * Math.PI) * durationBeats),
 				});
 				chart.ChartTiles[targetTile].TileEvents.Add(new AdfEventMoveDecorations()
 				{
@@ -275,5 +275,6 @@ namespace MagicShaper.AdfExtensions
 			}
 
 		}
+
 	}
 }

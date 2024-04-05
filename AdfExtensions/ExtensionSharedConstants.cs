@@ -18,6 +18,8 @@ namespace MagicShaper.AdfExtensions
 		* Decoration Depth:
 		* Back 100 ~ -100 Front
 		*/
+		public const string LineTrackTagPrefix = "quartrond_lineTrack";
+		public const int LineTrackDepth = 2;
 
 		public const string SingleDecorationManipulationTagPrefix = "quartrond_singleDecorationManipulation";
 		public const int SingleDecorationManipulationDepth = -10;
@@ -49,5 +51,8 @@ namespace MagicShaper.AdfExtensions
 
 		public const string FloatingPlanetBackgroundTagPrefix = "quartrond_floatingPlanet";
 		public const int FloatingPlanetBackgroundDepth = 65;
+		
+		public const string RandomBackgroundSplashTagPrefix = "quartrond_randomSplash";
+		public const int RandomBackgroundSplashDepth = 5;
 	}
 }

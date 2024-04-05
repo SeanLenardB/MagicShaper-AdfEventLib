@@ -90,7 +90,7 @@ namespace MagicShaper.AdfExtensions
 
 
 
-		private const int ImgWidth = 4000;
+		private const int ImgWidth = 6000;
 		private const int ImgHeight = 300;
 		public static void Convert(string str, string dst, string fontS)
 		{
@@ -98,7 +98,8 @@ namespace MagicShaper.AdfExtensions
 
 			Font font = new(fontS, 60f, FontStyle.Bold);
 			Graphics graphics = Graphics.FromImage(image);
-
+			graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+			graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
 			graphics.DrawString(str,
 						  font,
 						  new SolidBrush(Color.FromArgb(255, 255, 255, 255)),
