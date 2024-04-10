@@ -64,7 +64,9 @@ namespace MagicShaper.AdofaiCore.AdfClass
                     tiles.Add(new(angle, tiles[^1], new()));
                 }
             }
-
+            // This is to make sure that final tile can have events.
+            // When saving, this tile is ignored.
+            tiles.Add(new(0d, tiles[^1], new()));
 
             foreach (var action in chartJson.RootElement.GetProperty("actions").EnumerateArray())
             {

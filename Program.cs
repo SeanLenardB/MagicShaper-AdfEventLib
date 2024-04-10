@@ -12,11 +12,12 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		AdfChart chart = AdfChart.Parse(@"G:\Adofai levels\Breakcore Speedrun Any% in Tiger Shark\level-nerfed.adofai");
-		chart.SetLineTrackStyle(169, 675, yScale: 50);
-		chart.SetLineTrackStyle(779, 1277, yScale: 50);
-
-		File.WriteAllText(@"G:\Adofai levels\Breakcore Speedrun Any% in Tiger Shark\level-nerfed-fun.adofai", chart.ChartJson.ToJsonString());
+		AdfChart chart = AdfChart.Parse(@"H:\Coding\CSharp\AdofaiGuessr\RenderChartImage\bin\Debug\net7.0\Chronoexplorers.adofai");
+		File.WriteAllText(@"H:\Coding\CSharp\AdofaiGuessr\RenderChartImage\bin\Debug\net7.0\Chronoexplorers1.adofai", chart.ChartJson.ToJsonString());
+		// chart.SetLineTrackStyle(169, 675, yScale: 50);
+		// chart.SetLineTrackStyle(779, 1277, yScale: 50);
+		// 
+		// File.WriteAllText(@"G:\Adofai levels\Breakcore Speedrun Any% in Tiger Shark\level-nerfed-fun.adofai", chart.ChartJson.ToJsonString());
 	}
 
 	
