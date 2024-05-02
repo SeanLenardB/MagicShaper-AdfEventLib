@@ -383,7 +383,223 @@ namespace MagicShaper.VfxProjects
 			File.WriteAllText(@"G:\Adofai levels\ACC2024 Final\level-effect.adofai", chart.ChartJson.ToJsonString());
 		}
 
-		private static void AddAutoCues(AdfChart chart)
+        internal static void EventMain()
+        {
+            AdfChart chart = AdfChart.Parse(@"G:\Adofai levels\ACC2024 Final Event Match\level-loweffect.adofai");
+            for (int i = 3467; i < 4610; i++)
+            {
+                if (chart.ChartTiles[i + 1].TargetAngle == 999)
+                {
+                    chart.ChartTiles[i].TileEvents.Add(new AdfEventSetHitsound() { Hitsound = AdfHitsoundType.KickChroma });
+                    chart.ChartTiles[i + 1].TileEvents.Add(new AdfEventSetHitsound() { Hitsound = AdfHitsoundType.Kick, HitsoundVolume = 50, GameSound = AdfGameSoundType.Midspin });
+                    chart.ChartTiles[i + 2].TileEvents.Add(new AdfEventSetHitsound() { Hitsound = AdfHitsoundType.Kick, HitsoundVolume = 50 });
+                }
+            }
+            //chart.CameraRandomWobble(-1, 1, -2, -1, -1.5, 1.5, 250, 260, 24d, 32d, 0d, 4d, 12d * 8, 0);
+
+            chart.ModernTrackAppear(0, 107, 4d, 4d, -1, 1, -3, -1, endOpacity: 500);
+			chart.ModernTrackDisappear(0, 107, 4d, 4d, -1, 1, 1, 3);
+
+			chart.CameraRandomWobble(-1, 1, -2, -1, -1.5, 1.5, 290, 325, 24d, 32d, 0d, 4d, 12d * 8 * 2, 107);
+			chart.BackgroundDimPulseMultipleByBeat(100, 0, 107, 20, 24d, 16d);
+            FilterComboDurate(chart, 107, 24d, 20, m: 1.5);
+
+            chart.ModernTrackAppear(107, 386, 4d, 8d, -1, 1, -3, -1, endOpacity: 200);
+			chart.ModernTrackDisappear(107, 386, 4d, -1d, -0.5, 0.5, 0, 1);
+
+			chart.ModernTrackAppear(386, 875, 4d, 6d, -1, 1, -3, -1, endOpacity: 200);
+			chart.ModernTrackDisappear(386, 875, 4d, -3d, -0.5, 0.5, 0, 1);
+
+			chart.ModernTrackAppear(875, 962, 4d, 8d, -1, 1, -3, -1, endOpacity: 500);
+			chart.ModernTrackDisappear(875, 959, 4d, 4d, -1, 1, 1, 3);
+
+            for (int i = 0; i < 7; i++)
+            {
+				FilterComboDurate(chart, 875 + 14 * i, 0, 1, 1.5);
+				chart.BackgroundDimPulse(100, 0, 875 + 14 * i, 16d);
+            }
+
+            chart.CameraRandomWobble(-2, 2, -4, -2, -5, 5, 290, 345, 24d, 32d, 0d, 4d, 32d * 8 * 3, 977);
+			FilterComboDurate(chart, 997, 32d, 8, 2);
+
+			chart.ModernTrackAppear(962, 2319, 4d, 6d, -2, 2, -0.5, -1, endOpacity: 200);
+			chart.ModernTrackDisappear(962, 2319, 4d, -4d, -0.5, 0.5, 1.5, 2);
+            
+			chart.CameraRandomWobble(-2, 2, -4, -2, -5, 5, 260, 285, 24d, 32d, 0d, 4d, 8d * 8 * 12, 2310);
+
+            chart.ModernTrackAppear(2319, 2395, 4d, 6d, 2, 4, 1, 2, endOpacity: 500);
+			chart.ModernTrackDisappear(2319, 2395, 4d, -2d, -1, 0, -1, -2);
+			
+			chart.ModernTrackAppear(2395, 2843, 4d, 6d, 2, 4, 1, 2, endOpacity: 200);
+			chart.ModernTrackDisappear(2395, 2843, 4d, -2d, -1, 0, -1, -2);
+			FilterComboDurate(chart, 2395, 16d, 8, 1.5);
+
+			chart.CameraRotationPulseByTile((from i in Enumerable.Range(0, 4) select i * (2882 - 2843) + 2843).ToList(), 
+				  -15, 15, 250, 280, 12d);
+			chart.CameraRotationPulseByTile((from i in Enumerable.Range(0, 4) select i * (3042 - 2999) + 2999).ToList(), 
+				  -15, 15, 250, 280, 12d);
+
+            chart.ModernTrackAppear(2843, 3172, 4d, 6d, 2, 4, 1, 2, endOpacity: 200);
+            chart.ModernTrackDisappear(2843, 3172, 4d, -2d, -1, 0, -1, -2);
+
+
+            List<int> list11 = new();
+            for (int i = 3172; i < 3457; i++)
+            {
+                if (chart.GetInnerAngleAtTile(i) == 30d)
+                {
+                    list11.Add(i); i++;
+                }
+            }
+            list11.Add(3458);
+            chart.TrackAppearExplosion(list11, 3d, 8d, m: 0.5);
+            chart.TrackDisappearExplosion(list11, 3d, yBias: 5, m: 0.5);
+			chart.CameraRotationPulseByTile(list11, -5, 5, 260, 280, 4d);
+			FilterComboDurate(chart, 3172, 16d, 32, m: 1.5);
+
+			chart.RandomCamera(-5, -2, -5, -2, -5, 5, 320, 400, 16d, 16d, 256d, 3468);
+
+			for (int i = 3458; i < 3817; i++)
+			{
+				chart.ModernTrackAppear(i, i + 1, 4d, 8d,
+					Math.Cos(2d * Math.PI * ((i - 3458) / 70d)) * 18, Math.Cos(2d * Math.PI * ((i - 3458) / 70d)) * 18,
+					Math.Sin(2d * Math.PI * ((i - 3458) / 70d)) * 18, Math.Sin(2d * Math.PI * ((i - 3458) / 70d)) * 18,
+					endOpacity: 200);
+				chart.ModernTrackDisappear(i, i + 1, 4d, -3d,
+					Math.Cos(2d * Math.PI * ((i - 3458) / 70d)) * 18, Math.Cos(2d * Math.PI * ((i - 3458) / 70d)) * 18,
+					Math.Sin(2d * Math.PI * ((i - 3458) / 70d)) * 18, Math.Sin(2d * Math.PI * ((i - 3458) / 70d)) * 18);
+			}
+
+            chart.CameraRandomWobble(-2, 2, -2, 0, -1, 3, 290, 320, 24d, 32d, 0d, 8d, 240d, 3817);
+
+            FilterComboDurate(chart, 3817, 8d, 64);
+
+			chart.ModernTrackAppear(3817, 4652, 4d, 8d, -1, 1, -1, -0.5, endOpacity: 200);
+
+			Random random = new();
+			for (int i = 3817; i < 4652; i++)
+			{
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 960 * 4d,
+					Opacity = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+                    PositionOffset = new(random.NextDouble() * 10 - 5, random.NextDouble() * 2),
+					RotationOffset = random.NextDouble() * 90 - 45,
+					Opacity = 100,
+					Duration = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+                    EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 960 * (12 * 180)
+                });
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 960 * (random.NextDouble() * 12d + 4d),
+					RotationOffset = 0,
+					Opacity = 50,
+					Ease = AdfEaseType.OutBack,
+					PositionOffset = new(0, 0),
+                    StartTile = new(0, AdfTileReferenceType.ThisTile),
+                    EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 960 * (12 * 180 + 0.00001)
+                });
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+                    Duration = chart.GetTileBpmAt(i) / 960 * 4d,
+					Ease = AdfEaseType.OutQuad,
+					Opacity = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+                    EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 960 * (30 * 180)
+                });
+			}
+
+            chart.CameraRandomWobble(-2, 2, -3, -2, -1, 3, 340, 360, 24d, 32d, 0d, 8d, 256d, 4169);
+
+            chart.RenderCreditRoleAndName(4652, "Track", "Sean Lenard B.", -720, -960, 64, 64, 1024, 200, font: "Gotham Bold");
+            chart.RenderCreditRoleAndName(4652, "Visual", "quartrond", 720, -960, 64, 64, 1024, 200, font: "Gotham Bold");
+            var builder = chart.JudgementLimit()
+                            .SetDisplayType(JudgementLimitDisplayType.Images)
+                            .SetImages("j4.png", "j3.png", "j2.png", "j1.png")
+                            .GetBuilder()
+                            .Limit(0, JudgementLimitWindowType.Normal)
+                            .Limit(51, JudgementLimitWindowType.NoMiss)
+                            .Limit(107, JudgementLimitWindowType.Perfects)
+                            .Limit(386, JudgementLimitWindowType.NoMiss)
+                            .Limit(719, JudgementLimitWindowType.Perfects)
+                            .Limit(875, JudgementLimitWindowType.NoMiss)
+                            .Limit(959, JudgementLimitWindowType.Normal)
+                            .Limit(962, JudgementLimitWindowType.NoMiss)
+                            .Limit(966, JudgementLimitWindowType.Perfects)
+                            .Limit(977, JudgementLimitWindowType.PurePerfect)
+                            .Limit(1141, JudgementLimitWindowType.Perfects)
+                            .Limit(1288, JudgementLimitWindowType.NoMiss);
+
+			for (int i = 0; i < 2; i++)
+			{
+				builder = builder
+							.Limit(1370 + 0 * 50 + i * 200, JudgementLimitWindowType.Perfects);
+                builder = builder
+							.Limit(1370 + 1 * 50 + i * 200, JudgementLimitWindowType.PurePerfect);
+                builder = builder
+							.Limit(1370 + 2 * 50 + i * 200, JudgementLimitWindowType.Perfects);
+                builder = builder
+							.Limit(1370 + 3 * 50 + i * 200, JudgementLimitWindowType.NoMiss);
+            }
+			for (int i = 0; i < 18; i++)
+			{
+                builder = builder
+                            .Limit(1767 + i * 28, JudgementLimitWindowType.Perfects);
+                builder = builder
+                            .Limit(1779 + i * 28, JudgementLimitWindowType.PurePerfect);
+            }
+
+			builder
+				.Limit(2319, JudgementLimitWindowType.Normal)
+				.Limit(2395, JudgementLimitWindowType.NoMiss)
+				.Limit(2562, JudgementLimitWindowType.Perfects)
+				.Limit(2775, JudgementLimitWindowType.NoMiss)
+				.Limit(2843, JudgementLimitWindowType.Normal)
+				.Limit(3150, JudgementLimitWindowType.NoMiss)
+				.Limit(3172, JudgementLimitWindowType.Perfects)
+				.Limit(3468, JudgementLimitWindowType.PurePerfect)
+				.Limit(3791, JudgementLimitWindowType.Normal)
+				.Limit(3805, JudgementLimitWindowType.NoMiss)
+				.Limit(3811, JudgementLimitWindowType.Perfects)
+				.Limit(3817, JudgementLimitWindowType.PurePerfect);
+
+			for (int i = 4169; i < 4652; i++)
+			{
+				foreach (var e in chart.ChartTiles[i].TileEvents)
+				{
+					if (e is AdfEventColorTrack ee)
+					{
+						if (ee.TrackColor.ToString() == "686868ff")
+						{
+							builder = builder.Limit(i, JudgementLimitWindowType.PurePerfect);
+						}
+						else if (ee.TrackColor.ToString() == "2b2b2bff")
+						{
+							builder = builder.Limit(i, JudgementLimitWindowType.Perfects);
+						}
+					}
+				}
+			}
+			builder.Limit(4652, JudgementLimitWindowType.PurePerfect);
+
+			builder.BuildDisplay(0, -260, 150);
+            File.WriteAllText(@"G:\Adofai levels\ACC2024 Final Event Match\level-effect-100judgement.adofai", chart.ChartJson.ToJsonString());
+
+			builder.BuildLimit();
+            File.WriteAllText(@"G:\Adofai levels\ACC2024 Final Event Match\level-effect.adofai", chart.ChartJson.ToJsonString());
+
+        }
+
+        private static void AddAutoCues(AdfChart chart)
 		{
 			int starter = -1;
 			for (int i = 0; i < chart.ChartTiles.Count; i++)

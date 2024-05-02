@@ -54,5 +54,9 @@ namespace MagicShaper.AdfExtensions
 		
 		public const string RandomBackgroundSplashTagPrefix = "quartrond_randomSplash";
 		public const int RandomBackgroundSplashDepth = 5;
-	}
+
+		public const string JudgementLimitOfImageBuilderPrefix = "quartrond_judgementLimitOfImageBuilder";
+		public const int JudgementLimitOfImageBuilderDepth = -90;
+
+    }
 }
