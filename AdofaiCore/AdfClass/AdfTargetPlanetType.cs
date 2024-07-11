@@ -4,6 +4,7 @@
     {
         FirePlanet,
         IcePlanet,
-        Both
+        WindPlanet,
+        All,
     }
 }
