@@ -237,6 +237,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 new AdfEventEditorComment(),
 
                 new AdfEventHold(),
+                new AdfEventScaleRadius(),
             };
 
 			foreach (var e in events)
