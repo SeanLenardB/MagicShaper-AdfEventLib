@@ -1,4 +1,5 @@
 ﻿using MagicShaper.AdofaiCore.AdfEvents;
+using MagicShaper.AdofaiCore.AdfEvents.Dlc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -235,6 +236,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 new AdfEventTwirl(),
                 new AdfEventEditorComment(),
 
+                new AdfEventHold(),
             };
 
 			foreach (var e in events)
