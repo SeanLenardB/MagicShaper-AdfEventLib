@@ -12,36 +12,58 @@ namespace MagicShaper.AdfExtensions.DecoScene
 	{
 		public int SceneId { get; set; } = -1;
 
-		public string Guid { get; set; } = ""; 
+		public string Guid { get; set; } = "";
 
-		public virtual List<IAdfEvent> OnChartBegin()
+		public List<string> Images { get; set; } = new();
+
+		public List<IAdfEvent> OnChartBegin { get; set; } = new();
+		public List<IAdfEvent> OnChartEnd { get; set; } = new();
+		public List<IAdfEvent> OnSceneBegin { get; set; } = new();
+		public List<IAdfEvent> OnSceneEnd { get; set; } = new();
+		public List<Func<int, IAdfEvent>> OnTile { get; set; } = new();
+
+		protected virtual void EnsureImages(string image)
 		{
-			return new();
+			if (string.IsNullOrEmpty(image) && (Images.Count == 0 || string.IsNullOrEmpty(Images[0])))
+			{
+				throw new Exception("Use .Use() to set the image OR pass the image in the optional parameters. Both are empty now.");
+			}
+
+			if (!string.IsNullOrEmpty(image))
+			{
+				this.Images = new() { image };
+			}
 		}
 
-		public virtual List<IAdfEvent> OnChartEnd()
+		protected virtual void EnsureImages(List<string> images)
 		{
-			return new();
+			if (images.Count == 0 && (Images.Count == 0 || string.IsNullOrEmpty(Images[0])))
+			{
+				throw new Exception("Use .Use() to set the image OR pass the image in the optional parameters. Both are empty now.");
+			}
+
+			if (images.Count > 0)
+			{
+				this.Images = images;
+			}
 		}
 
-		public virtual List<IAdfEvent> OnSceneBegin()
+		protected virtual void EnsureImages()
 		{
-			return new();
+			if (Images.Count == 0 || string.IsNullOrEmpty(Images[0]))
+			{
+				throw new Exception("Use .Use() to set the image OR pass the image in the optional parameters. Both are empty now.");
+			}
 		}
 
-		public virtual List<IAdfEvent> OnSceneEnd()
+		public string Tag()
 		{
-			return new();
+			return $"quartrond_Scene-{SceneId}_Element-{Guid} ";
 		}
 
-		public virtual List<IAdfEvent> OnTile(int relativeTileIndex)
+		public string Tag(int i)
 		{
-			return new();
-		}
-
-		public string Tag(object? obj = null)
-		{
-			return $"quartrond_Scene{SceneId}_Element{Guid}{(obj is null ? "" : "_" + obj?.ToString())}";
+			return $"quartrond_Scene-{SceneId}_Element-{Guid}_Item-{i}";
 		}
 	}
 }

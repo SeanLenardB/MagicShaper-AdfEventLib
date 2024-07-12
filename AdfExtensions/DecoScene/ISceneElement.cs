@@ -14,14 +14,14 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		string Guid { get; set; }
 
-		internal List<IAdfEvent> OnChartBegin();
+		internal List<IAdfEvent> OnChartBegin { get; set; }
 
-		internal List<IAdfEvent> OnChartEnd();
+		internal List<IAdfEvent> OnChartEnd { get; set; }
 
-		internal List<IAdfEvent> OnSceneBegin();
+		internal List<IAdfEvent> OnSceneBegin { get; set; }
 
-		internal List<IAdfEvent> OnSceneEnd();
+		internal List<IAdfEvent> OnSceneEnd { get; set; }
 
-		internal List<IAdfEvent> OnTile(int relativeTileIndex);
+		internal List<Func<int, IAdfEvent>> OnTile { get; set; }
 	}
 }
