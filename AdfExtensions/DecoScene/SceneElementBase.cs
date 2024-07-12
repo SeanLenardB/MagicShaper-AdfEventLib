@@ -12,13 +12,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 	{
 		public int SceneId { get; set; } = -1;
 
-		public string Guid { get; private set; } = ""; 
-
-		public virtual void OnElementInitialize(AdfChart chart)
-		{
-			Random random = new();
-			Guid = random.Next(0, 1000000).ToString().PadLeft(6, '0');
-		}
+		public string Guid { get; set; } = ""; 
 
 		public virtual List<IAdfEvent> OnChartBegin()
 		{

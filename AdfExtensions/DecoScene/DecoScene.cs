@@ -19,11 +19,11 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public void ApplyTo(AdfChart chart)
 		{
+			int guid = 0;
 			foreach (var element in Elements)
 			{
 				element.SceneId = Id;
-
-				element.OnElementInitialize(chart);
+				element.Guid = guid++.ToString();
 
 				chart.ChartTiles[0].TileEvents.AddRange(element.OnChartBegin());
 				chart.ChartTiles[^1].TileEvents.AddRange(element.OnChartEnd());

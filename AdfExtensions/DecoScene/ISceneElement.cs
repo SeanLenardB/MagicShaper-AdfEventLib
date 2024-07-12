@@ -12,7 +12,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 	{
 		int SceneId { get; set; }
 
-		internal void OnElementInitialize(AdfChart chart);
+		string Guid { get; set; }
 
 		internal List<IAdfEvent> OnChartBegin();
 
