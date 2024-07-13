@@ -1,5 +1,7 @@
-﻿using MagicShaper.AdfExtensions.DecoScene;
+﻿using MagicShaper.AdfExtensions;
+using MagicShaper.AdfExtensions.DecoScene;
 using MagicShaper.AdofaiCore.AdfClass;
+using MagicShaper.AdofaiCore.AdfEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace MagicShaper.VfxProjects
 	{
 		internal static void ProjMain()
 		{
-			AdfChart chart = AdfChart.Parse(@"G:\Adofai levels\Next Life\level-track.adofai");
+			AdfChart chart = AdfChart.Parse(@"G:\Adofai levels\Next Life\level-base.adofai");
 
 			DecoScene.DecoSceneFactory factory = new();
 
@@ -25,15 +27,19 @@ namespace MagicShaper.VfxProjects
 			var sceneOne = factory.CreateScene();
 
 			sceneOne.TileBegin = 0; sceneOne.TileEnd = 114;
-			sceneOne.Elements.Add(sceneOne.CreateElement<MonoElement>().Use("bg1.png").AsBackground().WithAutofit(chart).WithFlashInOut());
+			sceneOne.Elements.Add(sceneOne.CreateElement<MonoElement>().Use("bg1.png").AsBackground().WithScale(230).WithParallaxOffset(0, -2).WithFlashInOut());
 			sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
 			{
-				"grass1.png", "grass2.png", "grass2.png", "grass2.png", "grass3.png"
-			}).AsSpan(20, scaleMin: 200, scaleMax: 300).WithFloor(xmin: -20, xmax: 20, ymin: -8, ymax: -7).WithFlashInOut().WithDepth());
+				"grass1.png", "grass3.png"
+			}).AsSpan(20, scaleMin: 60, scaleMax: 180).WithFloor(xmin: -8, xmax: 8, ymin: -3.5, ymax: -2.8).WithVaryingLayer());
 			sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
 			{
-				"cloud1.png", "cloud2.png", "cloud3.png", "cloud4.png", "cloud5.png"
-			}).AsSpan(8, scaleMin: 200, scaleMax: 300).WithFloor(xmin: -20, xmax: 20, ymin: 6, ymax: 12).WithVariousOpacityFlashInOut());
+				"grass2.png"
+			}).AsTileSpan(10, scaleMin: 200, scaleMax: 350).WithFloor(xmin: -8, xmax: 8, ymin: -3, ymax: -1.2).WithVaryingLayer());
+			//sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
+			//{
+			//	"cloud1.png", "cloud2.png", "cloud3.png", "cloud4.png", "cloud5.png"
+			//}).AsSpan(8, scaleMin: 100, scaleMax: 150).WithFloor(xmin: -20, xmax: 20, ymin: 4, ymax: 5).WithVariousOpacityFlashInOut());
 			sceneOne.ApplyTo(chart);
 
 

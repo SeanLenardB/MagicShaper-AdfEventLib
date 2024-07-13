@@ -52,6 +52,32 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MassElement AsTileSpan(int amount, double xmin = -50, double xmax = 50, double ymin = -5, double ymax =5,
+			double scaleMin = 80, double scaleMax = 120,
+			int tileXMin = 5, int tileXMax = 10, int tileYMin = 1, int tileYMax = 2)
+		{
+			Random random = new();
+
+			for (int i = 0; i < amount; i++)
+			{
+				var scale = random.NextDouble() * (scaleMax - scaleMin) + scaleMin;
+				int xtile = random.Next(tileXMin, tileXMax);
+				int ytile = random.Next(tileYMin, tileYMax);
+				OnSceneBegin.Add(new AdfEventAddDecoration()
+				{
+					Tag = Tag() + Tag(i),
+					DecorationImage = RandomImage(),
+					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
+					Scale = new(scale * xtile, scale * ytile),
+					Opacity = 0,
+					Tile = new(xtile, ytile)
+				});
+			}
+
+			_totalAmount = amount;
+
+			return this;
+		}
 
 
 		private int _totalAmount = 0;
@@ -81,6 +107,17 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				Tag = Tag(),
 				Duration = 0d,
 				Depth = depth,
+			});
+
+			return this;
+		}
+
+		public MassElement WithVaryingDepth(int depthMin = -20, int depthMax = 20)
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations() {
+				Tag = Tag(),
+				Duration = 0d,
+				Depth = new Random().Next(depthMin, depthMax),
 			});
 
 			return this;
@@ -133,5 +170,32 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 			return this;
 		}
+
+		public MassElement WithVaryingLayer(double opacityMin = 50, double opacityMax = 100,
+			double parallaxXMin = 85, double parallaxXMax = 95, double parallaxYMin = 95, double parallaxYMax = 98)
+		{
+			Random random = new();
+
+			for (int i = 0; i < _totalAmount; i++)
+			{
+				double frontToBack = random.NextDouble(); // 0.0 -> front, 1.0 -> back.
+														  // front has blacker, blurrier (to be implemented using opencv), less opaque, less parallax image
+														  // back has whiter, clearer, more opaque, more parallax image.
+														  // front is negative depth, back is positive.
+
+				OnSceneBegin.Add(new AdfEventMoveDecorations()
+				{
+					Tag = Tag(i),
+					Duration = 0d,
+					Color = new("FFFFFF") { R = (byte)(255 * frontToBack), G = (byte)(255 * frontToBack), B = (byte)(255 * frontToBack) },
+					Opacity = frontToBack * (opacityMax - opacityMin) + opacityMin,
+					Parallax = new(frontToBack * (parallaxXMax - parallaxXMin) + parallaxXMin, frontToBack * (parallaxYMax - parallaxYMin) + parallaxYMin),
+					Depth = (int)(-20 + 40 * frontToBack),
+				});
+			}
+
+			return this;
+		}
+
 	}
 }

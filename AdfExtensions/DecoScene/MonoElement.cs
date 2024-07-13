@@ -92,7 +92,29 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MonoElement WithScale(double scale)
+		{
+			OnChartBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Scale = new(scale),
+				Duration = 0d
+			});
+
+			return this;
+		}
 		
+		public MonoElement WithParallaxOffset(double x, double y)
+		{
+			OnChartBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				ParallaxOffset = new(x, y),
+				Duration = 0d
+			});
+
+			return this;
+		}
 
 
 
