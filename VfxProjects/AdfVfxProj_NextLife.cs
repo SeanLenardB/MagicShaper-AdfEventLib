@@ -24,23 +24,31 @@ namespace MagicShaper.VfxProjects
 
 
 			// First Part
-			var sceneOne = factory.CreateScene();
+			var sceneOne = factory.CreateScene(1, 71);
 
-			sceneOne.TileBegin = 0; sceneOne.TileEnd = 114;
-			sceneOne.Elements.Add(sceneOne.CreateElement<MonoElement>().Use("bg1.png").AsBackground().WithScale(230).WithParallaxOffset(0, -2).WithFlashInOut());
+			sceneOne.Elements.Add(sceneOne.CreateElement<MonoElement>().Use("bg1.png").AsBackground().WithScale(230).WithParallaxOffset(0, -2)
+				.FromFlash().ToFlash());
 			sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
 			{
 				"grass1.png", "grass3.png"
-			}).AsSpan(20, scaleMin: 60, scaleMax: 180).WithFloor(xmin: -8, xmax: 8, ymin: -3.5, ymax: -2.8).WithVaryingLayer());
+			}).AsSpan(20, scaleMin: 60, scaleMax: 180).WithFloor(xmin: -8, xmax: 8, ymin: -3.5, ymax: -2.8).FromVaryingLayer().ToFlashOut());
 			sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
 			{
 				"grass2.png"
-			}).AsTileSpan(10, scaleMin: 200, scaleMax: 350).WithFloor(xmin: -8, xmax: 8, ymin: -3, ymax: -1.2).WithVaryingLayer());
+			}).AsTileSpan(10, scaleMin: 200, scaleMax: 350).WithFloor(xmin: -8, xmax: 8, ymin: -3, ymax: -1.2).FromVaryingLayer().ToFlashOut());
+			sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png"
+			}).AsTilingSmoke(5, 150, 250, scaleMin: 550, scaleMax: 800)
+				.WithMovement(140, 200, 450, 510, 64d).FromVaryingLayer(rgbMin: 200, rgbMax: 255).ToFlashOut());
 			//sceneOne.Elements.Add(sceneOne.CreateElement<MassElement>().Use(new()
 			//{
 			//	"cloud1.png", "cloud2.png", "cloud3.png", "cloud4.png", "cloud5.png"
 			//}).AsSpan(8, scaleMin: 100, scaleMax: 150).WithFloor(xmin: -20, xmax: 20, ymin: 4, ymax: 5).WithVariousOpacityFlashInOut());
 			sceneOne.ApplyTo(chart);
+
+			
+			
 
 
 

@@ -64,9 +64,9 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		{
 			private int _sceneIndex = 0;
 
-			public DecoScene CreateScene()
+			public DecoScene CreateScene(int tileBegin, int tileEnd)
 			{
-				return new(_sceneIndex++);
+				return new(_sceneIndex++) { TileBegin = tileBegin, TileEnd = tileEnd };
 			}
 
 		}

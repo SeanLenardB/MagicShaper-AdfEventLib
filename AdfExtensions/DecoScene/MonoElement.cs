@@ -39,35 +39,6 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-		public MonoElement WithFlashIn()
-		{
-			OnSceneBegin.Add(new AdfEventMoveDecorations()
-			{
-				Tag = Tag(),
-				Duration = 0d,
-				Opacity = 100,
-			});
-
-			return this;
-		}
-
-		public MonoElement WithFlashOut()
-		{
-			OnSceneEnd.Add(new AdfEventMoveDecorations()
-			{
-				Tag = Tag(),
-				Duration = 0d,
-				Opacity = 0,
-			});
-
-			return this;
-		}
-
-		public MonoElement WithFlashInOut()
-		{
-			return WithFlashIn().WithFlashOut();
-		}
-
 		public MonoElement WithAutofit(AdfChart chart)
 		{
 			EnsureImages();
@@ -92,9 +63,9 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
-		public MonoElement WithScale(double scale)
+		public MonoElement WithScale(double scale = 100)
 		{
-			OnChartBegin.Add(new AdfEventMoveDecorations()
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
 			{
 				Tag = Tag(),
 				Scale = new(scale),
@@ -103,10 +74,10 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 			return this;
 		}
-		
-		public MonoElement WithParallaxOffset(double x, double y)
+
+		public MonoElement WithParallaxOffset(double x = 0, double y = 0)
 		{
-			OnChartBegin.Add(new AdfEventMoveDecorations()
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
 			{
 				Tag = Tag(),
 				ParallaxOffset = new(x, y),
@@ -117,6 +88,35 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		}
 
 
+
+
+		public MonoElement FromFlash()
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Duration = 0d,
+				Opacity = 100,
+			});
+
+			return this;
+		}
+
+
+
+
+
+		public MonoElement ToFlash()
+		{
+			OnSceneEnd.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Duration = 0d,
+				Opacity = 0,
+			});
+
+			return this;
+		}
 
 
 	}
