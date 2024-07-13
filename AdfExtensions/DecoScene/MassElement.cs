@@ -31,7 +31,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-		public MassElement AsTilingSmoke(int amount = 10, int tileX = 114, int tileY = 51,
+		public MassElement AsTiled(int amount = 10, int tileX = 114, int tileY = 51,
 			double startXMin = -50, double startXMax = 0, double startYMin = -100, double startYMax = 0,
 			double scaleMin = 80, double scaleMax = 120)
 		{
@@ -115,7 +115,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		private int _totalAmount = 0;
 
 		public MassElement WithFloor(double xmin = -10, double xmax = 10, double ymin = -5, double ymax = -3, 
-			double parallaxXMin = 85, double parallaxXMax = 95, double parallaxYMin = 95, double parallaxYMax = 98)
+			double parallaxXMin = 75, double parallaxXMax = 95, double parallaxYMin = 80, double parallaxYMax = 95)
 		{
 			Random random = new();
 
@@ -227,6 +227,20 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				Tag = Tag(),
 				Duration = 0d,
 				Opacity = 0,
+			});
+
+			return this;
+		}
+
+		public MassElement ToFlyOut(double duration = 4d, double flyX = 0, double flyY = -20)
+		{
+			OnSceneEnd.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Duration = duration,
+				Opacity = 0,
+				ParallaxOffset = new(flyX, flyY),
+				Ease = AdfEaseType.OutCubic
 			});
 
 			return this;

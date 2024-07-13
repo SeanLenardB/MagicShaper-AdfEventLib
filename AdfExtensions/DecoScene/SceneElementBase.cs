@@ -20,7 +20,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		public List<IAdfEvent> OnChartEnd { get; set; } = new();
 		public List<IAdfEvent> OnSceneBegin { get; set; } = new();
 		public List<IAdfEvent> OnSceneEnd { get; set; } = new();
-		public List<Func<int, IAdfEvent>> OnTile { get; set; } = new();
+		public List<Func<int, IAdfEvent?>> OnTile { get; set; } = new();
 
 		protected virtual void EnsureImages(string image)
 		{

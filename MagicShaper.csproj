@@ -13,4 +13,8 @@
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.9.0.20240103" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AdfExtensions\Gimmicks\" />
+  </ItemGroup>
+
 </Project>

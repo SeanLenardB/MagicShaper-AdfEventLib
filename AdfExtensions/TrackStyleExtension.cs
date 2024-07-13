@@ -16,18 +16,21 @@ namespace MagicShaper.AdfExtensions
 	internal static class TrackStyleExtension
 	{
 		public static void SetLineTrackStyle(this AdfChart chart, int start, int end,
-			double yScale = 300d, double nodeScale = 130d, double twirlNodeScale = 200d)
+			double yScale = 300d, double nodeScale = 130d, double twirlNodeScale = 200d, bool hideTrack = true, string tag = "")
 		{
-			chart.ChartTiles[start].TileEvents.Add(new AdfEventRecolorTrack()
+			if (hideTrack)
 			{
-				TrackColor = new("FFFFFF00"),
-				TrackStyle = AdfTrackStyle.Neon,
-				TrackGlowIntensity = 0,
-				AngleOffset = -114514,
-				StartTile = new(0, AdfTileReferenceType.ThisTile),
-				EndTile = new(end - start - 1, AdfTileReferenceType.ThisTile)
-			});
-			
+				chart.ChartTiles[start].TileEvents.Add(new AdfEventRecolorTrack()
+				{
+					TrackColor = new("FFFFFF00"),
+					TrackStyle = AdfTrackStyle.Neon,
+					TrackGlowIntensity = 0,
+					AngleOffset = -114514,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(end - start - 1, AdfTileReferenceType.ThisTile)
+				});
+			}
+
 			GetLineImage(chart);
 			GetNodeImage(chart);
 			for (int i = start; i < end; i++)
@@ -70,7 +73,8 @@ namespace MagicShaper.AdfExtensions
 						DecorationImage = "quartrond_circleImage.png",
 						Scale = new(twirlNodeScale),
 						Depth = ExtensionSharedConstants.LineTrackDepth,
-						Color = new("DF90D3FF")
+						Color = new("DF90D3FF"),
+						Tag = tag
 					});
 				}
 
@@ -87,7 +91,8 @@ namespace MagicShaper.AdfExtensions
 					Position = new(
 						0.25d * Math.Cos(alpha / 180d * Math.PI - Math.PI), 
 						0.25d * Math.Sin(alpha / 180d * Math.PI - Math.PI)),
-					Depth = ExtensionSharedConstants.LineTrackDepth
+					Depth = ExtensionSharedConstants.LineTrackDepth,
+					Tag = tag
 				});
 				chart.AddDecorationToChart(new() 
 				{ 
@@ -99,7 +104,8 @@ namespace MagicShaper.AdfExtensions
 					Position = new(
 						0.25d * Math.Cos(beta / 180d * Math.PI), 
 						0.25d * Math.Sin(beta / 180d * Math.PI)),
-					Depth = ExtensionSharedConstants.LineTrackDepth
+					Depth = ExtensionSharedConstants.LineTrackDepth,
+					Tag = tag
 				});
 				chart.AddDecorationToChart(new() 
 				{ 
@@ -108,7 +114,8 @@ namespace MagicShaper.AdfExtensions
 					DecorationImage = "quartrond_circleImage.png",
 					Scale = new(nodeScale),
 					Depth = ExtensionSharedConstants.LineTrackDepth - 1,
-					Color = nodeColor
+					Color = nodeColor, 
+					Tag = tag
 				});
 			}
 		}

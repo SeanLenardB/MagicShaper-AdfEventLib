@@ -29,7 +29,16 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 				for (int i = TileBegin; i < TileEnd; i++)
 				{
-					chart.ChartTiles[i].TileEvents.AddRange(element.OnTile.Select(x => x(i - TileBegin)));
+					foreach (var del in element.OnTile)
+					{
+						AdofaiCore.AdfEvents.IAdfEvent? item = del(i - TileBegin);
+						if (item is null)
+						{
+							continue;
+						}
+
+						chart.ChartTiles[i].TileEvents.Add(item);
+					}
 				}
 			}
 		}
