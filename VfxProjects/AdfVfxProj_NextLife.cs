@@ -155,14 +155,30 @@ namespace MagicShaper.VfxProjects
 
 			// Part Three
 			chart.TrackAppearExplosion(new() { 169, 188 }, 4d, 20d, 100, 500, 0.2); // this is for big track not to appear to soon.
-			chart.TrackDisappearExplosion(new() { 169 }, 4d, m: 0.2);
+			chart.TrackDisappearExplosion(new() { 169 }, 4d, xBias: 10, yBias: 3, m: 0.5);
 
 			chart.OsuManiaGimmick(104, 169);
 
 			chart.FisheyePulseByBeat(106, 32, 1d, 4d, 48.5);
 
 
+			// Part Four
+			var sceneSpace = factory.CreateScene(170, 266);
 
+			sceneSpace.Elements.Add(sceneSpace.CreateElement<MonoElement>().Use("space.png")
+				.AsBackground()
+				.WithAutofit(chart)
+				.FromFlash(25).ToFlash());
+			sceneSpace.Elements.Add(sceneSpace.CreateElement<MassElement>().Use(new()
+			{
+				"space1.png", "space2.png", "space3.png", "space4.png", "space5.png", "space6.png", "space7.png", "space8.png"
+			}).AsSpan(20, -100, 100, -50, 100, 550, 800)
+				.FromVaryingLayer(0, 75, -50, 80, -50, 80, 128, 255).ToFlashOut());
+			sceneSpace.ApplyTo(chart);
+
+			chart.CameraRotationPulseByTile(Enumerable.Range(170, 201).ToList(), -5, 5, 680, 750, 4d);
+			chart.FisheyePulseByTile(Enumerable.Range(170, 201).ToList(), 4d, 48);
+			
 			
 			File.WriteAllText(@"G:\Adofai levels\Next Life\level-vfx.adofai", chart.ChartJson.ToJsonString());
 		}

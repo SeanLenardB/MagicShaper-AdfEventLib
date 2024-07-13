@@ -43,6 +43,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 				OnSceneBegin.Add(new AdfEventAddDecoration()
 				{
+					Floor = TileRange.Item1,
 					DecorationImage = Images[0],
 					Tag = Tag() + Tag(i),
 					Opacity = 0,
@@ -68,6 +69,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			{
 				OnSceneBegin.Add(new AdfEventAddDecoration()
 				{
+					Floor = TileRange.Item1,
 					Tag = Tag() + Tag(i),
 					DecorationImage = RandomImage(),
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
@@ -94,6 +96,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				int ytile = random.Next(tileYMin, tileYMax);
 				OnSceneBegin.Add(new AdfEventAddDecoration()
 				{
+					Floor = TileRange.Item1,
 					Tag = Tag() + Tag(i),
 					DecorationImage = RandomImage(),
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),

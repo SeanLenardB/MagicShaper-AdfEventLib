@@ -25,6 +25,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		{
 			OnSceneBegin.Add(new AdfEventAddDecoration()
 			{
+				Floor = TileRange.Item1,
 				DecorationImage = Images[0],
 				Parallax = new(100, 100),
 				Depth = 90,
@@ -90,13 +91,13 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-		public MonoElement FromFlash()
+		public MonoElement FromFlash(double opacity = 100)
 		{
 			OnSceneBegin.Add(new AdfEventMoveDecorations()
 			{
 				Tag = Tag(),
 				Duration = 0d,
-				Opacity = 100,
+				Opacity = opacity,
 			});
 
 			return this;

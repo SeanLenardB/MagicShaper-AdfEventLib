@@ -49,6 +49,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		{
 			var element = new T
 			{
+				TileRange = new(TileBegin, TileEnd),
 				SceneId = Id,
 				Guid = _guid++.ToString()
 			};
