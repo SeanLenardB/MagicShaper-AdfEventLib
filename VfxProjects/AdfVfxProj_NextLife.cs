@@ -1,5 +1,6 @@
 ﻿using MagicShaper.AdfExtensions;
 using MagicShaper.AdfExtensions.DecoScene;
+using MagicShaper.AdfExtensions.Gimmicks;
 using MagicShaper.AdofaiCore.AdfClass;
 using MagicShaper.AdofaiCore.AdfEvents;
 using System;
@@ -144,7 +145,8 @@ namespace MagicShaper.VfxProjects
 			chart.BlurByBeatOutEase(80, 1, 8d, 6d);
 			chart.BlurByBeatOutEase(90, 3, 8d, 6d);
 
-			chart.CameraHoverAndTiltToTileTransition(106, 5, 180, 150, 2d, 4d);
+			chart.CameraHoverAndTiltToTileTransition(106, 5, 180, 150, 2d, 4d, 0, 4);
+			chart.CameraMoveRelativeToPlayer(106, 4, 0, 4);
 
 			chart.FisheyePulseByBeat(71, 32, 1d, 4d, 49);
 
@@ -153,7 +155,15 @@ namespace MagicShaper.VfxProjects
 
 			// Part Three
 			chart.TrackAppearExplosion(new() { 169, 188 }, 4d, 20d, 100, 500, 0.2); // this is for big track not to appear to soon.
+			chart.TrackDisappearExplosion(new() { 169 }, 4d, m: 0.2);
 
+			chart.OsuManiaGimmick(104, 169);
+
+			chart.FisheyePulseByBeat(106, 32, 1d, 4d, 48.5);
+
+
+
+			
 			File.WriteAllText(@"G:\Adofai levels\Next Life\level-vfx.adofai", chart.ChartJson.ToJsonString());
 		}
 
