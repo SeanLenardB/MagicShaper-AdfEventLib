@@ -93,12 +93,36 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MonoElement WithPivotOffset(double x = 0, double y = 0)
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				PivotOffset = new(x, y),
+				Duration = 0d
+			});
+
+			return this;
+		}
+
 		public MonoElement WithParallaxOffset(double x = 0, double y = 0)
 		{
 			OnSceneBegin.Add(new AdfEventMoveDecorations()
 			{
 				Tag = Tag(),
 				ParallaxOffset = new(x, y),
+				Duration = 0d
+			});
+
+			return this;
+		}
+
+		public MonoElement WithParallax(double x = 0, double y = 0)
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Parallax = new(x, y),
 				Duration = 0d
 			});
 
@@ -119,6 +143,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 			return this;
 		}
+
 
 
 

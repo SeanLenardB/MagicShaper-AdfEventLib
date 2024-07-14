@@ -1,5 +1,6 @@
 ﻿using MagicShaper.AdofaiCore.AdfClass;
 using MagicShaper.AdofaiCore.AdfEvents;
+using MagicShaper.AdofaiCore.AdfEvents.Dlc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,11 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 {
 	internal static class OsuManiaGimmickExtension
 	{
+		/// <summary>
+		/// If the gimmicked part has holds, please make sure they are inner angle (< 180 + 360k) 
+		/// This is due to the fact that I am too lazy to write a macro inside this thing
+		/// Make sure everything is non-midspin, non-Uturn, non-outerangle
+		/// </summary>
 		public static void OsuManiaGimmick(this AdfChart chart, int startTile, int endTile, int railCount = 4, double dropSpeedTilePerBeat = 3, 
 			double poolLineLength = 8, double railWidth = 1, double railGap = 0.1, double dropdownBeat = 4d, 
 			double positionX = 0, double positionY = -2, bool lockRotation = true, bool lockScale = true)
@@ -82,7 +88,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
 				{
-					Tag = $"quartrond_osumania_{guid}_key_{i}",
+					Tag = $"quartrond_osumania_{guid}_key_{i} quartrond_osumania_{guid}_key_{i}_tail",
 					Duration = dropdownBeat * 0.2,
 					Opacity = 100,
 					Ease = AdfEaseType.OutSine,
@@ -117,6 +123,54 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 					Opacity = 0,
 					Ease = AdfEaseType.OutQuad
 				});
+
+
+				// holding beats, to be improved.
+				var e = chart.ChartTiles[i].TileEvents.Find(x => x is AdfEventHold);
+				if (e is not null)
+				{
+					var holdBeat = chart.GetInnerAngleAtTile(i) / 180d + (e as AdfEventHold)!.Duration * 2;
+
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventAddObject()
+					{
+						ObjectType = AdfObjectType.Floor,
+						TrackStyle = AdfTrackStyle.Minimal,
+						TrackColor = new("888888"),
+						TrackGlowEnabled = true,
+						TrackGlowColor = new("BBBBBB"),
+						Scale = new(railWidth * 100, dropSpeedTilePerBeat / 0.618d * holdBeat * 100),
+						Tag = $"quartrond_osumania_{guid}_key_{i}_tail",
+						TrackOpacity = 0,
+						Depth = 1,
+						Parallax = new(100, 100),
+						ParallaxOffset = new(offset, positionY + dropSpeedTilePerBeat * dropdownBeat),
+						LockRotation = lockRotation,
+						LockScale = lockScale,
+						PivotOffset = new(0, 0.5d * 0.618d) // evil pivot offset hack
+					});
+
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
+					{
+						Tag = $"quartrond_osumania_{guid}_key_{i}_tail",
+						Duration = dropdownBeat + holdBeat,
+						ParallaxOffset = new(offset, positionY - dropSpeedTilePerBeat * holdBeat),
+						AngleOffset = -180 * dropdownBeat
+					});
+
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
+					{
+						Tag = $"quartrond_osumania_{guid}_key_{i}_tail",
+						Duration = dropdownBeat * 0.2,
+						Scale = new(1.2 * railWidth, 0),
+						ParallaxOffset = new(offset, positionY - 0.5),
+						Opacity = 0,
+						Ease = AdfEaseType.OutQuad,
+						AngleOffset = holdBeat * 180
+					});
+
+					i++;
+				}
+
 			}
 
 			chart.ChartTiles[endTile].TileEvents.Add(new AdfEventMoveDecorations()
@@ -128,6 +182,9 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				Scale = new(poolLineLength * 100 * 0.3, 10),
 				ParallaxOffset = new(positionX, positionY - 0.2)
 			});
+
+
+
 		}
 	}
 }

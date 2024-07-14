@@ -295,7 +295,7 @@ namespace MagicShaper.VfxProjects
 			chart.ModernTrackAppear(266, 307, 4d, 3d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
 			chart.ModernTrackDisappear(266, 307, 4d, 3d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
 
-			var sceneWarehouse = factory.CreateScene(266, 339);
+			var sceneWarehouse = factory.CreateScene(266, 446);
 
 			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MonoElement>().Use("warehouse.png")
 				.AsBackground()
@@ -303,32 +303,79 @@ namespace MagicShaper.VfxProjects
 				.FromFlash(60).ToFlash());
 			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
 			{
-				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
-			}).AsSpan(40, 10, 20, -30, 10, scaleMin: 75, scaleMax: 250)
-				.WithMovement(-50, -10, 30, 80, -90, 90, 64d)
-				.FromVaryingLayer(25, 100, -50, 70, -50, 70, 50, 255, -180, 180)
-				.ToFlyOut(6d));
-			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
-			{
-				"pil1.png", "pil2.png", "pil3.png", "pil4.png"
-			}).AsSpan(6, scaleMin: 150, scaleMax: 700)
-				.WithFloor(xmin: -32, xmax: 8, ymin: -4.5, ymax: -4)
-				.FromVaryingLayer(opacityMin: 50, opacityMax: 100, rgbMin: 150).ToFlyOut(6d));
-
+				"pil1.png", "pil2.png", "pil3.png", "pil4.png", "pil5.png"
+			}).AsSpan(6, scaleMin: 300, scaleMax: 800)
+				.WithFloor(xmin: -32, xmax: 48, ymin: -5, ymax: -3)
+				.WithMovement(5, 20, -3, 3, -1, 1, 128d)
+				.FromVaryingLayer(parallaxXMin: -50, parallaxXMax: 70, opacityMin: 25, opacityMax: 100, rgbMin: 150).ToFlashOut());
 			sceneWarehouse.ApplyTo(chart);
+
+			var sceneWares = factory.CreateScene(266, 445);
+			sceneWares.Elements.Add(sceneWares.CreateElement<MassElement>().Use(new()
+			{
+				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
+			}).AsSpan(100, -30, 60, -30, 20, scaleMin: 50, scaleMax: 350)
+				.WithMovement(-50, -10, 10, 30, -90, 90, 128d)
+				.FromVaryingLayer(25, 100, -50, 70, -50, 70, 50, 255, -180, 180)
+				.ToFlyOut(16d, 5, 20));
+			sceneWares.ApplyTo(chart);
 			
-			var sceneWarehouseSmoke = factory.CreateScene(266, 339);
+			var sceneWarehouseSmoke = factory.CreateScene(266, 445);
 			sceneWarehouseSmoke.Elements.Add(sceneWarehouseSmoke.CreateElement<MassElement>().Use(new()
 			{
 				"smoke1.png"
 			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
-				.WithMovement(-200, -40, 250, 510, 64d)
+				.WithMovement(-200, -40, 250, 510, -45, 45, duration: 128d)
 				.FromVaryingLayer(rgbMin: 0, rgbMax: 140).ToFlashOut());
 			sceneWarehouseSmoke.ApplyTo(chart);
 
 			chart.FloatingTrackBackground(266, 64d, minSize: 75, maxSize: 150, directionMin: 95, directionMax: 125, totalTracks: 50, ymax: 20);
 
 			chart.BlurByBeatOutEase(266, 4, 8d, 4d);
+
+			chart.OsuManiaGimmick(302, 338, 1, 3);
+
+
+			// Part Seven
+			chart.FisheyePulseByBeat(339, 64, 1d, 4d, 48.5);
+			chart.AberrationByBeat(339, 64, 1d, 4d, 45);
+
+			chart.CameraHoverAndTiltToTileTransition(377, -5, 220, 120, 2d, 4d, 0, 3);
+
+			chart.ModernTrackAppear(336, 377, 4d, 3d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
+			chart.ModernTrackDisappear(336, 440, 4d, 3d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
+
+			chart.OsuManiaGimmick(375, 444, 16, 4, 10, 0.618, 0);
+
+
+			// Part Eight
+			var sceneSnowMountain = factory.CreateScene(446, 515);
+			sceneSnowMountain.Elements.Add(sceneSnowMountain.CreateElement<MonoElement>().Use("snow.png")
+				.AsBackground()
+				.WithAutofit(chart)
+				.FromFlash(40).ToFlash());
+			sceneSnowMountain.Elements.Add(sceneSnowMountain.CreateElement<MassElement>().Use(new()
+			{
+				"grass1.png", "grass3.png"
+			}).AsSpan(20, scaleMin: 150, scaleMax: 280)
+				.WithFloor(xmin: -16, xmax: 16, ymin: -7, ymax: -5.5)
+				.FromVaryingLayer().ToFlyOut(6d));
+			sceneSnowMountain.Elements.Add(sceneSnowMountain.CreateElement<MassElement>().Use(new()
+			{
+				"grass2.png"
+			}).AsTileSpan(3, scaleMin: 320, scaleMax: 450, tileXMin: 30, tileXMax: 50)
+				.WithFloor(xmin: -16, xmax: 16, ymin: -7, ymax: -5)
+				.FromVaryingLayer().ToFlyOut(6d, flyY: -3));
+			sceneSnowMountain.ApplyTo(chart);
+
+			var sceneCosmic = factory.CreateScene(446, 515);
+			sceneCosmic.Elements.Add(sceneCosmic.CreateElement<MonoElement>().Use("cosmic.png")
+				.AsForeground()
+				.WithPivotOffset(0, 4).WithParallax(100, 96)
+				.FromFlash().ToFlash());
+			sceneCosmic.ApplyTo(chart);
+
+			chart.CameraRotationPulseByTile(Enumerable.Range(447, 457 - 447).ToList(), -3, 3, 180, 220, 3d);
 
 
 			File.WriteAllText(@"G:\Adofai levels\Next Life\level-vfx.adofai", chart.ChartJson.ToJsonString());
