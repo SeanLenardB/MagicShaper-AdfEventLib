@@ -37,7 +37,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				ParallaxOffset = new(positionX, positionY),
 				LockRotation = lockRotation,
 				LockScale = lockScale,
-				Depth = -1
+				Depth = -5
 			});
 			chart.ChartTiles[startTile].TileEvents.Add(new AdfEventAddObject()
 			{
@@ -137,7 +137,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 						TrackStyle = AdfTrackStyle.Minimal,
 						TrackColor = new("888888"),
 						TrackGlowEnabled = true,
-						TrackGlowColor = new("BBBBBB"),
+						TrackGlowColor = new("AAAAAA"),
 						Scale = new(railWidth * 100, dropSpeedTilePerBeat / 0.618d * holdBeat * 100),
 						Tag = $"quartrond_osumania_{guid}_key_{i}_tail",
 						TrackOpacity = 0,

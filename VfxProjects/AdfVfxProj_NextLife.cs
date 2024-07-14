@@ -67,7 +67,7 @@ namespace MagicShaper.VfxProjects
 			var sceneClouds = factory.CreateScene(1, 70);
 			sceneClouds.Elements.Add(sceneClouds.CreateElement<MassElement>().Use(new()
 			{
-				"smoke1.png"
+				"smoke1.png", "smoke2.png"
 			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
 				.WithMovement(40, 200, 250, 510, 64d)
 				.FromVaryingLayer(rgbMin: 140, rgbMax: 255).ToFlashOut());
@@ -323,7 +323,7 @@ namespace MagicShaper.VfxProjects
 			var sceneWarehouseSmoke = factory.CreateScene(266, 445);
 			sceneWarehouseSmoke.Elements.Add(sceneWarehouseSmoke.CreateElement<MassElement>().Use(new()
 			{
-				"smoke1.png"
+				"smoke1.png", "smoke2.png"
 			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
 				.WithMovement(-200, -40, 250, 510, -45, 45, duration: 128d)
 				.FromVaryingLayer(rgbMin: 0, rgbMax: 140).ToFlashOut());
@@ -368,6 +368,16 @@ namespace MagicShaper.VfxProjects
 				.FromVaryingLayer().ToFlyOut(6d, flyY: -3));
 			sceneSnowMountain.ApplyTo(chart);
 
+			var sceneStar = factory.CreateScene(446, 515);
+			sceneStar.Elements.Add(sceneStar.CreateElement<MassElement>().Use(new()
+			{ 
+				"star1.png", "star2.png", "star3.png" 
+			})
+				.AsSpan(9, -50, 50, 65, 90, 80, 180)
+				.FromVaryingLayer(20, 100, 50, 80, 80, 95, 128, 255, -45, 45)
+				.ToFlashOut());
+			sceneStar.ApplyTo(chart);
+
 			var sceneCosmic = factory.CreateScene(446, 515);
 			sceneCosmic.Elements.Add(sceneCosmic.CreateElement<MonoElement>().Use("cosmic.png")
 				.AsForeground()
@@ -375,8 +385,28 @@ namespace MagicShaper.VfxProjects
 				.FromFlash().ToFlash());
 			sceneCosmic.ApplyTo(chart);
 
+			//var sceneCosmicSmoke = factory.CreateScene(446, 515);
+			//sceneCosmicSmoke.Elements.Add(sceneCosmicSmoke.CreateElement<MassElement>().Use(new()
+			//{
+			//	"smoke1.png", "smoke2.png"
+			//}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
+			//	.WithMovement(-200, -40, 250, 510, -45, 45, duration: 128d)
+			//	.FromVaryingLayer(rgbMin: 128, rgbMax: 255).ToFlashOut());
+			//sceneCosmicSmoke.ApplyTo(chart);
+
+
+
 			chart.CameraRotationPulseByTile(Enumerable.Range(447, 457 - 447).ToList(), -3, 3, 180, 220, 3d);
 
+			chart.OsuManiaGimmick(459, 514, 7, 3, 12, 1, 0.18);
+
+			chart.ModernTrackDisappear(459, 514, 8d, 4d, 1, 2, 1, 1.5, -5, 10, 105, 120);
+
+			// lyrics
+
+#pragma warning disable CA1416 // Validate platform compatibility
+			chart.LyricWithTranslation("lyric.txt", inDuration: 1, outDuration: 1, scale: 50, depthOffset: -100);
+#pragma warning restore CA1416 // Validate platform compatibility
 
 			File.WriteAllText(@"G:\Adofai levels\Next Life\level-vfx.adofai", chart.ChartJson.ToJsonString());
 		}
