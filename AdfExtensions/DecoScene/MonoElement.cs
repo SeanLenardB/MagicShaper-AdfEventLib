@@ -21,6 +21,23 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
+		public MonoElement AsForeground()
+		{
+			OnSceneBegin.Add(new AdfEventAddDecoration()
+			{
+				Floor = TileRange.Item1,
+				DecorationImage = Images[0],
+				Parallax = new(100, 100),
+				Depth = -90,
+				LockRotation = true,
+				LockScale = true,
+				Tag = Tag(),
+				Opacity = 0
+			});
+
+			return this;
+		}
+		
 		public MonoElement AsBackground()
 		{
 			OnSceneBegin.Add(new AdfEventAddDecoration()

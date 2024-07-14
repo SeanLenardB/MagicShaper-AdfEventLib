@@ -5,6 +5,7 @@ using MagicShaper.AdofaiCore.AdfClass;
 using MagicShaper.AdofaiCore.AdfEvents;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,6 @@ namespace MagicShaper.VfxProjects
 					chart.ChartTiles[0].TileEvents[i] = e;
 				}
 			}
-
 
 
 
@@ -93,7 +93,7 @@ namespace MagicShaper.VfxProjects
 				"grass2.png"
 			}).AsTileSpan(3, scaleMin: 150, scaleMax: 350, tileXMin: 30, tileXMax: 50)
 				.WithFloor(xmin: -16, xmax: 16, ymin: -4, ymax: -2)
-				.FromVaryingLayer().ToFlyOut(6d));
+				.FromVaryingLayer().ToFlyOut(6d, flyY: -3));
 			sceneGrass.ApplyTo(chart);
 
 
@@ -136,10 +136,10 @@ namespace MagicShaper.VfxProjects
 			}
 
 			chart.TrackDisappearExplosion(listOfLineTileEnd, 6d, 0.25, yBias: 5, m: 0.3);
-			chart.SetLineTrackStyle(71, 80, 50, 130, 100, tag: "quartrond_linetrack_1");
-			chart.SetLineTrackStyle(81, 90, 50, 130, 100, tag: "quartrond_linetrack_2");
-			chart.SetLineTrackStyle(91, 97, 50, 130, 100, tag: "quartrond_linetrack_3");
-			chart.SetLineTrackStyle(98, 106, 50, 130, 100, tag: "quartrond_linetrack_4");
+			chart.SetLineTrackStyle(71, 80, 50, 130, 180, tag: "quartrond_linetrack_1");
+			chart.SetLineTrackStyle(81, 90, 50, 130, 180, tag: "quartrond_linetrack_2");
+			chart.SetLineTrackStyle(91, 97, 50, 130, 180, tag: "quartrond_linetrack_3");
+			chart.SetLineTrackStyle(98, 106, 50, 130, 180, tag: "quartrond_linetrack_4");
 #pragma warning restore CA1416 // Validate platform compatibility
 
 			chart.BlurByBeatOutEase(80, 1, 8d, 6d);
@@ -154,7 +154,7 @@ namespace MagicShaper.VfxProjects
 
 
 			// Part Three
-			chart.TrackAppearExplosion(new() { 169, 188 }, 4d, 20d, 100, 500, 0.2); // this is for big track not to appear to soon.
+			chart.TrackAppearExplosion(new() { 169, 172 }, 4d, 4d, 100, 500, 0.2); // this is for big track not to appear to soon.
 			chart.TrackDisappearExplosion(new() { 169 }, 4d, xBias: 10, yBias: 3, m: 0.5);
 
 			chart.OsuManiaGimmick(104, 169);
@@ -168,18 +168,169 @@ namespace MagicShaper.VfxProjects
 			sceneSpace.Elements.Add(sceneSpace.CreateElement<MonoElement>().Use("space.png")
 				.AsBackground()
 				.WithAutofit(chart)
-				.FromFlash(25).ToFlash());
+				.FromFlash(20).ToFlash());
 			sceneSpace.Elements.Add(sceneSpace.CreateElement<MassElement>().Use(new()
 			{
-				"space1.png", "space2.png", "space3.png", "space4.png", "space5.png", "space6.png", "space7.png", "space8.png"
-			}).AsSpan(20, -100, 100, -50, 100, 550, 800)
-				.FromVaryingLayer(0, 75, -50, 80, -50, 80, 128, 255).ToFlashOut());
+				"space1.png", "space2.png", "space3.png", "space4.png", "space5.png", "space6.png", "space7.png", "space8.png",
+				"space9.png", "space10.png", "space11.png", "space12.png"
+			}).AsSpan(25, -110, 60, -160, 80, 250, 1000)
+				.WithMovement(10, 30, 30, 80, -90, 90, 64d) // This is for part five as well
+				.FromVaryingLayer(40, 90, -80, 80, -80, 80, 32, 255, -180, 180).ToFlashOut());
 			sceneSpace.ApplyTo(chart);
 
-			chart.CameraRotationPulseByTile(Enumerable.Range(170, 201).ToList(), -5, 5, 680, 750, 4d);
-			chart.FisheyePulseByTile(Enumerable.Range(170, 201).ToList(), 4d, 48);
+			chart.CameraRotationPulseByTile(Enumerable.Range(170, 202 - 170).ToList(), -5, 5, 680, 750, 4d);
+			chart.FisheyePulseByTile(Enumerable.Range(170, 202 - 170).ToList(), 4d, 47.5);
+			chart.AberrationByTile(Enumerable.Range(170, 202 - 170).ToList(), 4d, 45);
+
+			chart.ModernTrackAppear(172, 203, 4d, 6d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60, endScale: 500);
+			chart.ModernTrackDisappear(172, 203, 4d, 0d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
+
+			var sceneSunraySpace = factory.CreateScene(170, 266);
+			sceneSunraySpace.Elements.Add(sceneSunraySpace.CreateElement<MonoElement>().Use("light.png")
+				.AsForeground()
+				.WithScale(230).WithParallaxOffset(0, -3.5)
+				.FromFlash().ToFlash());
+
+			sceneSunraySpace.ApplyTo(chart);
+
+
+
+			// Part Five
+			double distance = 3d;
+			for (int i = 206; i < 265; i++)
+			{
+				if (chart.ChartTiles[i].TargetAngle != 999)
+				{
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventRecolorTrack()
+					{
+						TrackStyle = AdfTrackStyle.Gems,
+						TrackColor = new("000000FF"),
+						TrackGlowIntensity = 0,
+						AngleOffset = -114513
+					});
+				}
+				else
+				{
+					chart.CameraRotationPulseByTile(new() { i }, -5, 5, 250, 300, 4d);
+					chart.FisheyePulseByTile(new() { i }, 4d, 46.5);
+					chart.AberrationByTile(new() { i }, 4d, 40);
+
+
+					double yOffset = 0;
+					double xOffset = 0;
+
+					switch (chart.ChartTiles[i - 1].TargetAngle)
+					{
+						case 0:
+							xOffset = distance; break;
+						case 90:
+							yOffset = distance; break;
+						case 180:
+							xOffset = -distance; break;
+						case 270:
+							yOffset = -distance; break;
+						default:
+                            Console.WriteLine("WTF?"); break;
+                    }
+
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventRecolorTrack()
+					{
+						Duration = 0d,
+						TrackStyle = AdfTrackStyle.Minimal,
+						TrackColor = new("FFFFFF"),
+						AngleOffset = -114518
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+					{
+						Duration = 0,
+						AngleOffset = -114515,
+						Opacity = 0,
+						Scale = new(100),
+						PositionOffset = new(xOffset * 3, yOffset * 3)
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+					{
+						Duration = 1d,
+						AngleOffset = -180 * 4,
+						Opacity = 100,
+						Ease = AdfEaseType.OutSine
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+					{
+						Duration = 4d,
+						AngleOffset = -180 * 4 - 0.0001,
+						PositionOffset = new(0, 0),
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+					{
+						Duration = 2d,
+						AngleOffset = -180 * 4 - 0.0002,
+						Scale = new(300),
+						Ease = AdfEaseType.OutSine
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+					{
+						Duration = 1d,
+						Opacity = 0,
+						PositionOffset = new(xOffset * 0.2, yOffset * 0.2),
+						Scale = new(200),
+						Ease = AdfEaseType.OutCirc
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventRecolorTrack()
+					{
+						Duration = 0d,
+						TrackStyle = AdfTrackStyle.Minimal,
+						TrackColor = new("0689CFFF")
+					});
+				}
+			}
+			chart.TrackDisappearExplosion(new() { 206 }, 4d, failProof: 3, xBias: 10, yBias: 3, m: 0.5);
+
+			chart.ModernTrackAppear(265, 266, 4d, 2d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60, endScale: 500);
+
+			chart.CameraHoverAndTiltToTileTransition(206, -5, 300, 180, 2d, 2d);
+
+
+			// Part Six
+			chart.ModernTrackAppear(266, 307, 4d, 3d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
+			chart.ModernTrackDisappear(266, 307, 4d, 3d, ymin: 5, ymax: 10, smin: 120, smax: 150, angleOffsetVariationProportion: 60);
+
+			var sceneWarehouse = factory.CreateScene(266, 339);
+
+			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MonoElement>().Use("warehouse.png")
+				.AsBackground()
+				.WithAutofit(chart)
+				.FromFlash(60).ToFlash());
+			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
+			{
+				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
+			}).AsSpan(40, 10, 20, -30, 10, scaleMin: 75, scaleMax: 250)
+				.WithMovement(-50, -10, 30, 80, -90, 90, 64d)
+				.FromVaryingLayer(25, 100, -50, 70, -50, 70, 50, 255, -180, 180)
+				.ToFlyOut(6d));
+			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
+			{
+				"pil1.png", "pil2.png", "pil3.png", "pil4.png"
+			}).AsSpan(6, scaleMin: 150, scaleMax: 700)
+				.WithFloor(xmin: -32, xmax: 8, ymin: -4.5, ymax: -4)
+				.FromVaryingLayer(opacityMin: 50, opacityMax: 100, rgbMin: 150).ToFlyOut(6d));
+
+			sceneWarehouse.ApplyTo(chart);
 			
-			
+			var sceneWarehouseSmoke = factory.CreateScene(266, 339);
+			sceneWarehouseSmoke.Elements.Add(sceneWarehouseSmoke.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png"
+			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
+				.WithMovement(-200, -40, 250, 510, 64d)
+				.FromVaryingLayer(rgbMin: 0, rgbMax: 140).ToFlashOut());
+			sceneWarehouseSmoke.ApplyTo(chart);
+
+			chart.FloatingTrackBackground(266, 64d, minSize: 75, maxSize: 150, directionMin: 95, directionMax: 125, totalTracks: 50, ymax: 20);
+
+			chart.BlurByBeatOutEase(266, 4, 8d, 4d);
+
+
 			File.WriteAllText(@"G:\Adofai levels\Next Life\level-vfx.adofai", chart.ChartJson.ToJsonString());
 		}
 

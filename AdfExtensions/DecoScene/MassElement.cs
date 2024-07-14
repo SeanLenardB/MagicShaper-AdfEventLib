@@ -158,7 +158,8 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
-		public MassElement WithMovement(double xmin = 100, double xmax = 150, double ymin = 200, double ymax = 300, double duration = 32d)
+		public MassElement WithMovement(double xmin = 100, double xmax = 150, double ymin = 200, double ymax = 300,
+			double rotationMin = -2, double rotationMax = 2, double duration = 32d)
 		{
 			Random random = new();
 
@@ -168,7 +169,8 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				{
 					Tag = Tag(i),
 					Duration = duration,
-					PositionOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin)
+					PositionOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
+					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
 				});
 			}
 
@@ -194,7 +196,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public MassElement FromVaryingLayer(double opacityMin = 50, double opacityMax = 100,
 			double parallaxXMin = 85, double parallaxXMax = 95, double parallaxYMin = 95, double parallaxYMax = 98,
-			double rgbMin = 0, double rgbMax = 255)
+			double rgbMin = 0, double rgbMax = 255, double rotationMin = -2, double rotationMax = 2)
 		{
 			Random random = new();
 
@@ -214,6 +216,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Opacity = frontToBack * (opacityMax - opacityMin) + opacityMin,
 					Parallax = new(frontToBack * (parallaxXMax - parallaxXMin) + parallaxXMin, frontToBack * (parallaxYMax - parallaxYMin) + parallaxYMin),
 					Depth = (int)(-20 + 40 * frontToBack),
+					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
 				});
 			}
 
