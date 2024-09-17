@@ -71,5 +71,56 @@ namespace MagicShaper.AdfExtensions
 				return BpmLookupTable[tileIndex];
 			}
 		}
+
+
+		private static Dictionary<int, bool> IsLHSTable = new();
+
+		public static bool GetIsLHSAt(this AdfChart chart, int tileIndex)
+		{
+			try
+			{
+				return IsLHSTable[tileIndex];
+			}
+			catch
+			{
+				IsLHSTable = new();
+				chart.RecalcLHS();
+				return IsLHSTable[tileIndex];
+			}
+		}
+
+		/// <summary>
+		/// use this only when you have modified any <see cref="AdfEventTwirl"></see>
+		/// and want all lhs/rhs refreshed
+		/// </summary>
+		/// <param name="chart"></param>
+		/// <param name="tileIndex"></param>
+		/// <returns></returns>
+		public static void RecalcLHS(this AdfChart chart)
+		{
+			IsLHSTable = new();
+
+			for (int tileIndex = 0; tileIndex < chart.ChartTiles.Count; tileIndex++)
+			{
+				AdfTile tile = chart.ChartTiles[tileIndex];
+
+				if (tile.IsFirstTile)
+				{
+					IsLHSTable.Add(tileIndex, true);
+					continue;
+				}
+
+				IsLHSTable.Add(tileIndex, IsLHSTable[tileIndex - 1]);
+				foreach (var e in tile.TileEvents)
+				{
+					if (e is AdfEventTwirl)
+					{
+						IsLHSTable[tileIndex] = !IsLHSTable[tileIndex - 1];
+						break;
+					}
+				}
+			}
+
+		}
 	}
 }

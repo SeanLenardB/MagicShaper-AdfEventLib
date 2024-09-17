@@ -3,6 +3,7 @@ using MagicShaper.AdofaiCore.AdfEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,36 @@ namespace MagicShaper.AdfExtensions
 						Zoom = maxZoom,
 						Duration = pulseTime,
 						Ease = AdfEaseType.OutCubic
+					});
+			}
+		}
+		public static void CameraRotationPulseByBeats(
+			this AdfChart chart, int tile,
+			double intervalBeats, int repeats,
+			double minRotation, double maxRotation,
+			double minZoom, double maxZoom,
+			double pulseTime)
+		{
+			Random random = new();
+			for (int i = 0; i < repeats; i++)
+			{
+				chart.ChartTiles[tile].TileEvents.Add(
+					new AdfEventMoveCamera()
+					{
+						Rotation = (random.NextDouble() > 0.5d ? 1d : -1d) 
+							* (random.NextDouble() * (maxRotation - minRotation) + minRotation),
+						Duration = 0d,
+						Zoom = random.NextDouble() * (maxZoom - minZoom) + minZoom,
+						AngleOffset = -0.01d + i * intervalBeats * 180d
+					});
+				chart.ChartTiles[tile].TileEvents.Add(
+					new AdfEventMoveCamera()
+					{
+						Rotation = 0d,
+						Zoom = maxZoom,
+						Duration = pulseTime,
+						Ease = AdfEaseType.OutCubic,
+						AngleOffset = i * intervalBeats * 180d
 					});
 			}
 		}

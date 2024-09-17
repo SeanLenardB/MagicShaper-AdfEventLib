@@ -139,6 +139,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				Tag = Tag(),
 				Duration = 0d,
 				Opacity = opacity,
+				AngleOffset = -0.001
 			});
 
 			return this;

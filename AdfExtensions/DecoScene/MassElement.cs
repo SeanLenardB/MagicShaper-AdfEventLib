@@ -149,11 +149,17 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public MassElement WithVaryingDepth(int depthMin = -20, int depthMax = 20)
 		{
-			OnSceneBegin.Add(new AdfEventMoveDecorations() {
-				Tag = Tag(),
-				Duration = 0d,
-				Depth = new Random().Next(depthMin, depthMax),
-			});
+			Random random = new();
+
+			for (int i = 0; i < _totalAmount; i++)
+			{
+				OnSceneBegin.Add(new AdfEventMoveDecorations()
+				{
+					Tag = Tag(i),
+					Duration = 0d,
+					Depth = random.Next(depthMin, depthMax),
+				});
+			}
 
 			return this;
 		}
@@ -177,6 +183,39 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MassElement WithFlashingOnBeat(double proportion = 0.145, double durationInterval = 2d, double flashDuration = 8d, int repeat = 32,
+			string flashingColor = "FFFFFF", string normalColor = "000000")
+		{
+			Random random = new();
+
+			for (int i = 0; i < repeat; i++)
+			{
+				for (int j = 0; j < _totalAmount; j++)
+				{
+					if (random.NextDouble() < proportion)
+					{
+						OnSceneBegin.Add(new AdfEventMoveDecorations()
+						{
+							Tag = Tag(j),
+							Duration = 0,
+							Color = new AdfColor(flashingColor),
+							AngleOffset = i * durationInterval * 180d - 0.001d
+						});
+						OnSceneBegin.Add(new AdfEventMoveDecorations()
+						{
+							Tag = Tag(j),
+							Duration = flashDuration,
+							Color = new AdfColor(normalColor),
+							AngleOffset = i * durationInterval * 180d,
+							Ease = AdfEaseType.OutExpo
+						});
+					}
+				}
+			}
+
+			return this;
+		}
+
 
 
 
@@ -189,6 +228,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				Tag = Tag(),
 				Duration = 0d,
 				Opacity = 100,
+				AngleOffset = -0.001
 			});
 
 			return this;
@@ -218,6 +258,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Opacity = frontToBack * (opacityMax - opacityMin) + opacityMin,
 					Parallax = new(frontToBack * (parallaxXMax - parallaxXMin) + parallaxXMin, frontToBack * (parallaxYMax - parallaxYMin) + parallaxYMin),
 					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
+					AngleOffset = -0.001
 				});
 			}
 
