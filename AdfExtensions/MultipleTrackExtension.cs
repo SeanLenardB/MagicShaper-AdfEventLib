@@ -87,6 +87,7 @@ namespace MagicShaper.AdfExtensions
 
 				AdfTrackIcon icon = AdfTrackIcon.None;
 				bool hasTwirl = false;
+				bool isRedTwirl = false;
 				double speedTimes = 1;
 				foreach (var e in chart.ChartTiles[startTile + i].TileEvents)
 				{
@@ -98,7 +99,24 @@ namespace MagicShaper.AdfExtensions
 				else if (speedTimes <= 0.25) { icon = AdfTrackIcon.DoubleSnail; }
 				else if (speedTimes >= 1.05) { icon = AdfTrackIcon.Rabbit; }
 				else if (speedTimes <= 0.95) { icon = AdfTrackIcon.Snail; }
-				else if (hasTwirl) { icon = AdfTrackIcon.Swirl; }
+				else if (hasTwirl) {
+					icon = AdfTrackIcon.Swirl;
+					if (chart.GetIsLHSAt(i + startTile))
+
+					{
+						if (p - 180d < t && t <= p || p + 180d < t)
+						{
+							isRedTwirl = true;
+						}
+					}
+					else
+					{
+						if (p <= t && t < p + 180d || t < p - 180d)
+						{
+							isRedTwirl = true;
+						}
+					}
+				}
 
 				chart.ChartTiles[startTile].TileEvents.Add(new AdfEventAddObject()
 				{
@@ -114,7 +132,10 @@ namespace MagicShaper.AdfExtensions
 					Scale = new((100 - parallaxX) * scale / 100d),
 					TrackStyle = style,
 					Tag = $"quartrond_multipleTrack_{gid}",
-					TrackIcon = icon
+					TrackIcon = icon,
+					TrackRedSwirl = isRedTwirl,
+					TrackIconAngle = rotation + chart.GetInnerAngleAtTile(startTile + i) + 180d,
+					Depth = 1145 + i
 				});
 			}
 

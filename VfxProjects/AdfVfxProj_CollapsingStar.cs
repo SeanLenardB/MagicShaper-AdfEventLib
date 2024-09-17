@@ -86,11 +86,62 @@ namespace MagicShaper.VfxProjects
 				-8, 8, 200, 250, 16d);
 
 
-			chart.MultipleTrack(235, 411, 10, -9, 3, "AAAAAA", 90, 200, 80, 80, AdfTrackStyle.NeonLight);
-			chart.MultipleTrack(235, 411, 9, 8, 5, "FFFFFF", 80, 200, 50, 70, AdfTrackStyle.NeonLight);
-			chart.MultipleTrack(235, 411, -1, -5, -3, "666666", 30, 200, -10, -30, AdfTrackStyle.NeonLight);
-			chart.MultipleTrack(235, 411, 8, 1, 1, "999999", 50, 200, 50, 60, AdfTrackStyle.NeonLight);
+			chart.MultipleTrack(235, 579, 10, -9, -8, "AAAAAA", 90, 200, 80, 80, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, 9, 8, -10, "FFFFFF", 80, 200, 50, 70, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, -1, -5, -3, "666666", 30, 200, -10, -30, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, 8, 1, -5, "999999", 50, 200, 50, 60, AdfTrackStyle.Neon);
 
+			chart.ModernTrackAppear(235, 579, 4d, 2d, 5, 7, 2, 3, -30, -15, 120, 145, endOpacity: 500);
+			Random random = new();
+			for (int i = 235; i < 579; i++)
+			{
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 340 * 4d,
+					Opacity = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					PositionOffset = new(random.NextDouble() * 10 - 5, random.NextDouble() * 2),
+					RotationOffset = random.NextDouble() * 45 - 45,
+					Opacity = 100,
+					Duration = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 340 * (6 * 180)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventRecolorTrack()
+				{
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					TrackColor = new("FFABAB"),
+					TrackGlowIntensity = 0,
+					TrackStyle = AdfTrackStyle.NeonLight,
+					AngleOffset = chart.GetTileBpmAt(i) / 340 * (6 * 180 + 0.00001)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 340 * (random.NextDouble() * 6d + 4d),
+					RotationOffset = 0,
+					Opacity = 250,
+					Ease = AdfEaseType.OutBack,
+					PositionOffset = new(0, 0),
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 340 * (6 * 180 + 0.00001)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 340 * 4d,
+					Ease = AdfEaseType.OutQuad,
+					Opacity = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 340 * (12 * 180)
+				});
+			}
 			File.WriteAllText(@"G:\Adofai levels\CollapsingStar\CollapsingStar\level-effect.adofai", chart.ChartJson.ToJsonString());
 		}
 	}
