@@ -25,7 +25,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		{
 			OnSceneBegin.Add(new AdfEventAddDecoration()
 			{
-				Floor = TileRange.Item1,
+				Floor = 0,
 				DecorationImage = Images[0],
 				Parallax = new(100, 100),
 				Depth = -90,
@@ -42,7 +42,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		{
 			OnSceneBegin.Add(new AdfEventAddDecoration()
 			{
-				Floor = TileRange.Item1,
+				Floor = 0,
 				DecorationImage = Images[0],
 				Parallax = new(100, 100),
 				Depth = 90,

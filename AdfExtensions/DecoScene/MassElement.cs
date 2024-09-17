@@ -43,7 +43,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 				OnSceneBegin.Add(new AdfEventAddDecoration()
 				{
-					Floor = TileRange.Item1,
+					Floor = 0,
 					DecorationImage = Images[0],
 					Tag = Tag() + Tag(i),
 					Opacity = 0,
@@ -69,7 +69,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			{
 				OnSceneBegin.Add(new AdfEventAddDecoration()
 				{
-					Floor = TileRange.Item1,
+					Floor = 0,
 					Tag = Tag() + Tag(i),
 					DecorationImage = RandomImage(),
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
@@ -96,7 +96,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 				int ytile = random.Next(tileYMin, tileYMax);
 				OnSceneBegin.Add(new AdfEventAddDecoration()
 				{
-					Floor = TileRange.Item1,
+					Floor = 0,
 					Tag = Tag() + Tag(i),
 					DecorationImage = RandomImage(),
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
@@ -207,6 +207,8 @@ namespace MagicShaper.AdfExtensions.DecoScene
 														  // back has whiter, clearer, more opaque, more parallax image.
 														  // front is negative depth, back is positive.
 
+				
+
 				OnSceneBegin.Add(new AdfEventMoveDecorations()
 				{
 					Tag = Tag(i),
@@ -215,7 +217,6 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					{ R = (byte)(frontToBack * (rgbMax - rgbMin) + rgbMin), G = (byte)(frontToBack * (rgbMax - rgbMin) + rgbMin), B = (byte)(frontToBack * (rgbMax - rgbMin) + rgbMin) },
 					Opacity = frontToBack * (opacityMax - opacityMin) + opacityMin,
 					Parallax = new(frontToBack * (parallaxXMax - parallaxXMin) + parallaxXMin, frontToBack * (parallaxYMax - parallaxYMin) + parallaxYMin),
-					Depth = (int)(-20 + 40 * frontToBack),
 					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
 				});
 			}

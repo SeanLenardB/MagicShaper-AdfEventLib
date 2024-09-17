@@ -12,8 +12,7 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		// AdfVfxProj_EverlastingStars.ProjMain();
-		AdfVfxProj_NextLife.ProjMain();
+		AdfVfxProj_CollapsingStar.ProjMain();
 
 	}
 

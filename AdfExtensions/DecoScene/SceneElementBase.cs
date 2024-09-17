@@ -10,8 +10,6 @@ namespace MagicShaper.AdfExtensions.DecoScene
 {
 	internal abstract class SceneElementBase : ISceneElement
 	{
-		public Tuple<int, int> TileRange { get; set; } = new(0, 0);
-
 		public int SceneId { get; set; } = -1;
 
 		public string Guid { get; set; } = "";
