@@ -86,10 +86,12 @@ namespace MagicShaper.VfxProjects
 				-8, 8, 200, 250, 16d);
 
 
-			chart.MultipleTrack(235, 579, 10, -9, -8, "AAAAAA", 90, 200, 80, 80, AdfTrackStyle.Neon);
-			chart.MultipleTrack(235, 579, 9, 8, -10, "FFFFFF", 80, 200, 50, 70, AdfTrackStyle.Neon);
-			chart.MultipleTrack(235, 579, -1, -5, -3, "666666", 30, 200, -10, -30, AdfTrackStyle.Neon);
-			chart.MultipleTrack(235, 579, 8, 1, -5, "999999", 50, 200, 50, 60, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, 10, -9, "AAAAAA", 90, 200, 80, 80, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, -9, -2, "FFFFFF", 80, 200, 50, 70, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, -1, -4, "666666", 30, 200, -10, -30, AdfTrackStyle.Neon);
+			chart.MultipleTrack(235, 579, 8, -1, "999999", 50, 200, 50, 60, AdfTrackStyle.Neon);
+
+			chart.MultipleTrack(235, 579, -0.8, -0.1, "FFFFFF", 30, 100, 0.0001, 0.0001, AdfTrackStyle.Minimal);
 
 			chart.ModernTrackAppear(235, 579, 4d, 2d, 5, 7, 2, 3, -30, -15, 120, 145, endOpacity: 500);
 			Random random = new();
@@ -142,6 +144,28 @@ namespace MagicShaper.VfxProjects
 					AngleOffset = chart.GetTileBpmAt(i) / 340 * (12 * 180)
 				});
 			}
+
+			chart.AberrationByTile(Enumerable.Range(237, 721 - 237).Where(i => chart.GetInnerAngleAtTile(i) == 30).ToList(), 8d, 45);
+			chart.FisheyePulseByTile(Enumerable.Range(237, 721 - 237).Where(i => chart.GetInnerAngleAtTile(i) == 30).ToList(), 6d, 48.5);
+
+			chart.CameraRotationPulseByBeats(411, 4d, 6, -15, 15, 140, 200, 4d);
+
+			chart.CameraRotationPulseByTile(Enumerable.Range(435, 721 - 435)
+				.Where(i => chart.GetInnerAngleAtTile(i) <= 90 && (i < 484 || i > 494)).ToList(),
+				-7, 7, 150, 200, 4d);
+
+
+
+			var sceneCave = factory.CreateScene();
+
+			sceneCave.Elements.Add(sceneCave.CreateElement<MonoElement>().Use("cave.png").AsBackground()
+				.WithAutofit(chart).FromFlash(20).ToFlash());
+
+			sceneCave.ApplyTo(chart, 235, 579);
+
+
+
+
 			File.WriteAllText(@"G:\Adofai levels\CollapsingStar\CollapsingStar\level-effect.adofai", chart.ChartJson.ToJsonString());
 		}
 	}

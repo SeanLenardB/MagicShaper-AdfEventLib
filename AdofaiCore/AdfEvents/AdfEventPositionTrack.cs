@@ -16,11 +16,11 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public AdfTileReference RelativeTo { get; set; } = new(0, AdfTileReferenceType.ThisTile);
 
-		public double Rotation { get; set; } = 0d;
+		public double? Rotation { get; set; } = null;
 
-		public double Scale { get; set; } = 100d;
+		public double? Scale { get; set; } = null;
 
-		public double Opacity { get; set; } = 100d;
+		public double? Opacity { get; set; } = null;
 
 		public bool JustThisTile { get; set; } = false;
 

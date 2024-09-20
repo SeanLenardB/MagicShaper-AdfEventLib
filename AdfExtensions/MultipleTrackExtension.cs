@@ -11,7 +11,7 @@ namespace MagicShaper.AdfExtensions
 {
 	internal static class MultipleTrackExtension
 	{
-		public static void MultipleTrack(this AdfChart chart, int startTile, int endTile, int depth = 10,
+		public static void MultipleTrack(this AdfChart chart, int startTile, int endTile,
 			double x = 10, double y = 6, string color = "FFFFFF", double opacity = 50, double scale = 100,
 			double parallaxX = 50, double parallaxY = 30, AdfTrackStyle style = AdfTrackStyle.Minimal)
 		{

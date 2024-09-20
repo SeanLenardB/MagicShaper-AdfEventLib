@@ -50,7 +50,6 @@ namespace MagicShaper.AdfExtensions
 				if (BpmLookupTable.ContainsKey(tileIndex)) { continue; }
 
 				BpmLookupTable.Add(tileIndex, chart.GetTileBpmAt(tileIndex - 1));
-                Console.WriteLine($"Recalculation progress {tileIndex} / {chart.ChartTiles.Count}");
             }
 			Console.WriteLine("[TileInformationExtension] Recalculated Tile Bpm");
 
