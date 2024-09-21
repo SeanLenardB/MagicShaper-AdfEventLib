@@ -1,5 +1,6 @@
 ﻿using MagicShaper.AdfExtensions;
 using MagicShaper.AdfExtensions.DecoScene;
+using MagicShaper.AdfExtensions.Gimmicks;
 using MagicShaper.AdofaiCore.AdfClass;
 using MagicShaper.AdofaiCore.AdfEvents;
 using System;
@@ -161,9 +162,55 @@ namespace MagicShaper.VfxProjects
 			sceneCave.Elements.Add(sceneCave.CreateElement<MonoElement>().Use("cave.png").AsBackground()
 				.WithAutofit(chart).FromFlash(20).ToFlash());
 
-			sceneCave.ApplyTo(chart, 235, 579);
+			sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png", "smoke2.png"
+			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
+				.WithMovement(40, 200, 350, 510, duration: 512d)
+				.FromVaryingLayer(20, 50, rgbMin: 140, rgbMax: 255).ToFlashOut());
+
+			sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
+			{
+				"cave1.png",
+				"cave2.png",
+				"cave3.png",
+				"cave4.png",
+				"cave5.png",
+				"cave6.png",
+				"cave7.png",
+				"cave8.png",
+			}).AsSpan(5, -80, -50, -10, -6, 500, 1000)
+			.FromVaryingLayer(30, 80, 50, 90, 90, 100, 50, 150, -3, 3)
+			.ToFlashOut());
+
+			sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
+			{
+				"cave1.png",
+				"cave2.png",
+				"cave3.png",
+				"cave4.png",
+				"cave5.png",
+				"cave6.png",
+				"cave7.png",
+				"cave8.png",
+			}).AsSpan(5, 50, 80, -10, -6, 500, 1000)
+			.FromVaryingLayer(30, 80, 50, 90, 90, 100, 50, 150, -3, 3)
+			.ToFlashOut());
+
+			sceneCave.ApplyTo(chart, 235, 729);
 
 
+
+
+#pragma warning disable CA1416 // Validate platform compatibility
+			chart.SetLineTrackStyle(579, 611, 50, 130);
+			chart.SetLineTrackStyle(619, 658, 50, 130);
+			chart.SetLineTrackStyle(660, 692, 50, 130);
+			chart.SetLineTrackStyle(700, 729, 50, 130);
+#pragma warning restore CA1416 // Validate platform compatibility
+
+			chart.FloatingTrackBackground(579, 256, "000000", 514, 50, 200,
+				0.6, 1.5, 80, 100, -150, 150, -150, -50);
 
 
 			File.WriteAllText(@"G:\Adofai levels\CollapsingStar\CollapsingStar\level-effect.adofai", chart.ChartJson.ToJsonString());
