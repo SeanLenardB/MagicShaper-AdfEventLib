@@ -16,7 +16,7 @@ namespace MagicShaper.AdfExtensions
 	internal static class TrackStyleExtension
 	{
 		public static void SetLineTrackStyle(this AdfChart chart, int start, int end,
-			double yScale = 300d, double nodeScale = 130d, double twirlNodeScale = 200d, bool hideTrack = true, string tag = "")
+			double yScale = 300d, double nodeScale = 130d, double twirlNodeScale = 200d, bool hideTrack = true, string tag = "", bool hideLineAtEnd = false)
 		{
 			if (hideTrack)
 			{
@@ -117,6 +117,15 @@ namespace MagicShaper.AdfExtensions
 					Color = nodeColor, 
 					Tag = tag
 				});
+				if (hideLineAtEnd)
+				{
+					chart.ChartTiles[end].TileEvents.Add(new AdfEventMoveDecorations()
+					{
+						Opacity = 0,
+						Duration = 0,
+						Tag = tag,
+					});
+				}
 			}
 		}
 

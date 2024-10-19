@@ -22,6 +22,19 @@ namespace MagicShaper.VfxProjects
 
 			DecoScene.DecoSceneFactory factory = new();
 
+
+
+			var sceneSmoke = factory.CreateScene();
+
+			sceneSmoke.Elements.Add(sceneSmoke.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png", "smoke2.png"
+			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
+				.WithMovement(40, 200, 350, 510, duration: 1024d)
+				.FromVaryingLayer(20, 50, rgbMin: 140, rgbMax: 255).ToFlashOut());
+
+
+
 			var sceneVolcano = factory.CreateScene();
 
 			sceneVolcano.Elements.Add(sceneVolcano.CreateElement<MonoElement>().Use("volcano.png").AsBackground()
@@ -33,17 +46,10 @@ namespace MagicShaper.VfxProjects
 
 			sceneVolcano.Elements.Add(sceneVolcano.CreateElement<MassElement>().Use(new()
 			{
-				"smoke1.png", "smoke2.png"
-			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
-				.WithMovement(40, 200, 250, 510, duration: 64d)
-				.FromVaryingLayer(20, 50, rgbMin: 140, rgbMax: 255).ToFlashOut());
-
-			sceneVolcano.Elements.Add(sceneVolcano.CreateElement<MassElement>().Use(new()
-			{
 				"shard1.png", "shard2.png", "shard3.png", "shard4.png", "shard5.png", "shard6.png", "shard7.png", "shard8.png"
 			}).AsSpan(70, -300, 300, -400, 400, 30, 300)
 			.WithMovement(-20, 20, 100, 150, -100, 100, 64d)
-			.WithFlashingOnBeat(0.514, durationInterval: 4)
+			.WithFlashingOnBeat(0.618, durationInterval: 2)
 			.FromVaryingLayer(0, 75, rgbMin: 0, rgbMax: 0).ToFlashOut());
 
 			sceneVolcano.ApplyTo(chart, 1, 235);
@@ -59,6 +65,7 @@ namespace MagicShaper.VfxProjects
 				{
 					if (e is AdfEventSetSpeed se)
 					{
+						if (Math.Abs(se.BpmMultiplier - 1) < 0.1) { break; }
 						flag = se.BpmMultiplier > 1 ? 1 : 2; break;
 					}
 				}
@@ -157,60 +164,119 @@ namespace MagicShaper.VfxProjects
 
 
 
+
+
+
 			var sceneCave = factory.CreateScene();
 
 			sceneCave.Elements.Add(sceneCave.CreateElement<MonoElement>().Use("cave.png").AsBackground()
 				.WithAutofit(chart).FromFlash(20).ToFlash());
 
-			sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
-			{
-				"smoke1.png", "smoke2.png"
-			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
-				.WithMovement(40, 200, 350, 510, duration: 512d)
-				.FromVaryingLayer(20, 50, rgbMin: 140, rgbMax: 255).ToFlashOut());
+			//sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
+			//{
+			//	"cave1.png",
+			//	"cave2.png",
+			//	"cave3.png",
+			//	"cave4.png",
+			//	"cave5.png",
+			//	"cave6.png",
+			//	"cave7.png",
+			//	"cave8.png",
+			//}).AsSpan(5, -100, -80, -10, -6, 500, 1000)
+			//.FromVaryingLayer(30, 80, 50, 90, 90, 100, 50, 150, -3, 3)
+			//.ToFlashOut());
 
-			sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
-			{
-				"cave1.png",
-				"cave2.png",
-				"cave3.png",
-				"cave4.png",
-				"cave5.png",
-				"cave6.png",
-				"cave7.png",
-				"cave8.png",
-			}).AsSpan(5, -80, -50, -10, -6, 500, 1000)
-			.FromVaryingLayer(30, 80, 50, 90, 90, 100, 50, 150, -3, 3)
-			.ToFlashOut());
+			//sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
+			//{
+			//	"cave1.png",
+			//	"cave2.png",
+			//	"cave3.png",
+			//	"cave4.png",
+			//	"cave5.png",
+			//	"cave6.png",
+			//	"cave7.png",
+			//	"cave8.png",
+			//}).AsSpan(5, 80, 100, -10, -6, 500, 1000)
+			//.FromVaryingLayer(30, 80, 50, 90, 90, 100, 50, 150, -3, 3)
+			//.ToFlashOut());
 
-			sceneCave.Elements.Add(sceneCave.CreateElement<MassElement>().Use(new()
-			{
-				"cave1.png",
-				"cave2.png",
-				"cave3.png",
-				"cave4.png",
-				"cave5.png",
-				"cave6.png",
-				"cave7.png",
-				"cave8.png",
-			}).AsSpan(5, 50, 80, -10, -6, 500, 1000)
-			.FromVaryingLayer(30, 80, 50, 90, 90, 100, 50, 150, -3, 3)
-			.ToFlashOut());
-
-			sceneCave.ApplyTo(chart, 235, 729);
-
+			sceneCave.ApplyTo(chart, 235, 962);
+			sceneSmoke.ApplyTo(chart, 235, 962);
+	
 
 
 
 #pragma warning disable CA1416 // Validate platform compatibility
-			chart.SetLineTrackStyle(579, 611, 50, 130);
-			chart.SetLineTrackStyle(619, 658, 50, 130);
-			chart.SetLineTrackStyle(660, 692, 50, 130);
-			chart.SetLineTrackStyle(700, 729, 50, 130);
+			chart.SetLineTrackStyle(579, 611, 50, 130, hideLineAtEnd: true, tag: "WCNMNMSL1");
+			chart.SetLineTrackStyle(619, 658, 50, 130, hideLineAtEnd: true, tag: "WCNMNMSL2");
+			chart.SetLineTrackStyle(660, 692, 50, 130, hideLineAtEnd: true, tag: "WCNMNMSL3");
+			chart.SetLineTrackStyle(700, 729, 50, 130, hideLineAtEnd: true, tag: "WCNMNMSL4");
 #pragma warning restore CA1416 // Validate platform compatibility
 
-			chart.FloatingTrackBackground(579, 256, "000000", 514, 50, 200,
-				0.6, 1.5, 80, 100, -150, 150, -150, -50);
+			chart.FloatingTrackBackground(579, 128, "000000", 514, 50, 200,
+				0.6, 1.5, 80, 100, -150, 150, -150, -10);
+
+
+
+			sceneCave.ApplyTo(chart, 1, 729);
+
+
+
+
+
+
+			var sceneForest = factory.CreateScene();
+
+			sceneForest.Elements.Add(sceneForest.CreateElement<MonoElement>().Use("forest.png")
+				.AsBackground().WithAutofit(chart).FromFlash(50).ToFlash());
+
+			sceneForest.ApplyTo(chart, 729, 963);
+
+			var sceneGrass = factory.CreateScene();
+			sceneGrass.Elements.Add(sceneGrass.CreateElement<MassElement>().Use(new()
+						{
+							"grass1.png", "grass3.png"
+						}).AsSpan(20, scaleMin: 150, scaleMax: 280)
+				.WithFloor(xmin: -16, xmax: 16, ymin: -6.5, ymax: -5)
+				.FromVaryingLayer().ToFlashOut());
+			sceneGrass.Elements.Add(sceneGrass.CreateElement<MassElement>().Use(new()
+						{
+							"grass2.png"
+						}).AsTileSpan(3, scaleMin: 150, scaleMax: 350, tileXMin: 30, tileXMax: 50)
+				.WithFloor(xmin: -16, xmax: 16, ymin: -6, ymax: -4)
+				.FromVaryingLayer().ToFlashOut());
+			sceneGrass.ApplyTo(chart, 729, 963);
+
+			var sceneTrees = factory.CreateScene();
+
+			sceneTrees.Elements.Add(sceneTrees.CreateElement<MassElement>().Use(new()
+			{
+				"tree1.png", "tree2.png", "tree3.png", "tree4.png", "tree5.png"
+			}).AsSpan(10, scaleMin: 320, scaleMax: 500)
+			.WithFloor(xmin: -80, xmax: 80, ymin: -6, ymax: -4)
+			.FromVaryingLayer().ToFlashOut());
+
+			sceneTrees.ApplyTo(chart, 729, 814);
+
+
+
+			var sceneGallopTrees = factory.CreateScene();
+			sceneGallopTrees.Elements.Add(sceneGallopTrees.CreateElement<MassElement>().Use(new()
+			{
+				"tree1.png", "tree2.png", "tree3.png", "tree4.png", "tree5.png"
+			}).AsSpan(60, scaleMin: 520, scaleMax: 800)
+			.WithFloor(xmin: -40, xmax: 200, ymin: -6, ymax: -2, parallaxXMin: -50, parallaxXMax: 50)
+			.FromVaryingLayer().ToFlashOut());
+
+			sceneGallopTrees.ApplyTo(chart, 814, 963);
+
+
+			chart.ModernTrackAppear(729, 963, 4d, 4d, -2, 2, -2, 2, -30, 30, 50, 75, 75, 100, 90);
+			chart.ModernTrackDisappear(729, 963, 4d, 0d, -2, 2, -2, 2, -30, 30, 50, 75, 75);
+
+#pragma warning disable CA1416 // Validate platform compatibility
+			chart.LyricWithTranslation("text.txt", "Lingo", inDuration: 0.5, outDuration: 0.5, depthOffset: -10, scale: 80);
+#pragma warning restore CA1416 // Validate platform compatibility
 
 
 			File.WriteAllText(@"G:\Adofai levels\CollapsingStar\CollapsingStar\level-effect.adofai", chart.ChartJson.ToJsonString());

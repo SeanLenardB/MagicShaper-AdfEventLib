@@ -236,7 +236,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public MassElement FromVaryingLayer(double opacityMin = 50, double opacityMax = 100,
 			double parallaxXMin = 85, double parallaxXMax = 95, double parallaxYMin = 95, double parallaxYMax = 98,
-			double rgbMin = 0, double rgbMax = 255, double rotationMin = -2, double rotationMax = 2)
+			double rgbMin = 0, double rgbMax = 255, double rotationMin = -2, double rotationMax = 2, int depthMin = 50, int depthMax = 60)
 		{
 			Random random = new();
 
@@ -257,7 +257,8 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					{ R = (byte)(frontToBack * (rgbMax - rgbMin) + rgbMin), G = (byte)(frontToBack * (rgbMax - rgbMin) + rgbMin), B = (byte)(frontToBack * (rgbMax - rgbMin) + rgbMin) },
 					Opacity = frontToBack * (opacityMax - opacityMin) + opacityMin,
 					Parallax = new(frontToBack * (parallaxXMax - parallaxXMin) + parallaxXMin, frontToBack * (parallaxYMax - parallaxYMin) + parallaxYMin),
-					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
+					RotationOffset = frontToBack * (rotationMax - rotationMin) + rotationMin,
+					Depth = (int)(frontToBack * (depthMax - depthMin)) + depthMin,
 					AngleOffset = -0.001
 				});
 			}
