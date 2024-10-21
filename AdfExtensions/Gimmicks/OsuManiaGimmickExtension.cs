@@ -81,7 +81,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 					Tag = $"quartrond_osumania_{guid}_key_{i}",
 					TrackOpacity = 0,
 					Parallax = new(100, 100),
-					ParallaxOffset = new(offset, positionY + dropSpeedTilePerBeat * dropdownBeat),
+					ParallaxOffset = new(positionX + offset, positionY + dropSpeedTilePerBeat * dropdownBeat),
 					LockRotation = lockRotation,
 					LockScale = lockScale
 				});
@@ -98,7 +98,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				{
 					Tag = $"quartrond_osumania_{guid}_key_{i}",
 					Duration = dropdownBeat,
-					ParallaxOffset = new(offset, positionY),
+					ParallaxOffset = new(positionX + offset, positionY),
 					AngleOffset = -180 * dropdownBeat
 				});
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
@@ -119,7 +119,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 					Tag = $"quartrond_osumania_{guid}_key_{i}",
 					Duration = dropdownBeat * 0.2,
 					Scale = new(1.2 * railWidth, 0),
-					ParallaxOffset = new(offset, positionY - 0.5),
+					ParallaxOffset = new(positionX + offset, positionY - 0.5),
 					Opacity = 0,
 					Ease = AdfEaseType.OutQuad
 				});
