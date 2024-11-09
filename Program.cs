@@ -12,7 +12,7 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		AdfVfxProj_HundredCharacters.ProjMain();
+		AdfVfxProj_JourneysEnd.ProjMain();
 
 	}
 
