@@ -190,6 +190,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			option.Converters.Add(new AdfConverter<AdfTrackType>());
 			option.Converters.Add(new AdfConverter<AdfPlanetColorType>());
 			option.Converters.Add(new AdfConverter<AdfTrackIcon>());
+            option.Converters.Add(new AdfConverter<AdfAngleCorrectionDirection>());
 
 			option.Converters.Add(new AdfPosition.AdfPositionConverter());
 			option.Converters.Add(new AdfTileReference.AdfTileReferenceConverter());

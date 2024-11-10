@@ -83,6 +83,35 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		/// <summary>
+		/// Make sure you call <see cref="FromVaryingLayer(double, double, double, double, double, double, double, double, double, double, int, int)"/> or such
+		/// so these images don't stuck at 100% parallax
+		/// </summary>
+		public MassElement AsSpanParallax(int amount = 10, double xmin = -50, double xmax = 50, double ymin = -5, double ymax = 5,
+			double scaleMin = 80, double scaleMax = 120)
+		{
+			Random random = new();
+
+			for (int i = 0; i < amount; i++)
+			{
+				OnSceneBegin.Add(new AdfEventAddDecoration()
+				{
+					Floor = 0,
+					Tag = Tag() + Tag(i),
+					DecorationImage = RandomImage(),
+					Parallax = new(100, 100),
+					ParallaxOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
+					Scale = new(random.NextDouble() * (scaleMax - scaleMin) + scaleMin),
+					Opacity = 0,
+
+				});
+			}
+
+			_totalAmount = amount;
+
+			return this;
+		}
+
 		public MassElement AsTileSpan(int amount = 10, double xmin = -50, double xmax = 50, double ymin = -5, double ymax =5,
 			double scaleMin = 80, double scaleMax = 120,
 			int tileXMin = 5, int tileXMax = 10, int tileYMin = 1, int tileYMax = 2)
@@ -177,6 +206,26 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Duration = duration,
 					PositionOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
 					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
+				});
+			}
+
+			return this;
+		}
+
+		public MassElement WithMovementParallax(double xmin = 100, double xmax = 150, double ymin = 200, double ymax = 300,
+			double rotationMin = -2, double rotationMax = 2, double duration = 32d)
+		{
+			Random random = new();
+
+			for (int i = 0; i < _totalAmount; i++)
+			{
+				OnSceneBegin.Add(new AdfEventMoveDecorations()
+				{
+					Tag = Tag(i),
+					Duration = duration,
+					ParallaxOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
+					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
+					AngleOffset = 0.0001
 				});
 			}
 

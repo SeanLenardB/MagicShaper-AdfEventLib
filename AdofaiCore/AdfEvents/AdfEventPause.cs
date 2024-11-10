@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MagicShaper.AdofaiCore.AdfClass;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
         public int CountdownTicks { get; set; } = 0;
 
-        public int AngleCorrectionDir { get; set; } = -1;
+        public AdfAngleCorrectionDirection AngleCorrectionDir { get; set; } = AdfAngleCorrectionDirection.Backward;
 
     }
 }
