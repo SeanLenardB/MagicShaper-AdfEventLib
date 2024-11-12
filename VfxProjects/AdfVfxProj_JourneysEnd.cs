@@ -29,7 +29,7 @@ namespace MagicShaper.VfxProjects
 				{
 					if (e is AdfEventSetSpeed se)
 					{
-						if (Math.Abs(chart.GetTileBpmAt(i) / chart.GetTileBpmAt(i - 1)) >= 0.1)
+						if (Math.Abs(1 - chart.GetTileBpmAt(i) / chart.GetTileBpmAt(i - 1)) >= 0.1)
 						{
 							flag = true; break;
 						}
@@ -80,8 +80,8 @@ namespace MagicShaper.VfxProjects
 				"m6.png",
 				"m7.png",
 				"m8.png",
-			}).AsSpanParallax(15, -40, 40, 13, 20, 800, 1000)
-			.FromVaryingLayer(60, 80, 85, 90, 95, 98, 20, 85, 180, 180, -50, -30)
+			}).AsSpanParallax(15, -40, 40, 16, 23, 800, 1000)
+			.FromVaryingLayer(60, 80, 85, 90, 99, 99.9, 20, 85, 180, 180, -50, -30)
 			.ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
 			{
@@ -94,7 +94,7 @@ namespace MagicShaper.VfxProjects
 				"m7.png",
 				"m8.png",
 			}).AsSpanParallax(15, -20, -15, -20, -10, 800, 1000)
-			.FromVaryingLayer(20, 40, 85, 90, 95, 98, 20, 85, 0, 0, -50, -30)
+			.FromVaryingLayer(20, 40, 85, 90, 99, 99.9, 20, 85, 0, 0, -50, -30)
 			.ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
 			{
@@ -107,7 +107,7 @@ namespace MagicShaper.VfxProjects
 				"m7.png",
 				"m8.png",
 			}).AsSpanParallax(15, 15, 20, -20, -10, 800, 1000)
-			.FromVaryingLayer(20, 40, 85, 90, 95, 98, 20, 85, 0, 0, -50, -30)
+			.FromVaryingLayer(20, 40, 85, 90, 99, 99.9, 20, 85, 0, 0, -50, -30)
 			.ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
 			{
@@ -120,7 +120,7 @@ namespace MagicShaper.VfxProjects
 				"m7.png",
 				"m8.png",
 			}).AsSpanParallax(15, -20, 20, -10, -3, 400, 500)
-			.FromVaryingLayer(80, 90, 95, 98, 95, 98, 90, 185, 0, 0, 50, 70)
+			.FromVaryingLayer(80, 90, 95, 99, 99, 99.9, 90, 185, 0, 0, 50, 70)
 			.ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
 			{
@@ -148,10 +148,19 @@ namespace MagicShaper.VfxProjects
 			sceneSmoke.ApplyTo(chart, 0, 3068);
 
 			chart.ModernTrackAppear(0, 165, 4d, 4d, -1.5, 1.5, 0.5, 1.5, -30, 30, 75, 80);
+			chart.ModernTrackDisappear(0, 165, 4d, 0d, -1, 1, -1, -0.5, -45, 45, 75, 90);
+
+			chart.ModernTrackAppear(165, 573, 4d, 4d, 1, 2, 0.5, 1.5, -15, 45, 50, 80);
+			chart.ModernTrackDisappear(165, 573, 4d, -2d, -1.5, -0.5, -1, -0.6, -50, -15, 75, 90);
 
 
 
 
+
+#pragma warning disable CA1416 // Validate platform compatibility
+			chart.LyricWithTranslationWithWordByWordAppear("lyric.txt", 
+				positionYPixel: -1000, inDuration: 4d, outDuration: 2d, scale: 150, intervalBeat: 0.5d, xmin: -0.3, xmax: 0.3, ymin: -1.6, ymax: -0.9);
+#pragma warning restore CA1416 // Validate platform compatibility
 
 			File.WriteAllText(@"G:\Adofai levels\JourneysEnd\level-effect.adofai", chart.ChartJson.ToJsonString());
 		}

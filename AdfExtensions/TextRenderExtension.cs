@@ -92,22 +92,27 @@ namespace MagicShaper.AdfExtensions
 
 		private const int ImgWidth = 6000;
 		private const int ImgHeight = 300;
-		public static void Convert(string str, string dst, string fontS)
+		/// <returns>The width and height of the text rendered.</returns>
+		public static (float, float) Convert(string str, string dst, string fontS, float scale = 1)
 		{
-			Image image = new Bitmap(ImgWidth, ImgHeight);
+			Image image = new Bitmap(ImgWidth, (int)(ImgHeight * scale));
 
-			Font font = new(fontS, 60f, FontStyle.Bold);
+			Font font = new(fontS, 60f * scale, FontStyle.Bold);
 			Graphics graphics = Graphics.FromImage(image);
-			graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-			graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-			graphics.DrawString(str,
-						  font,
-						  new SolidBrush(Color.FromArgb(255, 255, 255, 255)),
-						  new PointF(ImgWidth / 2f, (ImgHeight - 60f) / 2f),
-						  new StringFormat() { Alignment = StringAlignment.Center });
+			if (!File.Exists(dst))
+			{
+				graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+				graphics.DrawString(str,
+							  font,
+							  new SolidBrush(Color.FromArgb(255, 255, 255, 255)),
+							  new PointF(ImgWidth / 2f, (ImgHeight - 60f) / 2f),
+							  new StringFormat() { Alignment = StringAlignment.Center });
 
 
-			image.Save(dst);
+				image.Save(dst);
+			}
+			return (graphics.MeasureString(str, font).Width, graphics.MeasureString(str, font).Height);
 		}
 	}
 }
