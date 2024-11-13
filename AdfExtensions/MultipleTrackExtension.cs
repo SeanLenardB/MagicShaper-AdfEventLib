@@ -13,7 +13,7 @@ namespace MagicShaper.AdfExtensions
 	{
 		public static void MultipleTrack(this AdfChart chart, int startTile, int endTile,
 			double x = 10, double y = 6, string color = "FFFFFF", double opacity = 50, double scale = 100,
-			double parallaxX = 50, double parallaxY = 30, AdfTrackStyle style = AdfTrackStyle.Minimal)
+			double parallaxX = 50, double parallaxY = 30, AdfTrackStyle style = AdfTrackStyle.Minimal, bool hideIcons = false)
 		{
 			Random random = new();
 			string gid = random.Next(1000000).ToString().PadLeft(6, '0');
@@ -86,38 +86,40 @@ namespace MagicShaper.AdfExtensions
 				prevY += length * Math.Sin(chart.ChartTiles[startTile + i - 1].TargetAngle / 180 * Math.PI);
 
 				AdfTrackIcon icon = AdfTrackIcon.None;
-				bool hasTwirl = false;
 				bool isRedTwirl = false;
-				double speedTimes = 1;
-				foreach (var e in chart.ChartTiles[startTile + i].TileEvents)
+				if (!hideIcons)
 				{
-					if (e is AdfEventTwirl) { hasTwirl = true; break; }
-				}
-				speedTimes = chart.GetTileBpmAt(startTile + i) / chart.GetTileBpmAt(startTile + i - 1);
-
-				if (speedTimes >= 2) { icon = AdfTrackIcon.DoubleRabbit; }
-				else if (speedTimes <= 0.25) { icon = AdfTrackIcon.DoubleSnail; }
-				else if (speedTimes >= 1.05) { icon = AdfTrackIcon.Rabbit; }
-				else if (speedTimes <= 0.95) { icon = AdfTrackIcon.Snail; }
-				else if (hasTwirl) {
-					icon = AdfTrackIcon.Swirl;
-					if (chart.GetIsLHSAt(i + startTile))
-
+					bool hasTwirl = false;
+					foreach (var e in chart.ChartTiles[startTile + i].TileEvents)
 					{
-						if (p - 180d < t && t <= p || p + 180d < t)
+						if (e is AdfEventTwirl) { hasTwirl = true; break; }
+					}
+					double speedTimes = chart.GetTileBpmAt(startTile + i) / chart.GetTileBpmAt(startTile + i - 1);
+
+					if (speedTimes >= 2) { icon = AdfTrackIcon.DoubleRabbit; }
+					else if (speedTimes <= 0.25) { icon = AdfTrackIcon.DoubleSnail; }
+					else if (speedTimes >= 1.05) { icon = AdfTrackIcon.Rabbit; }
+					else if (speedTimes <= 0.95) { icon = AdfTrackIcon.Snail; }
+					else if (hasTwirl)
+					{
+						icon = AdfTrackIcon.Swirl;
+						if (chart.GetIsLHSAt(i + startTile))
+
 						{
-							isRedTwirl = true;
+							if (p - 180d < t && t <= p || p + 180d < t)
+							{
+								isRedTwirl = true;
+							}
+						}
+						else
+						{
+							if (p <= t && t < p + 180d || t < p - 180d)
+							{
+								isRedTwirl = true;
+							}
 						}
 					}
-					else
-					{
-						if (p <= t && t < p + 180d || t < p - 180d)
-						{
-							isRedTwirl = true;
-						}
-					}
 				}
-
 				chart.ChartTiles[startTile].TileEvents.Add(new AdfEventAddObject()
 				{
 					ObjectType = AdfObjectType.Floor,
@@ -135,7 +137,7 @@ namespace MagicShaper.AdfExtensions
 					TrackIcon = icon,
 					TrackRedSwirl = isRedTwirl,
 					TrackIconAngle = rotation + chart.GetInnerAngleAtTile(startTile + i) + 180d,
-					Depth = 1145 + i
+					Depth = 1145 + i,
 				});
 			}
 

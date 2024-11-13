@@ -220,7 +220,7 @@ namespace MagicShaper.AdfExtensions
 							Rotation = mainROffset,
 							ParallaxOffset = new(mainDesiredX + mainXOffset, mainDesiredY + mainYOffset),
 							Parallax = new(100, 100),
-							RelativeTo = AdfMoveDecorationRelativeToType.Tile,
+							RelativeTo = AdfMoveDecorationRelativeToType.Global,
 							Opacity = 0d,
 							Color = new("FFFFFFFF"),
 							DecorationImage = $"{ExtensionSharedConstants.LyricsTagPrefix}_{i}_main_{j}.png"
@@ -285,7 +285,7 @@ namespace MagicShaper.AdfExtensions
 							LockScale = true,
 							ParallaxOffset = new(translationDesiredX + translationXOffset, translationDesiredY),
 							Parallax = new(100, 100),
-							RelativeTo = AdfMoveDecorationRelativeToType.Tile,
+							RelativeTo = AdfMoveDecorationRelativeToType.Global,
 							Opacity = 0d,
 							Color = new("FFFFFFFF"),
 							DecorationImage = $"{ExtensionSharedConstants.LyricsTagPrefix}_{i}_translation_{j}.png"

@@ -20,6 +20,7 @@ namespace MagicShaper.VfxProjects
 			chart.SetupVisionLimit();
 			chart.SetVisionLimitAutofit("banner.png", 0);
 
+			chart.ChartTiles[0].TileEvents.Add(new AdfEventHallOfMirrors() { Enabled = true });
 
 			for (int i = 1; i < chart.ChartTiles.Count; i++)
 			{
@@ -50,20 +51,22 @@ namespace MagicShaper.VfxProjects
 
 			DecoScene.DecoSceneFactory factory = new();
 
-			var sceneSmoke = factory.CreateScene();
-			sceneSmoke.Elements.Add(sceneSmoke.CreateElement<MassElement>().Use(new()
-			{
-				"smoke1.png", "smoke2.png"
-			}).AsTileSpan(3, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
-			.WithMovementParallax(-20, 20, 200, 300, -15, 15, 1024d)
-			.FromVaryingLayer(15, 30, 95, 99, 95, 99, 80, 130, -180, 180, 20, 30)
-			.ToFlashOut());
-			sceneSmoke.Elements.Add(sceneSmoke.CreateElement<MassElement>().Use(new()
+			var sceneWhiteForeSmoke = factory.CreateScene();
+			sceneWhiteForeSmoke.Elements.Add(sceneWhiteForeSmoke.CreateElement<MassElement>().Use(new()
 			{
 				"smoke1.png", "smoke2.png"
 			}).AsTileSpan(3, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
 			.WithMovementParallax(-40, 40, 300, 400, -25, 25, 1024d)
 			.FromVaryingLayer(25, 50, 95, 99, 95, 99, 180, 230, -180, 180, -50, -30)
+			.ToFlashOut());
+
+			var sceneBlackBackSmoke = factory.CreateScene();
+			sceneBlackBackSmoke.Elements.Add(sceneBlackBackSmoke.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png", "smoke2.png"
+			}).AsTileSpan(8, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
+			.WithMovementParallax(-20, 20, 50, 100, -15, 15, 1024d)
+			.FromVaryingLayer(85, 95, 95, 99, 95, 99, 0, 50, -180, 180, 20, 30)
 			.ToFlashOut());
 
 
@@ -122,7 +125,9 @@ namespace MagicShaper.VfxProjects
 			}).AsSpanParallax(15, -20, 20, -10, -3, 400, 500)
 			.FromVaryingLayer(80, 90, 95, 99, 99, 99.9, 90, 185, 0, 0, 50, 70)
 			.ToFlashOut());
-			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
+
+			var sceneFlyingWares = factory.CreateScene();
+			sceneFlyingWares.Elements.Add(sceneFlyingWares.CreateElement<MassElement>().Use(new()
 			{
 				"ware1.png",
 				"ware2.png",
@@ -136,30 +141,86 @@ namespace MagicShaper.VfxProjects
 				"ware10.png",
 				"ware11.png",
 				"ware12.png",
-			}).AsSpanParallax(60, -20, 20, -30, 30, 300, 800)
-			.FromVaryingLayer(50, 80, 85, 95, 95, 98, 0, 255, -180, 180, 10, 80)
+			}).AsSpanParallax(120, -30, 30, -40, 40, 300, 800)
+			.FromVaryingLayer(50, 80, 85, 95, 95, 98, 0, 255, -180, 180, 10, 40)
 			.ToFlashOut());
 
 
+			var sceneSnowFloor = factory.CreateScene();
+			sceneSnowFloor.Elements.Add(sceneSnowFloor.CreateElement<MonoElement>().Use("snowfloor.png")
+				.WithAutofit(chart).AsBackground().FromFlash(60).ToFlash());
 
 
 
-			sceneCrystalCave.ApplyTo(chart, 0, 3068);
-			sceneSmoke.ApplyTo(chart, 0, 3068);
+			sceneCrystalCave.ApplyTo(chart, 0, 165);
+			sceneFlyingWares.ApplyTo(chart, 0, 165);
+			sceneBlackBackSmoke.ApplyTo(chart, 0, 165);
+
+
+			sceneSnowFloor.ApplyTo(chart, 165, 369);
+			sceneWhiteForeSmoke.ApplyTo(chart, 165, 3068);
+
+			sceneFlyingWares.ApplyTo(chart, 267, 3068);
+			sceneBlackBackSmoke.ApplyTo(chart, 573, 3068);
+			sceneCrystalCave.ApplyTo(chart, 369, 3068);
+
 
 			chart.ModernTrackAppear(0, 165, 4d, 4d, -1.5, 1.5, 0.5, 1.5, -30, 30, 75, 80);
 			chart.ModernTrackDisappear(0, 165, 4d, 0d, -1, 1, -1, -0.5, -45, 45, 75, 90);
 
 			chart.ModernTrackAppear(165, 573, 4d, 4d, 1, 2, 0.5, 1.5, -15, 45, 50, 80);
-			chart.ModernTrackDisappear(165, 573, 4d, -2d, -1.5, -0.5, -1, -0.6, -50, -15, 75, 90);
 
 
+			chart.MultipleTrack(165, 573, -20, -5, "000000", 90, 210, hideIcons: true);
+			chart.MultipleTrack(165, 573, -1, -5, "000000", 95, 120, hideIcons: true);
+			chart.MultipleTrack(165, 573, -0.98, -0.0006, "000000FF", 100, 100, 0.001, 0.001, hideIcons: true);
+
+			Random random = new();
+			for (int i = 165; i < 573; i++)
+			{
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 680 * 4d,
+					Opacity = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					PositionOffset = new(random.NextDouble() * 0.5 - 1, - random.NextDouble()),
+					RotationOffset = random.NextDouble() * 90 - 45,
+					Duration = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 680 * (12 * 180)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 680 * (random.NextDouble() * 12d + 4d),
+					RotationOffset = 0,
+					Opacity = 50,
+					Ease = AdfEaseType.OutBack,
+					PositionOffset = new(0, 0),
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 680 * (12 * 180 + 0.00001)
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					Duration = chart.GetTileBpmAt(i) / 680 * 4d,
+					Ease = AdfEaseType.OutQuad,
+					Opacity = 0,
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = chart.GetTileBpmAt(i) / 680 * (30 * 180)
+				});
+			}
 
 
 
 #pragma warning disable CA1416 // Validate platform compatibility
-			chart.LyricWithTranslationWithWordByWordAppear("lyric.txt", 
-				positionYPixel: -1000, inDuration: 4d, outDuration: 2d, scale: 150, intervalBeat: 0.5d, xmin: -0.3, xmax: 0.3, ymin: -1.6, ymax: -0.9);
+			chart.LyricWithTranslationWithWordByWordAppear("lyric.txt", translationYOffset: -70,
+				positionYPixel: -500, inDuration: 4d, outDuration: 2d, scale: 75, translationScale: 45, intervalBeat: 0.5d, xmin: -0.3, xmax: 0.3, ymin: -1.6, ymax: -0.9);
 #pragma warning restore CA1416 // Validate platform compatibility
 
 			File.WriteAllText(@"G:\Adofai levels\JourneysEnd\level-effect.adofai", chart.ChartJson.ToJsonString());
