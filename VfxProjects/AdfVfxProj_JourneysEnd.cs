@@ -49,6 +49,51 @@ namespace MagicShaper.VfxProjects
 				}
 			}
 
+			for (int i = 165; i < 573; i++)
+			{
+				if (chart.GetInnerAngleAtTile(i) == 120d && chart.GetInnerAngleAtTile(i + 1) == 120d)
+				{
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventSetFilter()
+					{
+						Filter = AdfFilter.Grayscale,
+						Intensity = 50,
+						AngleOffset = -0.001,
+						Duration = 0
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventSetFilter()
+					{
+						Filter = AdfFilter.Grayscale,
+						Intensity = 25,
+						AngleOffset = 0, 
+						Duration = 16,
+						Ease = AdfEaseType.OutCubic
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventSetFilter()
+					{
+						Filter = AdfFilter.Aberration,
+						Intensity = 30,
+						AngleOffset = -0.001,
+						Duration = 0
+					});
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventSetFilter()
+					{
+						Filter = AdfFilter.Aberration,
+						Intensity = 48,
+						AngleOffset = 0, 
+						Duration = 16,
+						Ease = AdfEaseType.OutCubic
+					});
+				}
+			}
+
+			chart.AberrationByBeat(972, 14, 64d, 16d, 150);
+			chart.BlurByBeatOutEase(972, 14, 64d, 32d, 600);
+			chart.CameraRotationPulseByBeats(972, 64d, 14, -30, 30, 150, 350, 32d);
+			chart.FilterEventByBeat(972, 14, 64d, 64d, AdfFilter.Fisheye, 45, 48);
+			chart.FilterEventByBeat(972, 14, 64d, 48d, AdfFilter.Grayscale, 100, 20);
+
+			
+
 			DecoScene.DecoSceneFactory factory = new();
 
 			var sceneWhiteForeSmoke = factory.CreateScene();
@@ -56,7 +101,7 @@ namespace MagicShaper.VfxProjects
 			{
 				"smoke1.png", "smoke2.png"
 			}).AsTileSpan(3, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
-			.WithMovementParallax(-40, 40, 300, 400, -25, 25, 1024d)
+			.WithMovementParallax(-40, 40, 250, 500, -25, 25, 2048d)
 			.FromVaryingLayer(25, 50, 95, 99, 95, 99, 180, 230, -180, 180, -50, -30)
 			.ToFlashOut());
 
@@ -145,11 +190,44 @@ namespace MagicShaper.VfxProjects
 			.FromVaryingLayer(50, 80, 85, 95, 95, 98, 0, 255, -180, 180, 10, 40)
 			.ToFlashOut());
 
+			var sceneFlyingWares2 = factory.CreateScene();
+			sceneFlyingWares2.Elements.Add(sceneFlyingWares2.CreateElement<MassElement>().Use(new()
+			{
+				"ware1.png",
+				"ware2.png",
+				"ware3.png",
+				"ware4.png",
+				"ware5.png",
+				"ware6.png",
+				"ware7.png",
+				"ware8.png",
+				"ware9.png",
+				"ware10.png",
+				"ware11.png",
+				"ware12.png",
+			}).AsSpanParallax(120, -20, 20, -40, 20, 300, 800)
+			.FromVaryingLayer(50, 80, 85, 95, 95, 98, 0, 255, -5, 5, 10, 40)
+			.WithMovement(-0.5, 0.5, 10, 20, -3, 3, 128, AdfEaseType.OutCubic)
+			.ToFlashOut());
 
 			var sceneSnowFloor = factory.CreateScene();
 			sceneSnowFloor.Elements.Add(sceneSnowFloor.CreateElement<MonoElement>().Use("snowfloor.png")
 				.WithAutofit(chart).AsBackground().FromFlash(60).ToFlash());
 
+			var sceneCosmos = factory.CreateScene();
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("space.png")
+				.WithAutofit(chart).AsBackground().FromFlash(40).ToFlash());
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MassElement>().Use(new()
+			{
+				"nebula1.png",
+				"nebula2.png",
+				"nebula3.png",
+				"nebula4.png",
+				"nebula5.png",
+				"nebula6.png",
+			}).AsSpanParallax(5, -20, 20, -20, 20, 850, 1500)
+			.FromVaryingLayer(10, 30, 95, 98, 98, 99.5, 180, 255, -5, 5, 50, 60)
+			.ToFlashOut());
 
 
 			sceneCrystalCave.ApplyTo(chart, 0, 165);
@@ -160,9 +238,13 @@ namespace MagicShaper.VfxProjects
 			sceneSnowFloor.ApplyTo(chart, 165, 369);
 			sceneWhiteForeSmoke.ApplyTo(chart, 165, 3068);
 
-			sceneFlyingWares.ApplyTo(chart, 267, 3068);
-			sceneBlackBackSmoke.ApplyTo(chart, 573, 3068);
-			sceneCrystalCave.ApplyTo(chart, 369, 3068);
+			sceneFlyingWares2.ApplyTo(chart, 267, 369);
+			sceneCrystalCave.ApplyTo(chart, 369, 950);
+			sceneFlyingWares.ApplyTo(chart, 369, 950);
+
+			sceneBlackBackSmoke.ApplyTo(chart, 573, 634);
+
+			sceneCosmos.ApplyTo(chart, 950, 2108);
 
 
 			chart.ModernTrackAppear(0, 165, 4d, 4d, -1.5, 1.5, 0.5, 1.5, -30, 30, 75, 80);
@@ -171,9 +253,20 @@ namespace MagicShaper.VfxProjects
 			chart.ModernTrackAppear(165, 573, 4d, 4d, 1, 2, 0.5, 1.5, -15, 45, 50, 80);
 
 
+			chart.ModernTrackAppear(573, 952, 4d, 4d, -0.5, 0.5, -0.5, -0.2, -3, 3, 60, 80, 45);
+			chart.ModernTrackDisappear(573, 952, 4d, 0d, -0.5, 0.5, -0.5, -0.2, -3, 3, 80, 90, 90);
+
+			chart.ModernTrackAppear(952, 2108, 4d, 2d, -1, 1, 0.3, 1, -30, 30, 110, 125, 30, 100);
+			chart.ModernTrackDisappear(952, 2108, 4d, -3d, -3, 3, -4, -2, -30, 30, 110, 125, 30);
+
+
+			 
 			chart.MultipleTrack(165, 573, -20, -5, "000000", 90, 210, hideIcons: true);
-			chart.MultipleTrack(165, 573, -1, -5, "000000", 95, 120, hideIcons: true);
+			chart.MultipleTrack(165, 573, 2, -7, "000000", 95, 120, hideIcons: true);
 			chart.MultipleTrack(165, 573, -0.98, -0.0006, "000000FF", 100, 100, 0.001, 0.001, hideIcons: true);
+
+
+
 
 			Random random = new();
 			for (int i = 165; i < 573; i++)
@@ -222,6 +315,7 @@ namespace MagicShaper.VfxProjects
 			chart.LyricWithTranslationWithWordByWordAppear("lyric.txt", translationYOffset: -70,
 				positionYPixel: -500, inDuration: 4d, outDuration: 2d, scale: 75, translationScale: 45, intervalBeat: 0.5d, xmin: -0.3, xmax: 0.3, ymin: -1.6, ymax: -0.9);
 #pragma warning restore CA1416 // Validate platform compatibility
+
 
 			File.WriteAllText(@"G:\Adofai levels\JourneysEnd\level-effect.adofai", chart.ChartJson.ToJsonString());
 		}

@@ -245,5 +245,41 @@ namespace MagicShaper.AdfExtensions
 					});
 			}
 		}
+
+
+		public static void FilterEventByBeat(
+			this AdfChart chart,
+			int startTile,
+			int repetition,
+			double intervalBeats,
+			double eachDuration,
+			AdfFilter filter,
+			double maxParam = 600d,
+			double finalParam = 50d,
+			AdfEaseType ease = AdfEaseType.OutCubic)
+		{
+			for (int i = 0; i < repetition; i++)
+			{
+				chart.ChartTiles[startTile].TileEvents.Add(
+					new AdfEventSetFilter()
+					{
+						Filter = filter,
+						Duration = 0d,
+						Intensity = maxParam,
+						AngleOffset = -0.0001d + i * 180d * intervalBeats
+					});
+				chart.ChartTiles[startTile].TileEvents.Add(
+					new AdfEventSetFilter()
+					{
+						Filter = filter,
+						Intensity = finalParam,
+						Duration = eachDuration,
+						Ease = ease,
+						AngleOffset = i * 180d * intervalBeats
+					});
+			}
+		}
+
+
 	}
 }

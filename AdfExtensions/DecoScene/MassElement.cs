@@ -194,7 +194,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		}
 
 		public MassElement WithMovement(double xmin = 100, double xmax = 150, double ymin = 200, double ymax = 300,
-			double rotationMin = -2, double rotationMax = 2, double duration = 32d)
+			double rotationMin = -2, double rotationMax = 2, double duration = 32d, AdfEaseType ease = AdfEaseType.Linear)
 		{
 			Random random = new();
 
@@ -206,6 +206,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Duration = duration,
 					PositionOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
 					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
+					Ease = ease
 				});
 			}
 
@@ -213,7 +214,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		}
 
 		public MassElement WithMovementParallax(double xmin = 100, double xmax = 150, double ymin = 200, double ymax = 300,
-			double rotationMin = -2, double rotationMax = 2, double duration = 32d)
+			double rotationMin = -2, double rotationMax = 2, double duration = 32d, AdfEaseType ease = AdfEaseType.Linear)
 		{
 			Random random = new();
 
@@ -225,6 +226,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Duration = duration,
 					ParallaxOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
 					RotationOffset = random.NextDouble() * (rotationMax - rotationMin) + rotationMin,
+					Ease = ease,
 					AngleOffset = 0.0001
 				});
 			}
