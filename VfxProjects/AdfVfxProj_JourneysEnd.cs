@@ -86,7 +86,7 @@ namespace MagicShaper.VfxProjects
 				}
 			}
 
-			chart.AberrationByBeat(972, 14, 64d, 16d, 150);
+			chart.AberrationByBeat(972, 14, 64d, 16d, 30);
 			chart.BlurByBeatOutEase(972, 14, 64d, 32d, 600);
 			chart.CameraRotationPulseByBeats(972, 64d, 14, -30, 30, 150, 350, 32d);
 			chart.FilterEventByBeat(972, 14, 64d, 64d, AdfFilter.Fisheye, 45, 48);
@@ -226,7 +226,7 @@ namespace MagicShaper.VfxProjects
 				"nebula5.png",
 				"nebula6.png",
 			}).AsSpanParallax(5, -20, 20, -20, 20, 850, 1500)
-			.FromVaryingLayer(10, 30, 95, 98, 98, 99.5, 180, 255, -5, 5, 50, 60)
+			.FromVaryingLayer(10, 50, 95, 98, 98, 99.5, 180, 255, -5, 5, 50, 60)
 			.ToFlashOut());
 
 
@@ -256,11 +256,12 @@ namespace MagicShaper.VfxProjects
 			chart.ModernTrackAppear(573, 952, 4d, 4d, -0.5, 0.5, -0.5, -0.2, -3, 3, 60, 80, 45);
 			chart.ModernTrackDisappear(573, 952, 4d, 0d, -0.5, 0.5, -0.5, -0.2, -3, 3, 80, 90, 90);
 
-			chart.ModernTrackAppear(952, 2108, 4d, 2d, -1, 1, 0.3, 1, -30, 30, 110, 125, 30, 100);
-			chart.ModernTrackDisappear(952, 2108, 4d, -3d, -3, 3, -4, -2, -30, 30, 110, 125, 30);
-
-
 			 
+
+
+
+
+
 			chart.MultipleTrack(165, 573, -20, -5, "000000", 90, 210, hideIcons: true);
 			chart.MultipleTrack(165, 573, 2, -7, "000000", 95, 120, hideIcons: true);
 			chart.MultipleTrack(165, 573, -0.98, -0.0006, "000000FF", 100, 100, 0.001, 0.001, hideIcons: true);
@@ -309,6 +310,31 @@ namespace MagicShaper.VfxProjects
 				});
 			}
 
+			for (int i = 952; i < 2108; i++)
+			{
+				double bpmMultiplier = chart.GetTileBpmAt(i) / chart.GetTileBpmAt(0);
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = -114514,
+					Duration = 0,
+					Scale = new(61.8),
+					Opacity = 15
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = -180 * bpmMultiplier * 8,
+					Duration = 6 * bpmMultiplier,
+					Opacity = 100,
+					Scale = new(61.8),
+					Ease = AdfEaseType.OutBounce
+				});
+			}
+
+			
 
 
 #pragma warning disable CA1416 // Validate platform compatibility

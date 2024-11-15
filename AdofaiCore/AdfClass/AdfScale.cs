@@ -52,10 +52,5 @@ namespace MagicShaper.AdofaiCore.AdfClass
 				writer.WriteEndArray();
 			}
 		}
-
-		public static implicit operator AdfScale(double v)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }
