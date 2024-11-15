@@ -16,7 +16,9 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public int Id { get; } = -1;
 
-		public void ApplyTo(AdfChart chart, int tileBegin, int tileEnd)
+		/// <returns>The apply id of this operation. You may use it outside, together with 
+		/// <see cref="MonoElement.Tag"/></returns>
+		public string ApplyTo(AdfChart chart, int tileBegin, int tileEnd)
 		{
 			Random random = new();
 			string applyId = random.Next(0, 999).ToString().PadLeft(3, '0');
@@ -48,6 +50,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					}
 				}
 			}
+			return applyId;
 		}
 
 		private IAdfEvent FixEventFloor(IAdfEvent e, int tileBegin, int tileEnd, string applyId)
