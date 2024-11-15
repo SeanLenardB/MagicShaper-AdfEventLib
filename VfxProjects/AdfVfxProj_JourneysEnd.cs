@@ -86,12 +86,17 @@ namespace MagicShaper.VfxProjects
 				}
 			}
 
-			chart.AberrationByBeat(972, 14, 64d, 16d, 30);
+			chart.AberrationByBeat(972, 14, 64d, 16d, 20);
 			chart.BlurByBeatOutEase(972, 14, 64d, 32d, 600);
 			chart.CameraRotationPulseByBeats(972, 64d, 14, -30, 30, 150, 350, 32d);
 			chart.FilterEventByBeat(972, 14, 64d, 64d, AdfFilter.Fisheye, 45, 48);
 			chart.FilterEventByBeat(972, 14, 64d, 48d, AdfFilter.Grayscale, 100, 20);
 
+			chart.AberrationByBeat(1685, 14, 16d, 4d, 20);
+			chart.BlurByBeatOutEase(1685, 14, 16d, 8d, 600);
+			chart.CameraRotationPulseByBeats(1685, 16d, 14, -30, 30, 150, 350, 8d);
+			chart.FilterEventByBeat(1685, 14, 16d, 16d, AdfFilter.Fisheye, 45, 48);
+			chart.FilterEventByBeat(1685, 14, 16d, 12d, AdfFilter.Grayscale, 100, 20);
 			
 
 			DecoScene.DecoSceneFactory factory = new();
@@ -141,7 +146,7 @@ namespace MagicShaper.VfxProjects
 				"m6.png",
 				"m7.png",
 				"m8.png",
-			}).AsSpanParallax(15, -20, -15, -20, -10, 800, 1000)
+			}).AsSpanParallax(15, -10, -5, -20, -10, 800, 1000)
 			.FromVaryingLayer(20, 40, 85, 90, 99, 99.9, 20, 85, 0, 0, -50, -30)
 			.ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
@@ -154,7 +159,7 @@ namespace MagicShaper.VfxProjects
 				"m6.png",
 				"m7.png",
 				"m8.png",
-			}).AsSpanParallax(15, 15, 20, -20, -10, 800, 1000)
+			}).AsSpanParallax(15, 5, 10, -20, -10, 800, 1000)
 			.FromVaryingLayer(20, 40, 85, 90, 99, 99.9, 20, 85, 0, 0, -50, -30)
 			.ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
@@ -224,10 +229,26 @@ namespace MagicShaper.VfxProjects
 				"nebula3.png",
 				"nebula4.png",
 				"nebula5.png",
-				"nebula6.png",
 			}).AsSpanParallax(5, -20, 20, -20, 20, 850, 1500)
 			.FromVaryingLayer(10, 50, 95, 98, 98, 99.5, 180, 255, -5, 5, 50, 60)
 			.ToFlashOut());
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("gemlight.png").AsForeground(5, false, false)
+				.WithScale(600).WithParallax(97.7, 99.7).WithParallaxOffset(0, 2)
+				.FromFlash(30).ToFlash());
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("nebula6.png").AsForeground(11, false, false)
+				.WithScale(200).WithParallax(98.7, 99.7).WithParallaxOffset(0.2, 2)
+				.FromFlash(60).ToFlash());
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("wave.png").AsForeground(13, false, false)
+				.WithScale(1).WithParallax(98.7, 99.7).WithParallaxOffset(0, 2)
+				.FromFlash(100).ToFlash());
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("gemc.png").AsForeground(9, false, false)
+				.WithScale(57.5).WithParallax(98.8, 99.8).WithParallaxOffset(0, 2)
+				.FromFlash(80).ToFlash());
+			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("gem.png").AsForeground(10, false, false)
+				.WithScale(60).WithParallax(99, 99.9).WithParallaxOffset(0, 2)
+				.FromFlash(50).ToFlash());
+
+
 
 
 			sceneCrystalCave.ApplyTo(chart, 0, 165);
@@ -245,6 +266,10 @@ namespace MagicShaper.VfxProjects
 			sceneBlackBackSmoke.ApplyTo(chart, 573, 634);
 
 			sceneCosmos.ApplyTo(chart, 950, 2108);
+
+			sceneCrystalCave.ApplyTo(chart, 2108, 2390);
+			sceneFlyingWares.ApplyTo(chart, 2108, 2390);
+			sceneBlackBackSmoke.ApplyTo(chart, 2108, 2142);
 
 
 			chart.ModernTrackAppear(0, 165, 4d, 4d, -1.5, 1.5, 0.5, 1.5, -30, 30, 75, 80);
@@ -326,14 +351,94 @@ namespace MagicShaper.VfxProjects
 				{
 					StartTile = new(0, AdfTileReferenceType.ThisTile),
 					EndTile = new(0, AdfTileReferenceType.ThisTile),
-					AngleOffset = -180 * bpmMultiplier * 8,
-					Duration = 6 * bpmMultiplier,
-					Opacity = 100,
-					Scale = new(61.8),
-					Ease = AdfEaseType.OutBounce
+					AngleOffset = -180 * bpmMultiplier * 3,
+					Duration = 1 * bpmMultiplier,
+					Opacity = 150,
+					Scale = new(100),
+					Ease = AdfEaseType.OutElastic
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventRecolorTrack()
+				{
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = 0,
+					Duration = 0,
+					TrackColor = new("3aceffff"),
+					SecondaryTrackColor = new("0093c3ff"),
+					TrackStyle = AdfTrackStyle.NeonLight,
+					TrackGlowIntensity = 0,
+					TrackColorAnimDuration = 1,
+					TrackColorPulse = AdfTrackColorPulseType.Forward,
+					TrackPulseLength = 55,
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = -0.001,
+					Duration = 0,
+					Opacity = 300,
+				});
+				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveTrack()
+				{
+					StartTile = new(0, AdfTileReferenceType.ThisTile),
+					EndTile = new(0, AdfTileReferenceType.ThisTile),
+					AngleOffset = 0,
+					Duration = 4 * bpmMultiplier,
+					Opacity = 30,
+					Ease = AdfEaseType.OutCirc
 				});
 			}
 
+			string gemTag = (sceneCosmos.Elements[^2] as MonoElement)!.Tag();
+			string gemWaveTag = (sceneCosmos.Elements[^3] as MonoElement)!.Tag();
+			for (int i = 0; i < 30; i++)
+			{
+				if (i == 15 || i == 14) { continue; }
+				chart.ChartTiles[972].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Tag = gemWaveTag,
+					Duration = 0,
+					AngleOffset = -0.001 + 64 * 180 * i,
+					Opacity = 500,
+					Scale = new(1)
+				});
+				chart.ChartTiles[972].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Tag = gemWaveTag,
+					Duration = 32d,
+					AngleOffset = 64 * 180 * i,
+					Opacity = 0,
+					Ease = AdfEaseType.OutExpo
+				});
+				chart.ChartTiles[972].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Tag = gemWaveTag,
+					Duration = 64d,
+					AngleOffset = 64 * 180 * i,
+					Scale = new(500),
+					Ease = AdfEaseType.OutCirc
+				});
+				chart.ChartTiles[972].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Tag = gemTag,
+					Duration = 0,
+					AngleOffset = -0.001 + 64 * 180 * i,
+					Opacity = 500,
+					Scale = new(75)
+				});
+				chart.ChartTiles[972].TileEvents.Add(new AdfEventMoveDecorations()
+				{
+					Tag = gemTag,
+					Duration = 64d,
+					AngleOffset = 64 * 180 * i,
+					Scale = new(57.5),
+					Opacity = 80,
+					Ease = AdfEaseType.OutExpo
+				});
+			}
+
+			
 			
 
 

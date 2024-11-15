@@ -21,15 +21,15 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-		public MonoElement AsForeground()
+		public MonoElement AsForeground(int depth = -90, bool lockRotation = true, bool lockScale = true)
 		{
 			OnSceneBegin.Add(new AdfEventAddDecoration()
 			{
 				Floor = 0,
 				DecorationImage = Images[0],
 				Parallax = new(100, 100),
-				Depth = -90,
-				LockRotation = true,
+				Depth = depth,
+				LockRotation = lockRotation,
 				LockScale = true,
 				Tag = Tag(),
 				Opacity = 0
@@ -38,14 +38,14 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 		
-		public MonoElement AsBackground()
+		public MonoElement AsBackground(int depth = 90)
 		{
 			OnSceneBegin.Add(new AdfEventAddDecoration()
 			{
 				Floor = 0,
 				DecorationImage = Images[0],
 				Parallax = new(100, 100),
-				Depth = 90,
+				Depth = depth,
 				LockRotation = true,
 				LockScale = true,
 				Tag = Tag(),

@@ -58,12 +58,12 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public string Tag()
 		{
-			return $"quartrond_Scene-{SceneId}_Element-{Guid} ";
+			return $"quartrond_Apply-{{replaceme}}_Scene-{SceneId}_Element-{Guid} ";
 		}
 
 		public string Tag(int i)
 		{
-			return $"quartrond_Scene-{SceneId}_Element-{Guid}_Item-{i}";
+			return $"quartrond_Apply-{{replaceme}}_Scene-{SceneId}_Element-{Guid}_Item-{i}";
 		}
 	}
 }
