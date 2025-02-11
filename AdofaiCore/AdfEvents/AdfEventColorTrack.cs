@@ -36,6 +36,8 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public double TrackTextureScale { get; set; } = 1d;
 
+		public bool JustThisTile { get; set; } = false;
+
 
     }
 }

@@ -9,6 +9,6 @@ namespace MagicShaper.AdofaiCore.AdfClass
 	internal enum AdfObjectType
 	{
 		Floor,
-		Planet
+		Planet,
 	}
 }
