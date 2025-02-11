@@ -31,7 +31,8 @@ namespace MagicShaper.AdfExtensions
 		public static void LyricWithTranslation(this AdfChart chart,
 			string lyricFileName, string mainFont = "Bahnschrift", string translationFont = "方正楷体_GBK",
 			int positionXPixel = 0, int positionYPixel = -1200, double scale = 100d,
-			double inDuration = 2d, double outDuration = 2d, int depthOffset = 0)
+			double inDuration = 2d, double outDuration = 2d, int depthOffset = 0,
+			string mainColor = "FFFFFFFF", string translationColor = "88888899")
 		{
 			string[] lyrics = File.ReadAllLines(chart.FileLocation?.Parent?.FullName + $"\\{lyricFileName}");
 			try
@@ -50,7 +51,7 @@ namespace MagicShaper.AdfExtensions
 					Scale = new(scale),
 					RelativeTo = AdfMoveDecorationRelativeToType.Camera,
 					Opacity = 0d,
-					Color = new("FFFFFFFF")
+					Color = new(mainColor)
 				});
 				chart.AddDecorationToChart(new()
 				{
@@ -63,7 +64,7 @@ namespace MagicShaper.AdfExtensions
 					Scale = new(scale * 0.6d),
 					RelativeTo = AdfMoveDecorationRelativeToType.Camera,
 					Opacity = 0d,
-					Color = new("88888899")
+					Color = new(translationColor)
 				});
 
 				
@@ -76,10 +77,10 @@ namespace MagicShaper.AdfExtensions
 					int tile = int.Parse(lyrics[i]);
 
 					TextRenderExtension.Convert(lyrics[i+1], 
-						chart.FileLocation?.Parent?.FullName + $"\\{ExtensionSharedConstants.LyricsTagPrefix}_{gid}_{i}_main.png", 
+						chart.FileLocation?.Parent?.FullName + $"\\{ExtensionSharedConstants.LyricsTagPrefix}_{lyricFileName}_{i}_main.png", 
 						mainFont);
 					TextRenderExtension.Convert(lyrics[i+2], 
-						chart.FileLocation?.Parent?.FullName + $"\\{ExtensionSharedConstants.LyricsTagPrefix}_{gid}_{i}_translation.png", 
+						chart.FileLocation?.Parent?.FullName + $"\\{ExtensionSharedConstants.LyricsTagPrefix}_{lyricFileName}_{i}_translation.png", 
 						translationFont);
 
 
@@ -98,13 +99,13 @@ namespace MagicShaper.AdfExtensions
 					chart.ChartTiles[tile].TileEvents.Add(new AdfEventMoveDecorations()
 					{
 						Duration = 0d,
-						DecorationImage = $"{ExtensionSharedConstants.LyricsTagPrefix}_{gid}_{i}_main.png",
+						DecorationImage = $"{ExtensionSharedConstants.LyricsTagPrefix}_{lyricFileName}_{i}_main.png",
 						Tag = $"{ExtensionSharedConstants.LyricsTagPrefix}_{gid}_main",
 					});
 					chart.ChartTiles[tile].TileEvents.Add(new AdfEventMoveDecorations()
 					{
 						Duration = 0d,
-						DecorationImage = $"{ExtensionSharedConstants.LyricsTagPrefix}_{gid}_{i}_translation.png",
+						DecorationImage = $"{ExtensionSharedConstants.LyricsTagPrefix}_{lyricFileName}_{i}_translation.png",
 						Tag = $"{ExtensionSharedConstants.LyricsTagPrefix}_{gid}_translation",
 					});
 					
