@@ -1,5 +1,6 @@
 ﻿using MagicShaper.AdfExtensions;
 using MagicShaper.AdfExtensions.DecoScene;
+using MagicShaper.AdfExtensions.Gimmicks;
 using MagicShaper.AdofaiCore.AdfClass;
 using MagicShaper.AdofaiCore.AdfEvents;
 using System;
@@ -188,6 +189,10 @@ namespace MagicShaper.VfxProjects
 			chart.Cubes(2035, 30, -2, 12, -5, -1, "first");
 			chart.CubesAnimate("first", 1452, 128d);
 
+
+
+			chart.OsuManiaGimmickAdvanced(2052, 2310, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.5, 4, 1, 0.1, 4d, 0, -7, true, true, -90);
 
 
 			File.WriteAllText(@"G:\Adofai levels\OneAttempt\level-eff.adofai", chart.ChartJson.ToJsonString());

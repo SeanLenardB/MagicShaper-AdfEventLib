@@ -42,5 +42,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 		public int? Depth { get; set; } = null;
 
 		public AdfColor? Color { get; set; } = null;
+
+		public AdfMaskingType? MaskingType { get; set; } = null;
 	}
 }
