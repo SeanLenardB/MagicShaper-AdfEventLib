@@ -17,6 +17,7 @@ namespace MagicShaper.AdfExtensions
             return new()
             {
                 Floor = e.Floor,
+                Locked = e.Locked,
                 DecorationImage = e.DecorationImage,
                 Position = e.Position,
                 RelativeTo = e.RelativeTo,
@@ -53,6 +54,7 @@ namespace MagicShaper.AdfExtensions
             return new()
             {
                 Floor = d.Floor,
+                Locked = d.Locked,
                 DecorationImage = d.DecorationImage,
                 Position = d.Position,
                 RelativeTo = d.RelativeTo,
@@ -99,6 +101,7 @@ namespace MagicShaper.AdfExtensions
             return new()
             {
                 Floor = e.Floor,
+                Locked = e.Locked,
                 Position = e.Position,
                 RelativeTo = e.RelativeTo,
                 PivotOffset = e.PivotOffset,
@@ -135,6 +138,7 @@ namespace MagicShaper.AdfExtensions
             return new()
             {
 				Floor = o.Floor,
+                Locked = o.Locked,
 				Position = o.Position,
 				RelativeTo = o.RelativeTo,
 				PivotOffset = o.PivotOffset,

@@ -13,6 +13,8 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public int Floor { get; set; } = 0;
 
+		public bool Locked { get; set; } = false;
+
 		public AdfObjectType ObjectType { get; set; } = AdfObjectType.Floor;
 
 		public AdfPlanetColorType PlanetColorType { get; set; } = AdfPlanetColorType.DefaultRed;
