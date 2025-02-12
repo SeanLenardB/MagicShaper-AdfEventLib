@@ -59,8 +59,8 @@ namespace MagicShaper.VfxProjects
 				.AsBackground().WithScale(900)
 				.WithParallax(98, 99).WithParallaxOffset(5, -3).FromFlash(100).ToFlash());
 			sceneRuins.Elements.Add(sceneRuins.CreateElement<MonoElement>().Use("star2.png")
-				.AsBackground().WithScale(200)
-				.WithParallax(98, 99).WithParallaxOffset(2, 4).FromFlash(100).ToFlash());
+				.AsBackground().WithScale(250)
+				.WithParallax(98, 99).WithParallaxOffset(-2, 4).FromFlash(100).ToFlash());
 
 			sceneBlackBackSmoke.ApplyTo(chart, 0, 93);
 			sceneWhiteForeSmoke.ApplyTo(chart, 0, 93);
@@ -68,6 +68,39 @@ namespace MagicShaper.VfxProjects
 
 
 
+			var sceneWarehouse = factory.CreateScene();
+			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MonoElement>().Use("warehouse.png")
+				.AsBackground()
+				.WithAutofit(chart)
+				.FromFlash(60).ToFlash());
+			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
+			{
+				"pil1.png", "pil2.png", "pil3.png", "pil4.png", "pil5.png"
+			}).AsSpan(6, scaleMin: 300, scaleMax: 800)
+				.WithFloor(xmin: -32, xmax: 48, ymin: -5, ymax: -3)
+				.WithMovement(5, 20, -3, 3, -1, 1, 128d)
+				.FromVaryingLayer(parallaxXMin: -50, parallaxXMax: 70, opacityMin: 25, opacityMax: 100, rgbMin: 150).ToFlashOut());
+
+			var sceneWares = factory.CreateScene();
+			sceneWares.Elements.Add(sceneWares.CreateElement<MassElement>().Use(new()
+			{
+				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
+			}).AsSpan(100, -30, 60, -30, 20, scaleMin: 50, scaleMax: 350)
+				.WithMovement(-50, -10, 10, 30, -90, 90, 128d)
+				.FromVaryingLayer(25, 100, -50, 70, -50, 70, 50, 255, -180, 180)
+				.ToFlyOut(16d, 5, 20));
+
+			var sceneWarehouseSmoke = factory.CreateScene();
+			sceneWarehouseSmoke.Elements.Add(sceneWarehouseSmoke.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png", "smoke2.png"
+			}).AsTiled(5, 150, 250, -250, 250, -500, 0, scaleMin: 850, scaleMax: 1200)
+				.WithMovement(-200, -40, 250, 510, -45, 45, duration: 128d)
+				.FromVaryingLayer(rgbMin: 0, rgbMax: 140).ToFlashOut());
+
+			sceneWarehouse.ApplyTo(chart, 93, 1571);
+			sceneWarehouseSmoke.ApplyTo(chart, 93, 1571);
+			sceneWares.ApplyTo(chart, 93, 1571);
 
 
 

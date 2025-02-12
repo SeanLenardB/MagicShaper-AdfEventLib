@@ -12,6 +12,8 @@ namespace MagicShaper.AdofaiCore.DerivedClass
 
 		public int Floor { get; set; } = 0;
 
+		public bool Locked { get; set; } = false;
+
 		public string DecorationImage { get; set; } = "";
 
 		public AdfPosition Position { get; set; } = new(0d, 0d);
