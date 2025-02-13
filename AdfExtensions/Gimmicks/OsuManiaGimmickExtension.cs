@@ -191,13 +191,14 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 		/// This is the advanced (CBA) version of the gimmick
 		/// You can put the rail horizontal. 
 		/// You can also pass a predicate which determines which tiles get transposed into the gimmick.
-		/// Hold not supported. I cbad.
+		/// HOLD NOT SUPPORTED
+		/// Also, editor-commented tiles (and its midspin) are highlighted. You're welcome.
 		/// </summary>
 		public static void OsuManiaGimmickAdvanced(this AdfChart chart, int startTile, int endTile, Func<int, bool> predicate,
 			int railCount = 4, double dropSpeedTilePerBeat = 3,
-			double poolLineLength = 8, double railWidth = 1, double railGap = 0.1, double dropdownBeat = 4d,
+			double poolLineLength = 8, double railWidth = 1, double railGap = 0.1, double dropdownBeat = 4d, double keyThickness = 1,
 			double positionX = 0, double positionY = -2, bool lockRotation = true, bool lockScale = true,
-			double rotation = 0)
+			double rotation = 0, int depthOffset = 0)
 		{
 			Random random = new();
 			string guid = random.Next(0, 1000000).ToString().PadLeft(6, '0');
@@ -212,26 +213,27 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				TrackGlowEnabled = true,
 				TrackGlowColor = new("FFFFFFff"),
 				TrackOpacity = 0,
-				Parallax = new(100, 100),
-				ParallaxOffset = new(positionX, positionY),
+				RelativeTo = AdfMoveDecorationRelativeToType.CameraAspect,
+				Position = new(positionX, positionY),
 				Rotation = rotation,
 				LockRotation = lockRotation,
 				LockScale = lockScale,
-				Depth = -5
+				Depth = depthOffset + -5
 			});
 			chart.ChartTiles[startTile].TileEvents.Add(new AdfEventAddObject()
 			{
 				ObjectType = AdfObjectType.Floor,
 				TrackStyle = AdfTrackStyle.Neon,
 				TrackColor = new("FFFFFF"),
-				Scale = new(3000, 40),
+				Scale = new(100 * poolLineLength * 1.618, 40),
 				Tag = $"quartrond_osumania_{guid}_poolline",
 				TrackOpacity = 0,
-				Parallax = new(100, 100),
-				ParallaxOffset = new(positionX, positionY),
+				RelativeTo = AdfMoveDecorationRelativeToType.CameraAspect,
+				Position = new(positionX, positionY),
 				Rotation = rotation,
 				LockRotation = lockRotation,
-				LockScale = lockScale
+				LockScale = lockScale,
+				Depth = depthOffset + -4
 			});
 
 			chart.ChartTiles[startTile].TileEvents.Add(new AdfEventMoveDecorations()
@@ -239,7 +241,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				Tag = $"quartrond_osumania_{guid}_poolline",
 				Duration = dropdownBeat * 0.5d,
 				Scale = new(100 * poolLineLength, 20),
-				Ease = AdfEaseType.OutCirc,
+				Ease = AdfEaseType.OutExpo,
 				Opacity = 100
 			});
 
@@ -251,29 +253,45 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 			{
 				if (!predicate(i)) { continue; }
 
+				bool needHighlight = false;
+				if (chart.ChartTiles[i].TargetAngle >= 999d)
+				{
+					foreach (var e in chart.ChartTiles[i - 1].TileEvents)
+					{
+						if (e is AdfEventEditorComment) { needHighlight = true; break; }
+					}
+				}
+				else
+				{
+					foreach (var e in chart.ChartTiles[i].TileEvents)
+					{
+						if (e is AdfEventEditorComment) { needHighlight = true; break; }
+					}
+				}
 
 
 				int rail = random.Next(railCount);
 
 				double offset = (rail + 1) * railWidth + railGap * rail - midpoint - railWidth / 2d;
+				double lastPosX = positionX + offset * Math.Cos(rotationRad) - (dropSpeedTilePerBeat * dropdownBeat) * Math.Sin(rotationRad);
+				double lastPosY = positionY + offset * Math.Sin(rotationRad) + (dropSpeedTilePerBeat * dropdownBeat) * Math.Cos(rotationRad);
 
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventAddObject()
 				{
 					ObjectType = AdfObjectType.Floor,
 					TrackStyle = AdfTrackStyle.Minimal,
-					TrackColor = new("FFFFFF"),
+					TrackColor = new(needHighlight ? "888888" : "FFFFFF"),
 					TrackGlowEnabled = true,
-					TrackGlowColor = new("FFFFFF55"),
-					Scale = new(railWidth * 100),
+					TrackGlowColor = new(needHighlight ? "66666655" : "FFFFFF55"),
+					Scale = new(railWidth * 100 * (needHighlight ? 1.35d : 1d), keyThickness * 100),
 					Tag = $"quartrond_osumania_{guid}_key_{i}",
 					TrackOpacity = 0,
-					Parallax = new(100, 100),
-					ParallaxOffset = 
-					new(positionX + offset * Math.Cos(rotationRad) - (dropSpeedTilePerBeat * dropSpeedTilePerBeat) * Math.Sin(rotationRad),
-							positionY + offset * Math.Sin(rotationRad) + (dropSpeedTilePerBeat * dropdownBeat) * Math.Sin(rotationRad)),
+					RelativeTo = AdfMoveDecorationRelativeToType.CameraAspect,
+					Position = new(lastPosX, lastPosY),
 					Rotation = rotation,
 					LockRotation = lockRotation,
-					LockScale = lockScale
+					LockScale = lockScale,
+					Depth = depthOffset + -6
 				});
 
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
@@ -288,9 +306,14 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				{
 					Tag = $"quartrond_osumania_{guid}_key_{i}",
 					Duration = dropdownBeat,
-					ParallaxOffset = new(positionX + offset * Math.Cos(rotationRad), positionY + offset * Math.Sin(rotationRad)),
+					PositionOffset = new((positionX + offset * Math.Cos(rotationRad) - lastPosX) * 2 / 3,
+						(positionY + offset * Math.Sin(rotationRad) - lastPosY) * 2 / 3),
 					AngleOffset = -180 * dropdownBeat
 				});
+				lastPosX = positionX;
+				lastPosY = positionY;
+				// * 2 / 3 is based on experiments, it fixes the key going over too much
+				// thanks spaghetti monster
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
 				{
 					Tag = $"quartrond_osumania_{guid}_poolline_hit",
@@ -306,11 +329,12 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				});
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
 				{
+					RelativeTo = AdfMoveDecorationRelativeToType.LastPosition,
 					Tag = $"quartrond_osumania_{guid}_key_{i}",
-					Duration = dropdownBeat * 0.2,
-					Scale = new(1.2 * railWidth, 0),
-					ParallaxOffset = new(positionX + offset * Math.Cos(rotationRad) + 0.5d * Math.Sin(rotationRad), 
-						positionY + offset * Math.Sin(rotationRad) - 0.5 * Math.Cos(rotationRad)),
+					Duration = dropdownBeat * 0.5,
+					Scale = new(1.2 * railWidth * 100, keyThickness * 100),
+					PositionOffset = new(positionX + offset * Math.Cos(rotationRad) + 0.5d * Math.Sin(rotationRad) - lastPosX,
+						positionY + offset * Math.Sin(rotationRad) - 0.5d * Math.Cos(rotationRad) - lastPosY),
 					Opacity = 0,
 					Ease = AdfEaseType.OutQuad
 				});
@@ -323,7 +347,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				Ease = AdfEaseType.OutCirc,
 				Opacity = 0,
 				Scale = new(poolLineLength * 100 * 0.3, 10),
-				ParallaxOffset = new(positionX + 0.2 * Math.Sin(rotationRad), positionY - 0.2 * Math.Cos(rotationRad))
+				PositionOffset = new(0.2 * Math.Sin(rotationRad), 0.2 * Math.Cos(rotationRad))
 			});
 
 

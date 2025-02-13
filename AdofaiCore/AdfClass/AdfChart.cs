@@ -221,6 +221,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 new AdfEventMoveDecorations(),
                 new AdfEventMoveTrack(),
                 new AdfEventPause(),
+                new AdfEventPlaySound(),
                 new AdfEventPositionTrack(),
                 new AdfEventRecolorTrack(),
                 new AdfEventRepeatEvents(),

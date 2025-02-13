@@ -62,7 +62,7 @@ namespace MagicShaper.VfxProjects
 			{
 				"smoke1.png", "smoke2.png"
 			}).AsTileSpan(3, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
-			.WithMovementParallax(-40, 40, 250, 500, -25, 25, 2048 * 16d)
+			.WithMovementParallax(-40, 40, 250, 500, -25, 25, 8192d)
 			.FromVaryingLayer(15, 40, 95, 99, 95, 99, 180, 230, -180, 180, -50, -30)
 			.ToFlashOut());
 
@@ -71,7 +71,7 @@ namespace MagicShaper.VfxProjects
 			{
 				"smoke1.png", "smoke2.png"
 			}).AsTileSpan(8, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
-			.WithMovementParallax(-20, 20, 50, 100, -15, 15, 1024d)
+			.WithMovementParallax(-20, 20, 50, 100, -15, 15, 8192d)
 			.FromVaryingLayer(15, 35, 95, 99, 95, 99, 0, 50, -180, 180, 20, 30)
 			.ToFlashOut());
 
@@ -121,11 +121,10 @@ namespace MagicShaper.VfxProjects
 			sceneWares.ApplyTo(chart, 93, 2839);
 			sceneBlackBackSmoke.ApplyTo(chart, 93, 2839);
 			sceneWhiteForeSmoke.ApplyTo(chart, 93, 2839);
-
-
 #pragma warning disable CA1416 // Validate platform compatibility
 			chart.LyricWithTranslation("worldmachine.txt", "Bahnschrift", "方正楷体_GBK",
 				0, 0, 100, 1, 1, -1145, "FFFFFFFF", "DDDDDDBB");
+#pragma warning restore CA1416 // Validate platform compatibility
 
 			chart.WorldMachine(112, "[ QR3 Finals Original Tiebreaker ]", "[ \"Sean Lenard B. - OneAttempt -Thawing-\" ]", 15d);
 			chart.WorldMachine(209, "[ Simulation created by Chart Duo \"Qubic Resort\" ]", "[ 团队\"立方双晶\"制作 ]", 7d);
@@ -137,12 +136,6 @@ namespace MagicShaper.VfxProjects
 			chart.WorldMachine(508, "[ The Ruins ]", "[ 废墟 ]", 7d);
 
 			chart.WorldMachine(1466, "[ The world is destablizing. Watch out. ]", "[ 这个世界开始变得不稳定了，小心点 ]", 11d);
-#pragma warning restore CA1416 // Validate platform compatibility
-
-
-
-
-
 			for (int i = 906; i < 1466; i++)
 			{
 				if (chart.GetInnerAngleAtTile(i) == 30 && chart.GetInnerAngleAtTile(i+1) == 30)
@@ -189,10 +182,80 @@ namespace MagicShaper.VfxProjects
 			chart.Cubes(2035, 30, -2, 12, -5, -1, "first");
 			chart.CubesAnimate("first", 1452, 128d);
 
+			chart.OsuManiaGimmickAdvanced(2052, 2327, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
+				true, true, -90, -18020);
+			chart.OsuManiaGimmickAdvanced(2422, 2696, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
+				true, true, -90, -18020);
 
 
-			chart.OsuManiaGimmickAdvanced(2052, 2310, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
-				1, 0.5, 4, 1, 0.1, 4d, 0, -7, true, true, -90);
+			chart.Cubes(2353, 20, -6, -2, -8, -2, "second");
+			chart.CubesAnimate("second", 2289, 64d);
+			chart.Cubes(2696, 20, -5, -2, 2, 8, "third");
+			chart.CubesAnimate("third", 2656, 64d);
+
+			chart.Cubes(2534, 20, -8, 2, -5, 3, "third-p");
+			chart.CubesAnimate("third-p", 2576, 16d);
+
+			chart.Cubes(2728, 20, -8, 2, -9, -2, "fourth-0");
+			chart.Cubes(2761, 20, -2, 4, -2, 6, "fourth-a");
+			chart.Cubes(2794, 20, -12, 2, -2, 3, "fourth-b");
+			chart.Cubes(2817, 20, -5, 2, -2, 4, "fourth-c");
+			chart.CubesAnimate("fourth-0", 2761, 16d);
+			chart.CubesAnimate("fourth-a", 2795, 16d);
+			chart.CubesAnimate("fourth-b", 2817, 16d);
+			chart.CubesAnimate("fourth-c", 2833, 16d);
+
+			chart.WorldMachine(2025, "[ Look down. ]", " [ 向下看 ]", 7d);
+
+
+
+
+
+
+
+
+			// SECOND HALF
+
+			sceneWares.ApplyTo(chart, 2844, 3236);
+			sceneBlackBackSmoke.ApplyTo(chart, 2844, 3236);
+			sceneBlackBackSmoke.ApplyTo(chart, 2844, 3236);
+			sceneBlackBackSmoke.ApplyTo(chart, 2844, 3236);
+			sceneWhiteForeSmoke.ApplyTo(chart, 2844, 3236);
+			sceneRuins.ApplyTo(chart, 2844, 3236);
+
+
+
+
+			var sceneVolcanoTwo = factory.CreateScene();
+
+			sceneVolcanoTwo.Elements.Add(sceneVolcanoTwo.CreateElement<MonoElement>().Use("planet.png").AsBackground()
+				.WithAutofit(chart).FromFlash(70).ToFlash());
+		
+			var sceneSecondDrop = factory.CreateScene();
+			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
+			{
+				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
+			}).AsSpan(30, -40, 500, 0, 220, scaleMin: 550, scaleMax: 2050)
+				.WithMovementParallax(-5, -10, 5, 10, -90, 90, 128d * 64d)
+				.FromVaryingLayer(55, 100, 70, 90, 70, 90,
+				0, 85, -180, 180, 1, 1)
+				.ToFlashOut());
+			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
+			{
+				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
+			}).AsSpan(250, -40, 500, 0, 220, scaleMin: 250, scaleMax: 850)
+				.WithMovementParallax(-5, -10, 5, 10, -90, 90, 128d * 64d)
+				.FromVaryingLayer(55, 100, -10, 30, -10, 30,
+				200, 255, -180, 180, 1, 1)
+				.ToFlashOut());
+
+			sceneWares.ApplyTo(chart, 3259, 7504);
+			sceneVolcanoTwo.ApplyTo(chart, 3259, 7504);
+			sceneBlackBackSmoke.ApplyTo(chart, 3259, 7504);
+			sceneWhiteForeSmoke.ApplyTo(chart, 3259, 7504);
+			sceneSecondDrop.ApplyTo(chart, 3259, 7504);
 
 
 			File.WriteAllText(@"G:\Adofai levels\OneAttempt\level-eff.adofai", chart.ChartJson.ToJsonString());
@@ -282,6 +345,7 @@ namespace MagicShaper.VfxProjects
 					$"quartrond-worldmachinecubes-section-{section} quartrond-worldmachinecubes-section-{section}-{random.Next(CubeGroupInSection)}",
 					RelativeTo = AdfMoveDecorationRelativeToType.Tile,
 					Floor = relativeToTile,
+					Opacity = 0,
 					Position = new(random.RandBetween(xmin, xmax), random.RandBetween(ymin, ymax)),
 					Scale = new(random.RandBetween(20, 80)),
 					Color = random.RandIn(CubeColors)
@@ -301,6 +365,7 @@ namespace MagicShaper.VfxProjects
 						Tag = $"quartrond-worldmachinecubes-section-{section}-{j}",
 						PositionOffset = new(random.RandBetween(-0.1, 0.1), random.RandBetween(-0.1, 0.1)),
 						Color = random.RandIn(CubeColors),
+						Opacity = 100,
 						Duration = 0,
 						Scale = new(random.RandBetween(20, 80)),
 						AngleOffset = chart.GetTileBpmAt(animationTile) / 235 * 180 / FlashPerBeat * i
