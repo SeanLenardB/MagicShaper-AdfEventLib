@@ -258,6 +258,24 @@ namespace MagicShaper.VfxProjects
 			sceneSecondDrop.ApplyTo(chart, 3259, 7504);
 
 
+
+
+			chart.CameraRotationPulseByBeats(3259, 4d, 128, -3, 3, 375, 450, 8d);
+
+			chart.OsuManiaGimmickAdvanced(4635, 4859, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
+				true, true, -90, -18020);
+			chart.OsuManiaGimmickAdvanced(4942, 5166, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
+				true, true, -90, -18020);
+			chart.OsuManiaGimmickAdvanced(5251, 5474, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
+				true, true, -90, -18020);
+			chart.OsuManiaGimmickAdvanced(5558, 5782, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
+				true, true, -90, -18020);
+
+
 			File.WriteAllText(@"G:\Adofai levels\OneAttempt\level-eff.adofai", chart.ChartJson.ToJsonString());
 		}
 
