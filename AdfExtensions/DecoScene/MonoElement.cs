@@ -129,6 +129,18 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MonoElement WithColor(double color = 255)
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Color = new("FFFFFF") { R = (byte)color, G = (byte)color, B = (byte)color },
+				Duration = 0d
+			});
+
+			return this;
+		}
+
 
 
 

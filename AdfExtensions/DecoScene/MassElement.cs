@@ -61,7 +61,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		}
 
 		public MassElement AsSpan(int amount = 10, double xmin = -50, double xmax = 50, double ymin = -5, double ymax = 5,
-			double scaleMin = 80, double scaleMax = 120)
+			double scaleMin = 80, double scaleMax = 120, bool lockscale = false)
 		{
 			Random random = new();
 
@@ -75,6 +75,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
 					Scale = new(random.NextDouble() * (scaleMax - scaleMin) + scaleMin),
 					Opacity = 0,
+					LockScale = lockscale,
 				});
 			}
 
@@ -88,7 +89,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		/// so these images don't stuck at 100% parallax
 		/// </summary>
 		public MassElement AsSpanParallax(int amount = 10, double xmin = -50, double xmax = 50, double ymin = -5, double ymax = 5,
-			double scaleMin = 80, double scaleMax = 120)
+			double scaleMin = 80, double scaleMax = 120, bool lockscale = false)
 		{
 			Random random = new();
 
@@ -103,7 +104,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					ParallaxOffset = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
 					Scale = new(random.NextDouble() * (scaleMax - scaleMin) + scaleMin),
 					Opacity = 0,
-
+					LockScale = lockscale,
 				});
 			}
 
@@ -114,7 +115,8 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 		public MassElement AsTileSpan(int amount = 10, double xmin = -50, double xmax = 50, double ymin = -5, double ymax =5,
 			double scaleMin = 80, double scaleMax = 120,
-			int tileXMin = 5, int tileXMax = 10, int tileYMin = 1, int tileYMax = 2)
+			int tileXMin = 5, int tileXMax = 10, int tileYMin = 1, int tileYMax = 2,
+			bool lockscale = false)
 		{
 			Random random = new();
 
@@ -131,7 +133,8 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin, random.NextDouble() * (ymax - ymin) + ymin),
 					Scale = new(scale * xtile, scale * ytile),
 					Opacity = 0,
-					Tile = new(xtile, ytile)
+					Tile = new(xtile, ytile),
+					LockScale = lockscale
 				});
 			}
 

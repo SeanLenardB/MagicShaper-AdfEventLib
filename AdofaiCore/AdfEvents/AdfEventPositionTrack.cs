@@ -26,5 +26,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public bool EditorOnly { get; set; } = false;
 
+		public bool StickToFloors { get; set; } = false;
+
 	}
 }

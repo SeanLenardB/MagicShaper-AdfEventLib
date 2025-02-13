@@ -180,7 +180,7 @@ namespace MagicShaper.VfxProjects
 			chart.Cubes(1772, 30, 2, 16, -6, 0, "first");
 			chart.Cubes(1813, 30, -8, -3, -2, 6, "first");
 			chart.Cubes(2035, 30, -2, 12, -5, -1, "first");
-			chart.CubesAnimate("first", 1452, 128d);
+			chart.CubesAnimate("first", 1421, 128d);
 
 			chart.OsuManiaGimmickAdvanced(2052, 2327, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
 				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
@@ -193,7 +193,7 @@ namespace MagicShaper.VfxProjects
 			chart.Cubes(2353, 20, -6, -2, -8, -2, "second");
 			chart.CubesAnimate("second", 2289, 64d);
 			chart.Cubes(2696, 20, -5, -2, 2, 8, "third");
-			chart.CubesAnimate("third", 2656, 64d);
+			chart.CubesAnimate("third", 2628, 64d);
 
 			chart.Cubes(2534, 20, -8, 2, -5, 3, "third-p");
 			chart.CubesAnimate("third-p", 2576, 16d);
@@ -230,48 +230,96 @@ namespace MagicShaper.VfxProjects
 
 			var sceneVolcanoTwo = factory.CreateScene();
 
-			sceneVolcanoTwo.Elements.Add(sceneVolcanoTwo.CreateElement<MonoElement>().Use("planet.png").AsBackground()
+			sceneVolcanoTwo.Elements.Add(sceneVolcanoTwo.CreateElement<MonoElement>().Use("cosmos.png").AsBackground()
 				.WithAutofit(chart).FromFlash(70).ToFlash());
 		
 			var sceneSecondDrop = factory.CreateScene();
+			//sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
+			//{
+			//	"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
+			//}).AsSpan(15, -40, 500, 0, 220, scaleMin: 550, scaleMax: 1500)
+			//	.WithMovementParallax(-5, -10, 5, 10, -90, 90, 128d * 64d)
+			//	.FromVaryingLayer(55, 100, 70, 90, 70, 90,
+			//	0, 200, -180, 180, 1, 1)
+			//	.ToFlashOut());
 			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
 			{
 				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
-			}).AsSpan(30, -40, 500, 0, 220, scaleMin: 550, scaleMax: 2050)
-				.WithMovementParallax(-5, -10, 5, 10, -90, 90, 128d * 64d)
-				.FromVaryingLayer(55, 100, 70, 90, 70, 90,
-				0, 85, -180, 180, 1, 1)
+			}).AsSpan(250, -350, 80, -20, 80, scaleMin: 550, scaleMax: 800)
+				.FromVaryingLayer(25, 100, -90, -70, -90, -30,
+				0, 100, -180, 180, 4, 4)
 				.ToFlashOut());
 			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
 			{
 				"ware1.png", "ware2.png", "ware3.png", "ware4.png", "ware5.png", "ware6.png", "ware7.png", "ware8.png", "ware9.png", "ware10.png", "ware11.png", "ware12.png"
-			}).AsSpan(250, -40, 500, 0, 220, scaleMin: 250, scaleMax: 850)
-				.WithMovementParallax(-5, -10, 5, 10, -90, 90, 128d * 64d)
-				.FromVaryingLayer(55, 100, -10, 30, -10, 30,
-				200, 255, -180, 180, 1, 1)
+			}).AsSpan(250, -50, 500, -20, 80, scaleMin: 150, scaleMax: 550)
+				.FromVaryingLayer(25, 50, 50, 90, 30, 90,
+				160, 255, -180, 180, 2, 2)
 				.ToFlashOut());
+			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MonoElement>().Use("peak.png")
+				.AsBackground(3).WithColor(80).WithParallaxOffset(-10, -1).WithScale(500).FromFlash(100).ToFlash());
+			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png", "smoke2.png"
+			}).AsTileSpan(3, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
+			.WithMovementParallax(-40, 40, 450, 800, -25, 25, 2048d)
+			.FromVaryingLayer(15, 60, 95, 99, 95, 99, 180, 230, -180, 180, -50, -30)
+			.ToFlashOut());
+			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
+			{
+				"smoke1.png", "smoke2.png"
+			}).AsTileSpan(8, -100, 100, -100, 100, 500, 800, 200, 200, 800, 1200)
+			.WithMovementParallax(-20, 20, 150, 300, -15, 15, 2048d)
+			.FromVaryingLayer(15, 55, 95, 99, 95, 99, 0, 50, -180, 180, 20, 30)
+			.ToFlashOut());
 
-			sceneWares.ApplyTo(chart, 3259, 7504);
 			sceneVolcanoTwo.ApplyTo(chart, 3259, 7504);
-			sceneBlackBackSmoke.ApplyTo(chart, 3259, 7504);
-			sceneWhiteForeSmoke.ApplyTo(chart, 3259, 7504);
 			sceneSecondDrop.ApplyTo(chart, 3259, 7504);
 
 
 
 
-			chart.CameraRotationPulseByBeats(3259, 4d, 128, -3, 3, 375, 450, 8d);
+			Random random = new();
+			foreach (var tile in from N in Enumerable.Range(3259, 4635 - 3259) 
+				 where chart.GetInnerAngleAtTile(N) == 30d && (chart.GetInnerAngleAtTile(N+1) == 60d || chart.GetInnerAngleAtTile(N+1) == 30d) 
+				 select N)
+			{
+				chart.ChartTiles[tile].TileEvents.Add(
+					new AdfEventMoveCamera()
+					{
+						Duration = 0d,
+						Zoom = 350,
+						AngleOffset = -0.01d
+					});
+				chart.ChartTiles[tile].TileEvents.Add(
+					new AdfEventMoveCamera()
+					{
+						Zoom = 450,
+						Duration = 16d * chart.GetTileBpmAt(tile) / chart.GetTileBpmAt(0),
+						Ease = AdfEaseType.OutCirc
+					});
+			}
 
-			chart.OsuManiaGimmickAdvanced(4635, 4859, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+
+
+
+
+
+			chart.Cubes(3308, 10, 2, 6, 3, 5, "dropsecond-first");
+
+			chart.CubesAnimate("dropsecond-first", 3237, 256d);
+
+
+			chart.OsuManiaGimmickAdvanced(-32 + 4635, 4859, (i) => chart.ChartTiles[i].TargetAngle >= 999d,
 				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
 				true, true, -90, -18020);
-			chart.OsuManiaGimmickAdvanced(4942, 5166, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+			chart.OsuManiaGimmickAdvanced(-32 + 4942, 5166, (i) => chart.ChartTiles[i].TargetAngle >= 999d,
 				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
 				true, true, -90, -18020);
-			chart.OsuManiaGimmickAdvanced(5251, 5474, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+			chart.OsuManiaGimmickAdvanced(-32 + 5251, 5474, (i) => chart.ChartTiles[i].TargetAngle >= 999d,
 				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
 				true, true, -90, -18020);
-			chart.OsuManiaGimmickAdvanced(5558, 5782, (i) => chart.ChartTiles[i].TargetAngle >= 999d, 
+			chart.OsuManiaGimmickAdvanced(-32 + 5558, 5782, (i) => chart.ChartTiles[i].TargetAngle >= 999d,
 				1, 0.4d, 2d, 1d, 0.1d, 32d, 0.2d, -5d, -7.2d,
 				true, true, -90, -18020);
 
