@@ -230,6 +230,7 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 new AdfEventScreenTile(),
                 new AdfEventSetConditionalEvents(),
                 new AdfEventSetFilter(),
+                new AdfEventSetFrameRate(),
                 new AdfEventSetHitsound(),
                 new AdfEventSetPlanetRotation(),
                 new AdfEventSetSpeed(),
@@ -238,9 +239,10 @@ namespace MagicShaper.AdofaiCore.AdfClass
                 new AdfEventTwirl(),
                 new AdfEventEditorComment(),
 
+                new AdfEventHide(),
                 new AdfEventHold(),
                 new AdfEventScaleRadius(),
-                new AdfEventScaleMargin()
+                new AdfEventScaleMargin(),
             };
 
 			foreach (var e in events)

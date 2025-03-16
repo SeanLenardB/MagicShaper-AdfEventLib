@@ -22,7 +22,7 @@
 
         InQuint,
         OutQuint,
-        InOutQint,
+        InOutQuint,
 
         InExpo,
         OutExpo,

@@ -439,6 +439,20 @@ namespace MagicShaper.VfxProjects
 			File.WriteAllText(@"G:\Adofai levels\OneAttempt\level-eff.adofai", chart.ChartJson.ToJsonString());
 		}
 
+		public static void Test()
+		{
+			AdfChart chart = AdfChart.Parse(@"G:\Adofai levels\testcubes\Le_noeffect.adofai");
+
+
+
+
+
+
+
+
+
+			File.WriteAllText(@"G:\Adofai levels\testcubes\level-eff.adofai", chart.ChartJson.ToJsonString());
+		}
 
 
 
