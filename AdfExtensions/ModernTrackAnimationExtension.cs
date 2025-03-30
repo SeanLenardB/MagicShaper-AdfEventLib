@@ -53,7 +53,7 @@ namespace MagicShaper.AdfExtensions
 						Scale = new(random.RandBetween(smin, smax)),
 						Opacity = 0d,
 						Duration = 0d,
-						AngleOffset = -114514d
+						AngleOffset = -1145140d
 					});
 				chart.ChartTiles[i].TileEvents.Add(
 					new AdfEventMoveTrack()

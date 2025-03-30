@@ -12,7 +12,7 @@ internal class Program
 {
 	private static void Main(string[] args)
 	{
-		AdfVfxProj_OneAttempt.Test();
+		AdfVfxProj_BydReaches.ProjMain();
 
 	}
 
