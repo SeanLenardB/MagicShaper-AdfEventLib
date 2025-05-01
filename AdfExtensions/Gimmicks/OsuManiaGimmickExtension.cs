@@ -198,7 +198,7 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 			int railCount = 4, double dropSpeedTilePerBeat = 3,
 			double poolLineLength = 8, double railWidth = 1, double railGap = 0.1, double dropdownBeat = 4d, double keyThickness = 1,
 			double positionX = 0, double positionY = -2, bool lockRotation = true, bool lockScale = true,
-			double rotation = 0, int depthOffset = 0)
+			double rotation = 0, int depthOffset = 0, AdfHitsoundType? hitsound = null)
 		{
 			Random random = new();
 			string guid = random.Next(0, 1000000).ToString().PadLeft(6, '0');
@@ -256,6 +256,10 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 				bool needHighlight = false;
 				if (chart.ChartTiles[i].TargetAngle >= 999d)
 				{
+					foreach (var e in chart.ChartTiles[i].TileEvents)
+					{
+						if (e is AdfEventEditorComment) { needHighlight = true; break; }
+					}
 					foreach (var e in chart.ChartTiles[i - 1].TileEvents)
 					{
 						if (e is AdfEventEditorComment) { needHighlight = true; break; }
@@ -293,6 +297,14 @@ namespace MagicShaper.AdfExtensions.Gimmicks
 					LockScale = lockScale,
 					Depth = depthOffset + -6
 				});
+
+				if (hitsound is not null)
+				{
+					chart.ChartTiles[i].TileEvents.Add(new AdfEventPlaySound()
+					{
+						Hitsound = (AdfHitsoundType)hitsound,
+					});
+				}
 
 				chart.ChartTiles[i].TileEvents.Add(new AdfEventMoveDecorations()
 				{
