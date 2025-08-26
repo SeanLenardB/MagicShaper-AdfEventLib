@@ -10,20 +10,20 @@ namespace MagicShaper.AdofaiCore.AdfClass
 {
 	internal class AdfScale
 	{
-		public AdfScale(double x, double y)
+		public AdfScale(double? x, double? y)
 		{
 			X = x;
 			Y = y;
 		}
 		
-		public AdfScale(double s)
+		public AdfScale(double? s)
 		{
 			X = s;
 			Y = s;
 		}
 
-		public double X { get; set; }
-		public double Y { get; set; }
+		public double? X { get; set; }
+		public double? Y { get; set; }
 
 		public override string ToString()
 		{
@@ -35,9 +35,9 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			public override AdfScale? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 			{
 				reader.Read();
-				double x = reader.GetDouble();
+				double? x = reader.TokenType == JsonTokenType.Null ? null : reader.GetDouble();
 				reader.Read();
-				double y = reader.GetDouble();
+				double? y = reader.TokenType == JsonTokenType.Null ? null : reader.GetDouble();
 				reader.Read();
 				return new(x, y);
 			}
@@ -45,10 +45,23 @@ namespace MagicShaper.AdofaiCore.AdfClass
 			public override void Write(Utf8JsonWriter writer, AdfScale value, JsonSerializerOptions options)
 			{
 				writer.WriteStartArray();
-				writer.WriteNumberValue(value.X);
-				writer.WriteNumberValue(value.Y);
+				if (value.X is not null)
+				{
+					writer.WriteNumberValue((double)value.X);
+				}
+				else
+				{
+					writer.WriteNullValue();
+				}
 
-
+				if (value.Y is not null)
+				{
+					writer.WriteNumberValue((double)value.Y);
+				}
+				else
+				{
+					writer.WriteNullValue();
+				}
 				writer.WriteEndArray();
 			}
 		}

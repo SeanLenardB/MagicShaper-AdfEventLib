@@ -141,6 +141,20 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MonoElement WithMovement(double duration = 4d, double dx = 0, double dy = 0, AdfEaseType ease = AdfEaseType.OutCubic)
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				PositionOffset = new(dx, dy),
+				Duration = duration,
+				Ease = ease
+			});
+
+			return this;
+		}
+
+
 
 
 
@@ -157,6 +171,18 @@ namespace MagicShaper.AdfExtensions.DecoScene
 			return this;
 		}
 
+		public MonoElement FromFade(double duration = 4d, double opacity = 100)
+		{
+			OnSceneBegin.Add(new AdfEventMoveDecorations()
+			{
+				Tag = Tag(),
+				Duration = duration,
+				Opacity = opacity,
+				AngleOffset = -0.001
+			});
+
+			return this;
+		}
 
 
 

@@ -105,6 +105,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Scale = new(random.NextDouble() * (scaleMax - scaleMin) + scaleMin),
 					Opacity = 0,
 					LockScale = lockscale,
+					LockRotation = true
 				});
 			}
 
@@ -322,7 +323,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-
+	
 		public MassElement ToFlashOut()
 		{
 			OnSceneEnd.Add(new AdfEventMoveDecorations()

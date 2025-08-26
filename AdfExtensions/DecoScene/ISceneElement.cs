@@ -23,5 +23,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		internal List<IAdfEvent> OnSceneEnd { get; set; }
 
 		internal List<Func<int, IAdfEvent?>> OnTile { get; set; }
+
+		internal string Tag(int i);
 	}
 }
