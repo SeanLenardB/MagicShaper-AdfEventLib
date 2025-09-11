@@ -38,7 +38,7 @@ namespace MagicShaper.VfxProjects
 			var sceneVolcano = factory.CreateScene();
 
 			sceneVolcano.Elements.Add(sceneVolcano.CreateElement<MonoElement>().Use("volcano.png").AsBackground()
-				.WithAutofit(chart).FromFlash(20).ToFlash());
+				.WithAutofit(chart).FromFlash(20).ToFlashOut());
 
 			sceneVolcano.Elements.Add(sceneVolcano.CreateElement<MassElement>().Use(new() { "volcano1.png", "volcano2.png", "volcano3.png", "volcano4.png" })
 				.AsSpan(3, -200, 200, -120, -90, 800, 1200).WithVaryingDepth(5, 10)
@@ -170,7 +170,7 @@ namespace MagicShaper.VfxProjects
 			var sceneCave = factory.CreateScene();
 
 			sceneCave.Elements.Add(sceneCave.CreateElement<MonoElement>().Use("cave.png").AsBackground()
-				.WithAutofit(chart).FromFlash(20).ToFlash());
+				.WithAutofit(chart).FromFlash(20).ToFlashOut());
 
 			sceneCave.ApplyTo(chart, 235, 962);
 			sceneSmoke.ApplyTo(chart, 235, 962);
@@ -200,7 +200,7 @@ namespace MagicShaper.VfxProjects
 			var sceneForest = factory.CreateScene();
 
 			sceneForest.Elements.Add(sceneForest.CreateElement<MonoElement>().Use("forest.png")
-				.AsBackground().WithAutofit(chart).FromFlash(50).ToFlash());
+				.AsBackground().WithAutofit(chart).FromFlash(50).ToFlashOut());
 
 			sceneForest.ApplyTo(chart, 729, 1080);
 
@@ -333,7 +333,7 @@ namespace MagicShaper.VfxProjects
 			var sceneNight = factory.CreateScene();
 
 			sceneNight.Elements.Add(sceneNight.CreateElement<MonoElement>().Use("night.png")
-				.AsBackground().WithAutofit(chart).FromFlash().ToFlash());
+				.AsBackground().WithAutofit(chart).FromFlash().ToFlashOut());
 
 
 
@@ -373,7 +373,7 @@ namespace MagicShaper.VfxProjects
 			var sceneVolcanoTwo = factory.CreateScene();
 
 			sceneVolcanoTwo.Elements.Add(sceneVolcanoTwo.CreateElement<MonoElement>().Use("planet.png").AsBackground()
-				.WithAutofit(chart).FromFlash(70).ToFlash());
+				.WithAutofit(chart).FromFlash(70).ToFlashOut());
 			sceneVolcanoTwo.Elements.Add(sceneVolcanoTwo.CreateElement<MassElement>().Use(new() { "volcano1.png", "volcano2.png", "volcano3.png", "volcano4.png" })
 				.AsSpan(3, -200, 200, -120, -90, 800, 1200).WithVaryingDepth(5, 10)
 				.FromVaryingLayer(20, 50, 90, 100, 95, 100, 225, 255).ToFlashOut());
@@ -440,7 +440,7 @@ namespace MagicShaper.VfxProjects
 			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MonoElement>().Use("warehouse.png")
 				.AsBackground()
 				.WithAutofit(chart)
-				.FromFlash(60).ToFlash());
+				.FromFlash(60).ToFlashOut());
 			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
 			{
 				"pil1.png", "pil2.png", "pil3.png", "pil4.png", "pil5.png"

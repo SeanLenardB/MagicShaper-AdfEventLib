@@ -188,7 +188,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-		public MonoElement ToFlash()
+		public MonoElement ToFlashOut()
 		{
 			OnSceneEnd.Add(new AdfEventMoveDecorations()
 			{

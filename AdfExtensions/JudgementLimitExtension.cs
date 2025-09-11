@@ -231,10 +231,5 @@ namespace MagicShaper.AdfExtensions
         public JudgementLimitBuilderException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
-
-        protected JudgementLimitBuilderException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
-
 }

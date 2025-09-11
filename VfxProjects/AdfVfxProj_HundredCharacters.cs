@@ -22,7 +22,7 @@ namespace MagicShaper.VfxProjects
 
 			sceneForest.Elements.Add(sceneForest.CreateElement<MonoElement>().Use("forest.png")
 				.AsBackground().WithAutofit(chart)
-				.FromFlash(80).ToFlash());
+				.FromFlash(80).ToFlashOut());
 
 
 

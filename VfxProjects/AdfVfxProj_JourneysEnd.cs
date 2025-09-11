@@ -142,7 +142,7 @@ namespace MagicShaper.VfxProjects
 
 			var sceneCrystalCave = factory.CreateScene();
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MonoElement>().Use("crystal.png")
-				.AsBackground().WithAutofit(chart).FromFlash(50).ToFlash());
+				.AsBackground().WithAutofit(chart).FromFlash(50).ToFlashOut());
 			sceneCrystalCave.Elements.Add(sceneCrystalCave.CreateElement<MassElement>().Use(new()
 			{
 				"m1.png",
@@ -237,11 +237,11 @@ namespace MagicShaper.VfxProjects
 
 			var sceneSnowFloor = factory.CreateScene();
 			sceneSnowFloor.Elements.Add(sceneSnowFloor.CreateElement<MonoElement>().Use("snowfloor.png")
-				.WithAutofit(chart).AsBackground().FromFlash(60).ToFlash());
+				.WithAutofit(chart).AsBackground().FromFlash(60).ToFlashOut());
 
 			var sceneCosmos = factory.CreateScene();
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("space.png")
-				.WithAutofit(chart).AsBackground().FromFlash(40).ToFlash());
+				.WithAutofit(chart).AsBackground().FromFlash(40).ToFlashOut());
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MassElement>().Use(new()
 			{
 				"nebula1.png",
@@ -254,19 +254,19 @@ namespace MagicShaper.VfxProjects
 			.ToFlashOut());
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("gemlight.png").AsForeground(5, false, false)
 				.WithScale(600).WithParallax(97.7, 99.7).WithParallaxOffset(0, 2)
-				.FromFlash(30).ToFlash());
+				.FromFlash(30).ToFlashOut());
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("nebula6.png").AsForeground(11, false, false)
 				.WithScale(200).WithParallax(98.7, 99.7).WithParallaxOffset(0.2, 2)
-				.FromFlash(60).ToFlash());
+				.FromFlash(60).ToFlashOut());
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("wave.png").AsForeground(13, false, false)
 				.WithScale(1).WithParallax(98.7, 99.7).WithParallaxOffset(0, 2)
-				.FromFlash(100).ToFlash());
+				.FromFlash(100).ToFlashOut());
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("gemc.png").AsForeground(9, false, false)
 				.WithScale(57.5).WithParallax(98.8, 99.8).WithParallaxOffset(0, 2)
-				.FromFlash(80).ToFlash());
+				.FromFlash(80).ToFlashOut());
 			sceneCosmos.Elements.Add(sceneCosmos.CreateElement<MonoElement>().Use("gem.png").AsForeground(10, false, false)
 				.WithScale(60).WithParallax(99, 99.9).WithParallaxOffset(0, 2)
-				.FromFlash(50).ToFlash());
+				.FromFlash(50).ToFlashOut());
 
 			var sceneFinal = factory.CreateScene();
 			sceneFinal.Elements.Add(sceneFinal.CreateElement<MonoElement>().Use("gemlight.png").AsForeground(5, false, false)

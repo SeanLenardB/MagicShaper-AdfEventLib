@@ -89,7 +89,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 		/// so these images don't stuck at 100% parallax
 		/// </summary>
 		public MassElement AsSpanParallax(int amount = 10, double xmin = -50, double xmax = 50, double ymin = -5, double ymax = 5,
-			double scaleMin = 80, double scaleMax = 120, bool lockscale = false)
+			double scaleMin = 80, double scaleMax = 120, bool lockscale = false, bool lockRotation = true)
 		{
 			Random random = new();
 
@@ -105,7 +105,7 @@ namespace MagicShaper.AdfExtensions.DecoScene
 					Scale = new(random.NextDouble() * (scaleMax - scaleMin) + scaleMin),
 					Opacity = 0,
 					LockScale = lockscale,
-					LockRotation = true
+					LockRotation = lockRotation
 				});
 			}
 

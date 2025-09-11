@@ -80,13 +80,13 @@ namespace MagicShaper.VfxProjects
 			var sceneRuins = factory.CreateScene();
 			sceneRuins.Elements.Add(sceneRuins.CreateElement<MonoElement>().Use("nightsky.png")
 				.AsBackground().WithAutofit(chart)
-				.FromFlash(20).ToFlash());
+				.FromFlash(20).ToFlashOut());
 			sceneRuins.Elements.Add(sceneRuins.CreateElement<MonoElement>().Use("peak.png")
 				.AsBackground().WithScale(900)
-				.WithParallax(98, 99).WithParallaxOffset(5, -3).FromFlash(100).ToFlash());
+				.WithParallax(98, 99).WithParallaxOffset(5, -3).FromFlash(100).ToFlashOut());
 			sceneRuins.Elements.Add(sceneRuins.CreateElement<MonoElement>().Use("star2.png")
 				.AsBackground().WithScale(250)
-				.WithParallax(98, 99).WithParallaxOffset(-2, 4).FromFlash(100).ToFlash());
+				.WithParallax(98, 99).WithParallaxOffset(-2, 4).FromFlash(100).ToFlashOut());
 
 			sceneBlackBackSmoke.ApplyTo(chart, 0, 93);
 			sceneWhiteForeSmoke.ApplyTo(chart, 0, 93);
@@ -98,7 +98,7 @@ namespace MagicShaper.VfxProjects
 			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MonoElement>().Use("warehouse.png")
 				.AsBackground()
 				.WithAutofit(chart)
-				.FromFlash(60).ToFlash());
+				.FromFlash(60).ToFlashOut());
 			sceneWarehouse.Elements.Add(sceneWarehouse.CreateElement<MassElement>().Use(new()
 			{
 				"pil1.png", "pil2.png", "pil3.png", "pil4.png", "pil5.png"
@@ -232,7 +232,7 @@ namespace MagicShaper.VfxProjects
 			var sceneVolcanoTwo = factory.CreateScene();
 
 			sceneVolcanoTwo.Elements.Add(sceneVolcanoTwo.CreateElement<MonoElement>().Use("cosmos.png").AsBackground()
-				.WithAutofit(chart).FromFlash(70).ToFlash());
+				.WithAutofit(chart).FromFlash(70).ToFlashOut());
 
 			var sceneSecondDrop = factory.CreateScene();
 			//sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
@@ -259,7 +259,7 @@ namespace MagicShaper.VfxProjects
 				160, 255, -180, 180, 2, 2)
 				.ToFlashOut());
 			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MonoElement>().Use("peak.png")
-				.AsBackground(3).WithColor(80).WithParallaxOffset(-10, -1).WithScale(500).FromFlash(100).ToFlash());
+				.AsBackground(3).WithColor(80).WithParallaxOffset(-10, -1).WithScale(500).FromFlash(100).ToFlashOut());
 			sceneSecondDrop.Elements.Add(sceneSecondDrop.CreateElement<MassElement>().Use(new()
 			{
 				"smoke1.png", "smoke2.png"

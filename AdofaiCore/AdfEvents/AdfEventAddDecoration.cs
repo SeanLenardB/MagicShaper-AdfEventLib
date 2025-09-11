@@ -8,7 +8,7 @@ namespace MagicShaper.AdofaiCore.AdfEvents
 
 		public int Floor { get; set; } = 0;
 
-		public bool Locked { get; set; } = false;
+		public bool Locked { get; set; } = true;
 
 		public string DecorationImage { get; set; } = "";
 
