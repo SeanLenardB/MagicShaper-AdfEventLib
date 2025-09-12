@@ -159,7 +159,8 @@ namespace MagicShaper.AdfExtensions
 			double directionMin = 75d, double directionMax = 90d,
 			double xmin = -50, double xmax = 50, double ymin = -90, double ymax = 90,
 			double opacityMin = 10, double opacityMax = 60,
-			int parallaxMin = 45, int parallaxMax = 60, int depthOffset = 0)
+			int parallaxMin = 45, int parallaxMax = 60, int depthOffset = 0,
+			AdfTrackStyle style = AdfTrackStyle.Minimal)
 		{
 			Random random = new();
 			string gid = random.Next(1000000).ToString().PadLeft(6, '0');
@@ -177,7 +178,7 @@ namespace MagicShaper.AdfExtensions
 					TrackOpacity = 0d,
 					Position = new(random.NextDouble() * (xmax - xmin) + xmin,
 						random.NextDouble() * (ymax - ymin) + ymin),
-					TrackStyle = AdfTrackStyle.Minimal,
+					TrackStyle = style,
 					TrackColor = new(trackColor),
 					RelativeTo = AdfMoveDecorationRelativeToType.Tile,
 					Floor = targetTile,

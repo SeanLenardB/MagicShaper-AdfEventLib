@@ -13,7 +13,8 @@ namespace MagicShaper.AdfExtensions
 	{
 		public static void MultipleTrack(this AdfChart chart, int startTile, int endTile,
 			double x = 10, double y = 6, string color = "FFFFFF", double opacity = 50, double scale = 100,
-			double parallaxX = 50, double parallaxY = 30, AdfTrackStyle style = AdfTrackStyle.Minimal, bool hideIcons = false)
+			double parallaxX = 50, double parallaxY = 30, AdfTrackStyle style = AdfTrackStyle.Minimal, bool hideIcons = false,
+			int depth = 1145)
 		{
 			Random random = new();
 			string gid = random.Next(1000000).ToString().PadLeft(6, '0');
@@ -137,7 +138,7 @@ namespace MagicShaper.AdfExtensions
 					TrackIcon = icon,
 					TrackRedSwirl = isRedTwirl,
 					TrackIconAngle = rotation + chart.GetInnerAngleAtTile(startTile + i) + 180d,
-					Depth = 1145 + i,
+					Depth = depth,
 				});
 			}
 

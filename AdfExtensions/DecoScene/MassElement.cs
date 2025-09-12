@@ -276,13 +276,13 @@ namespace MagicShaper.AdfExtensions.DecoScene
 
 
 
-		public MassElement FromFlash()
+		public MassElement FromFlash(double opacity = 100)
 		{
 			OnSceneBegin.Add(new AdfEventMoveDecorations()
 			{
 				Tag = Tag(),
 				Duration = 0d,
-				Opacity = 100,
+				Opacity = opacity,
 				AngleOffset = -0.001
 			});
 
