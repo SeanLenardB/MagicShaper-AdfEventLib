@@ -13,6 +13,9 @@ namespace MagicShaper.AdfExtensions
 {
     internal static class VideoFrameExtractionExtension
     {
+        /// <summary>
+        /// Make sure you have ffmpeg place in the same directory of the program! (NOT the chart)
+        /// </summary>
         internal static void AddVideoFramesToChart(this AdfChart chart, string videoFile, int tileStart, double durationBeats, double framePerBeat = 1, string decorationTag = "", double offsetSeconds = 0d)
         {
             Debug.Assert(tileStart > 0, "You should not put anything on the 0th tile because 7bg hates humanity and limits your ability to make stuff happen.");
@@ -25,7 +28,7 @@ namespace MagicShaper.AdfExtensions
                 .FromFileInput(chart.FileLocation.Parent?.FullName + $"\\{videoFile}", true, options => options
                     .Seek(startTime)
                     .EndSeek(endTime))
-                .OutputToFile(chart.FileLocation.Parent?.FullName + $"\\quartrond-f{tileStart}l%05d.png", true,
+                .OutputToFile(chart.FileLocation.Parent?.FullName + $"\\z-quartrond-f{tileStart}l%05d.png", true,
                     argument => argument.WithFramerate(1d / extractInterval.TotalSeconds))
                 .ProcessSynchronously();
 
@@ -33,7 +36,7 @@ namespace MagicShaper.AdfExtensions
             {
                 chart.ChartTiles[tileStart].TileEvents.Add(new AdfEventMoveDecorations()
                 {
-                    DecorationImage = $"quartrond-f{tileStart}l{i + 1:D5}.png",  // This is because ffmpeg output start at 1.
+                    DecorationImage = $"z-quartrond-f{tileStart}l{i + 1:D5}.png",  // This is because ffmpeg output start at 1.
                     Tag = decorationTag,
                     AngleOffset = i * 180d / framePerBeat
                 });
