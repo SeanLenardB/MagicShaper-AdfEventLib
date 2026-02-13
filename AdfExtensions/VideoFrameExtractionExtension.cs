@@ -28,15 +28,15 @@ namespace MagicShaper.AdfExtensions
                 .FromFileInput(chart.FileLocation.Parent?.FullName + $"\\{videoFile}", true, options => options
                     .Seek(startTime)
                     .EndSeek(endTime))
-                .OutputToFile(chart.FileLocation.Parent?.FullName + $"\\z-quartrond-f{tileStart}l%05d.png", true,
-                    argument => argument.WithFramerate(1d / extractInterval.TotalSeconds))
+                .OutputToFile(chart.FileLocation.Parent?.FullName + $"\\z-quartrond-f{tileStart}l%05d.jpg", true,
+                    argument => argument.WithFramerate(1d / extractInterval.TotalSeconds).WithVideoCodec("mjpeg"))
                 .ProcessSynchronously();
 
             for (int i = 0; i < durationBeats * framePerBeat; i++)
             {
                 chart.ChartTiles[tileStart].TileEvents.Add(new AdfEventMoveDecorations()
                 {
-                    DecorationImage = $"z-quartrond-f{tileStart}l{i + 1:D5}.png",  // This is because ffmpeg output start at 1.
+                    DecorationImage = $"z-quartrond-f{tileStart}l{i + 1:D5}.jpg",  // This is because ffmpeg output start at 1.
                     Tag = decorationTag,
                     AngleOffset = i * 180d / framePerBeat
                 });

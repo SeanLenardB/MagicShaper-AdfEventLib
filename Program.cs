@@ -10,7 +10,7 @@ using System.Text.Json.Nodes;
 [SupportedOSPlatform("windows")]
 internal class Program
 {
-	private static void Main(string[] args)
+	private static void Main()
 	{
 		AdfVfxProj_ValentineChinco.ProjMain();
 
