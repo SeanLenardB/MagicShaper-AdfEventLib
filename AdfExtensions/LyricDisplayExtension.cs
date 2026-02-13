@@ -32,7 +32,8 @@ namespace MagicShaper.AdfExtensions
 			string lyricFileName, string mainFont = "Bahnschrift", string translationFont = "方正楷体_GBK",
 			int positionXPixel = 0, int positionYPixel = -1200, double scale = 100d,
 			double inDuration = 2d, double outDuration = 2d, int depthOffset = 0,
-			string mainColor = "FFFFFFFF", string translationColor = "88888899")
+			string mainColor = "FFFFFFFF", string translationColor = "88888899",
+			int translationYOffset = 50)
 		{
 			string[] lyrics = File.ReadAllLines(chart.FileLocation?.Parent?.FullName + $"\\{lyricFileName}");
 			try
@@ -60,7 +61,7 @@ namespace MagicShaper.AdfExtensions
 					LockRotation = true,
 					LockScale = true,
 					Position = new((double)positionXPixel / ExtensionSharedConstants.TileWidth,
-							(double)(positionYPixel + 50)/ ExtensionSharedConstants.TileWidth),
+							(double)(positionYPixel + translationYOffset)/ ExtensionSharedConstants.TileWidth),
 					Scale = new(scale * 0.6d),
 					RelativeTo = AdfMoveDecorationRelativeToType.Camera,
 					Opacity = 0d,
